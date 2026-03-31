@@ -1,2 +1,3 @@
 # LETS-SOPT-ANDROID_TEMPLATE
-LETS SOPT Android 과제 템플릿입니다~
+![img_1.png](img_1.png)
+안드쫀쿠 별로더라 😍
