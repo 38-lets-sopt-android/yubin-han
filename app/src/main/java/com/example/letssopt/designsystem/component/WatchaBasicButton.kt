@@ -11,6 +11,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.example.letssopt.designsystem.theme.LETSSOPTTheme
 import com.example.letssopt.designsystem.theme.WatchaTheme
 import com.example.letssopt.designsystem.theme.WatchaTheme.typography
 
@@ -45,9 +46,11 @@ fun WatchaBasicButton(
 private fun WatchaBasicButtonPreview(
     modifier: Modifier = Modifier,
 ) {
-    WatchaBasicButton(
-        buttonText = "로그인",
-        onClick = {},
-        modifier = modifier,
-    )
+    LETSSOPTTheme {
+        WatchaBasicButton(
+            buttonText = "로그인",
+            onClick = {},
+            modifier = modifier,
+        )
+    }
 }
