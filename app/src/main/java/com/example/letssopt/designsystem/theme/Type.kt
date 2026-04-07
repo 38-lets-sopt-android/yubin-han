@@ -48,6 +48,11 @@ private fun WatchaTextStyle(
 
 sealed interface TypographyTokens {
     @Immutable
+    data class Logo(
+        val logoB36: TextStyle,
+    )
+
+    @Immutable
     data class Headline(
         val head1B24: TextStyle,
         val head2B20: TextStyle,
@@ -61,18 +66,26 @@ sealed interface TypographyTokens {
 
     @Immutable
     data class Caption(
-        val captionR13: TextStyle,
+        val captionR14: TextStyle,
     )
 }
 
 @Immutable
 data class WatchaTypography(
+    val logo: TypographyTokens.Logo,
     val headline: TypographyTokens.Headline,
     val body: TypographyTokens.Body,
     val cap: TypographyTokens.Caption,
 )
 
 val defaultWatchaTypography = WatchaTypography(
+    logo = TypographyTokens.Logo(
+        logoB36 = WatchaTextStyle(
+            fontFamily = InterFont.Bold,
+            fontSize = 36.sp,
+            fontWeight = FontWeight.Bold
+        ),
+    ),
     headline = TypographyTokens.Headline(
         head1B24 = WatchaTextStyle(
             fontFamily = InterFont.Bold,
@@ -98,9 +111,9 @@ val defaultWatchaTypography = WatchaTypography(
         ),
     ),
     cap = TypographyTokens.Caption(
-        captionR13 = WatchaTextStyle(
+        captionR14 = WatchaTextStyle(
             fontFamily = InterFont.Regular,
-            fontSize = 13.sp,
+            fontSize = 14.sp,
             fontWeight = FontWeight.Normal
         ),
     )
@@ -140,8 +153,8 @@ fun WatchaTypographyPreview() {
         Spacer(modifier = Modifier.height(24.dp))
 
         Text(
-            text = "Caption (captionR13) - 13sp Regular",
-            style = typography.cap.captionR13
+            text = "Caption (captionR14) - 14sp Regular",
+            style = typography.cap.captionR14
         )
     }
 }
