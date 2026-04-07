@@ -3,6 +3,7 @@ package com.example.letssopt.designsystem.component
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
@@ -20,15 +21,17 @@ fun WatchaBasicButton(
     buttonText: String,
     onClick: () -> Unit,
     modifier: Modifier = Modifier,
+    disabled: Boolean = true,
 ) {
     Box(
         modifier = modifier
             .background(
-                color = WatchaTheme.colors.primaryRed,
+                if(!disabled) WatchaTheme.colors.primaryRed else WatchaTheme.colors.disabled,
                 shape = RoundedCornerShape(8.dp)
             )
             .padding(horizontal = 97.dp, vertical = 16.dp)
             .clickable(
+                enabled = !disabled,
                 onClick = onClick
             ),
         contentAlignment = Alignment.Center
@@ -47,10 +50,20 @@ private fun WatchaBasicButtonPreview(
     modifier: Modifier = Modifier,
 ) {
     LETSSOPTTheme {
-        WatchaBasicButton(
-            buttonText = "로그인",
-            onClick = {},
-            modifier = modifier,
-        )
+        Column {
+            WatchaBasicButton(
+                buttonText = "로그인",
+                onClick = {},
+                modifier = modifier,
+            )
+            WatchaBasicButton(
+                buttonText = "로그인",
+                onClick = {},
+                modifier = modifier,
+                disabled = false,
+            )
+        }
+
+
     }
 }
