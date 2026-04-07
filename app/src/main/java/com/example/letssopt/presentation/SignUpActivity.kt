@@ -1,6 +1,10 @@
 package com.example.letssopt.presentation
 
+import android.app.Activity
+import android.content.Intent
 import android.os.Bundle
+import android.util.Patterns.EMAIL_ADDRESS
+import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
@@ -10,7 +14,11 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -20,6 +28,10 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.letssopt.designsystem.component.WatchaBasicButton
@@ -43,6 +55,20 @@ class SignUpActivity : ComponentActivity() {
     }
 }
 
+private fun getValidationErrorMessage(
+    emailText: String,
+    pwText: String,
+    pwConfirmText: String
+): String? {
+    if (!EMAIL_ADDRESS.matcher(emailText).matches() || pwText.length !in 8..12) {
+        return "회원가입 형식에 맞지 않습니다."
+    }
+    if (pwText != pwConfirmText) {
+        return "비밀번호가 일치하지 않습니다."
+    }
+    return null
+}
+
 
 @Composable
 fun SignUpScreen(
@@ -50,11 +76,17 @@ fun SignUpScreen(
 ) {
     var emailText by remember { mutableStateOf("") }
     var pwText by remember { mutableStateOf("") }
+    var pwConfirmText by remember { mutableStateOf("") }
 
+    val context = LocalContext.current
+
+    val isAllEntered = emailText.isNotEmpty() && pwText.isNotEmpty() && pwConfirmText.isNotEmpty()
     Column(
         modifier = modifier
             .background(color = WatchaTheme.colors.backGround)
             .fillMaxSize()
+            .imePadding()
+            .verticalScroll(rememberScrollState())
             .padding(horizontal = 20.dp)
     ) {
         Text(
@@ -63,9 +95,8 @@ fun SignUpScreen(
             color = WatchaTheme.colors.primaryRed,
             modifier = Modifier
                 .align(Alignment.CenterHorizontally)
-                .padding(top = 60.dp)
+                .padding(top = 60.dp, bottom = 26.dp)
         )
-        Spacer(modifier = Modifier.height(26.dp))
         Text(
             text = "회원가입",
             style = WatchaTheme.typography.headline.head2B20,
@@ -81,9 +112,14 @@ fun SignUpScreen(
         Spacer(modifier = Modifier.height(3.dp))
 
         WatchaBasicTextField(
-            placeholder = "이메일을 입력하세요",
+            placeholder = "이메일을 입력하세요. (ex. abc@naver.com)",
             value = emailText,
-            onValueChange = {},
+            onValueChange = {
+                emailText = it
+            },
+            keyboardOptions = KeyboardOptions(
+                imeAction = ImeAction.Done
+            ),
             trailingContent = {},
         )
 
@@ -98,10 +134,17 @@ fun SignUpScreen(
 
 
         WatchaBasicTextField(
-            placeholder = "비밀번호를 입력하세요",
+            placeholder = "비밀번호를 입력하세요 (8~12자)",
             value = pwText,
-            onValueChange = {},
+            onValueChange = {
+                pwText = it
+            },
             trailingContent = {},
+            visualTransformation = PasswordVisualTransformation(),
+            keyboardOptions = KeyboardOptions(
+                keyboardType = KeyboardType.Password,
+                imeAction = ImeAction.Done
+            )
         )
         Spacer(modifier = Modifier.height(18.dp))
 
@@ -115,21 +158,45 @@ fun SignUpScreen(
 
         WatchaBasicTextField(
             placeholder = "비밀번호를 다시 입력하세요",
-            value = pwText,
-            onValueChange = {},
+            value = pwConfirmText,
+            onValueChange = {
+                pwConfirmText = it
+            },
             trailingContent = {},
+            visualTransformation = PasswordVisualTransformation(),
+            keyboardOptions = KeyboardOptions(
+                keyboardType = KeyboardType.Password,
+                imeAction = ImeAction.Done
+            )
         )
 
         Spacer(modifier = Modifier.weight(1f))
 
+
         WatchaBasicButton(
             buttonText = "회원가입",
-            onClick = {},
+            onClick = {
+                val errorMessage = getValidationErrorMessage(emailText, pwText, pwConfirmText)
+
+                if (errorMessage != null) {
+                    Toast.makeText(context, errorMessage, Toast.LENGTH_SHORT).show()
+                } else {
+                    val intent = Intent(context, LoginActivity::class.java).apply {
+                        putExtra("email", emailText)
+                        putExtra("password", pwText)
+                    }
+                    Toast.makeText(context, "회원가입이 완료되었습니다.", Toast.LENGTH_SHORT).show()
+                    val activity = context as? Activity
+                    activity?.setResult(Activity.RESULT_OK, intent)
+                    activity?.finish()
+                }
+            },
+            disabled = !isAllEntered,
             modifier = Modifier
                 .align(Alignment.CenterHorizontally)
                 .fillMaxWidth()
+                .padding(bottom = 26.dp),
         )
-        Spacer(modifier = Modifier.height(26.dp))
     }
 
 
@@ -137,7 +204,7 @@ fun SignUpScreen(
 
 @Preview(showBackground = true)
 @Composable
-fun SignUpPreview() {
+private fun SignUpPreview() {
     LETSSOPTTheme {
         SignUpScreen()
     }
