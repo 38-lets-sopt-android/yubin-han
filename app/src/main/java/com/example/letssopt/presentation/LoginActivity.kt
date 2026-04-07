@@ -1,10 +1,14 @@
 package com.example.letssopt.presentation
 
+import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
+import android.widget.Toast
 import androidx.activity.ComponentActivity
+import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
@@ -12,7 +16,11 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -23,6 +31,9 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.letssopt.designsystem.component.WatchaBasicButton
@@ -51,7 +62,22 @@ fun LoginScreen(
     modifier: Modifier = Modifier,
 ) {
     var emailText by remember { mutableStateOf("") }
-    var pwText by remember{ mutableStateOf("") }
+    var pwText by remember { mutableStateOf("") }
+
+    var registeredEmail by remember { mutableStateOf("") }
+    var registeredPw by remember { mutableStateOf("") }
+
+    val launcher =
+        rememberLauncherForActivityResult(contract = ActivityResultContracts.StartActivityForResult()) { result ->
+            if (result.resultCode == Activity.RESULT_OK) {
+                val data = result.data
+                val email = data?.getStringExtra("email") ?: ""
+                val pw = data?.getStringExtra("password") ?: ""
+                registeredEmail = email
+                registeredPw = pw
+            }
+        }
+    val isLogInEnabled = emailText.isNotEmpty() && pwText.isNotEmpty()
 
     val context = LocalContext.current
 
@@ -59,6 +85,8 @@ fun LoginScreen(
         modifier = modifier
             .background(color = WatchaTheme.colors.backGround)
             .fillMaxSize()
+            .imePadding()
+            .verticalScroll(rememberScrollState())
             .padding(horizontal = 20.dp)
     ) {
         Text(
@@ -67,9 +95,8 @@ fun LoginScreen(
             color = WatchaTheme.colors.primaryRed,
             modifier = Modifier
                 .align(Alignment.CenterHorizontally)
-                .padding(top = 60.dp)
+                .padding(top = 60.dp, bottom = 26.dp)
         )
-        Spacer(modifier = Modifier.height(26.dp))
         Text(
             text = "이메일로 로그인",
             style = WatchaTheme.typography.headline.head2B20,
@@ -87,7 +114,12 @@ fun LoginScreen(
         WatchaBasicTextField(
             placeholder = "이메일을 입력하세요",
             value = emailText,
-            onValueChange = {},
+            onValueChange = {
+                emailText = it
+            },
+            keyboardOptions = KeyboardOptions(
+                imeAction = ImeAction.Done
+            ),
             trailingContent = {},
         )
 
@@ -104,8 +136,15 @@ fun LoginScreen(
         WatchaBasicTextField(
             placeholder = "비밀번호를 입력하세요",
             value = pwText,
-            onValueChange = {},
+            onValueChange = {
+                pwText = it
+            },
             trailingContent = {},
+            visualTransformation = PasswordVisualTransformation(),
+            keyboardOptions = KeyboardOptions(
+                keyboardType = KeyboardType.Password,
+                imeAction = ImeAction.Done
+            )
         )
 
         Spacer(modifier = Modifier.weight(1f))
@@ -119,10 +158,8 @@ fun LoginScreen(
                 )
                 .clickable(
                     onClick = {
-                        val intent = Intent(context, SignUpActivity::class.java).apply {
-                            flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
-                        }
-                        context.startActivity(intent)
+                        val intent = Intent(context, SignUpActivity::class.java)
+                        launcher.launch(intent)
                     }
                 )
         )
@@ -131,12 +168,23 @@ fun LoginScreen(
 
         WatchaBasicButton(
             buttonText = "로그인",
-            onClick = {},
+            onClick = {
+                if (emailText == registeredEmail && pwText == registeredPw) {
+                    val intent = Intent(context, MainActivity::class.java).apply {
+                        flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
+                    }
+                    context.startActivity(intent)
+                    Toast.makeText(context, "로그인에 성공했습니다", Toast.LENGTH_SHORT).show()
+                } else {
+                    Toast.makeText(context, "이메일 또는 비밀번호가 일치하지 않습니다.", Toast.LENGTH_SHORT).show()
+                }
+            },
+            disabled = !isLogInEnabled,
             modifier = Modifier
                 .align(Alignment.CenterHorizontally)
                 .fillMaxWidth()
+                .padding(bottom = 26.dp),
         )
-        Spacer(modifier = Modifier.height(26.dp))
     }
 
 
@@ -144,7 +192,7 @@ fun LoginScreen(
 
 @Preview(showBackground = true)
 @Composable
-fun LoginPreview() {
+private fun LoginPreview() {
     LETSSOPTTheme {
         LoginScreen()
     }
