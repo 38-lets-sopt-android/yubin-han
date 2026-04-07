@@ -26,14 +26,14 @@ fun WatchaBasicButton(
     Box(
         modifier = modifier
             .background(
-                if(!disabled) WatchaTheme.colors.primaryRed else WatchaTheme.colors.disabled,
+                if (!disabled) WatchaTheme.colors.primaryRed else WatchaTheme.colors.disabled,
                 shape = RoundedCornerShape(8.dp)
             )
-            .padding(horizontal = 97.dp, vertical = 16.dp)
             .clickable(
                 enabled = !disabled,
                 onClick = onClick
-            ),
+            )
+            .padding(horizontal = 97.dp, vertical = 16.dp),
         contentAlignment = Alignment.Center
     ) {
         Text(
