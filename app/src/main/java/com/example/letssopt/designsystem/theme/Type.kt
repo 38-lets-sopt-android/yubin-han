@@ -28,7 +28,7 @@ object InterFont {
 
 }
 
-private fun WatchaTextStyle(
+private fun watchaTextStyle(
     fontFamily: FontFamily,
     fontSize: TextUnit,
     fontWeight: FontWeight,
@@ -80,38 +80,38 @@ data class WatchaTypography(
 
 val defaultWatchaTypography = WatchaTypography(
     logo = TypographyTokens.Logo(
-        logoB36 = WatchaTextStyle(
+        logoB36 = watchaTextStyle(
             fontFamily = InterFont.Bold,
             fontSize = 36.sp,
             fontWeight = FontWeight.Bold
         ),
     ),
     headline = TypographyTokens.Headline(
-        head1B24 = WatchaTextStyle(
+        head1B24 = watchaTextStyle(
             fontFamily = InterFont.Bold,
             fontSize = 24.sp,
             fontWeight = FontWeight.Bold
         ),
-        head2B20 = WatchaTextStyle(
+        head2B20 = watchaTextStyle(
             fontFamily = InterFont.Bold,
             fontSize = 20.sp,
             fontWeight = FontWeight.Bold
         ),
-        head3B16 = WatchaTextStyle(
+        head3B16 = watchaTextStyle(
             fontFamily = InterFont.Bold,
             fontSize = 16.sp,
             fontWeight = FontWeight.Bold
         ),
     ),
     body = TypographyTokens.Body(
-        bodyR16 = WatchaTextStyle(
+        bodyR16 = watchaTextStyle(
             fontFamily = InterFont.Regular,
             fontSize = 16.sp,
             fontWeight = FontWeight.Normal
         ),
     ),
     cap = TypographyTokens.Caption(
-        captionR14 = WatchaTextStyle(
+        captionR14 = watchaTextStyle(
             fontFamily = InterFont.Regular,
             fontSize = 14.sp,
             fontWeight = FontWeight.Normal
