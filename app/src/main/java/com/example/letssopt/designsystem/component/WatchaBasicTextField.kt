@@ -32,7 +32,7 @@ fun WatchaBasicTextField(
     value: String,
     onValueChange: (String) -> Unit,
     modifier: Modifier = Modifier,
-    maxLines: Int = 1,
+    singleLine: Boolean = true,
     enabled: Boolean = true,
     trailingContent: @Composable () -> Unit = {},
     textStyle: TextStyle = WatchaTheme.typography.cap.captionR14,
@@ -59,7 +59,7 @@ fun WatchaBasicTextField(
             enabled = enabled,
             visualTransformation = visualTransformation,
             interactionSource = interactionSource,
-            maxLines = maxLines,
+            singleLine = singleLine,
             decorationBox = { innerTextField ->
                 Row(
                     modifier = Modifier

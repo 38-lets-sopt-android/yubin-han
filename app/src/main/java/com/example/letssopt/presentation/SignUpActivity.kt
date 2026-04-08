@@ -118,7 +118,8 @@ fun SignUpScreen(
                 emailText = it
             },
             keyboardOptions = KeyboardOptions(
-                imeAction = ImeAction.Done
+                imeAction = ImeAction.Next,
+                keyboardType = KeyboardType.Email
             ),
             trailingContent = {},
         )
@@ -143,7 +144,7 @@ fun SignUpScreen(
             visualTransformation = PasswordVisualTransformation(),
             keyboardOptions = KeyboardOptions(
                 keyboardType = KeyboardType.Password,
-                imeAction = ImeAction.Done
+                imeAction = ImeAction.Next,
             )
         )
         Spacer(modifier = Modifier.height(18.dp))
@@ -166,7 +167,6 @@ fun SignUpScreen(
             visualTransformation = PasswordVisualTransformation(),
             keyboardOptions = KeyboardOptions(
                 keyboardType = KeyboardType.Password,
-                imeAction = ImeAction.Done
             )
         )
 
@@ -175,6 +175,10 @@ fun SignUpScreen(
 
         WatchaBasicButton(
             buttonText = "회원가입",
+            modifier = Modifier
+                .align(Alignment.CenterHorizontally)
+                .fillMaxWidth()
+                .padding(bottom = 26.dp),
             onClick = {
                 val errorMessage = getValidationErrorMessage(emailText, pwText, pwConfirmText)
 
@@ -192,10 +196,7 @@ fun SignUpScreen(
                 }
             },
             disabled = !isAllEntered,
-            modifier = Modifier
-                .align(Alignment.CenterHorizontally)
-                .fillMaxWidth()
-                .padding(bottom = 26.dp),
+
         )
     }
 

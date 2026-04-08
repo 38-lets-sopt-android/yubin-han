@@ -10,7 +10,6 @@ import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -40,6 +39,7 @@ import com.example.letssopt.designsystem.component.WatchaBasicButton
 import com.example.letssopt.designsystem.component.WatchaBasicTextField
 import com.example.letssopt.designsystem.theme.LETSSOPTTheme
 import com.example.letssopt.designsystem.theme.WatchaTheme
+import com.example.letssopt.extension.noRippleClickable
 
 class LoginActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -118,7 +118,8 @@ fun LoginScreen(
                 emailText = it
             },
             keyboardOptions = KeyboardOptions(
-                imeAction = ImeAction.Done
+                imeAction = ImeAction.Next,
+                keyboardType = KeyboardType.Email
             ),
             trailingContent = {},
         )
@@ -143,7 +144,6 @@ fun LoginScreen(
             visualTransformation = PasswordVisualTransformation(),
             keyboardOptions = KeyboardOptions(
                 keyboardType = KeyboardType.Password,
-                imeAction = ImeAction.Done
             )
         )
 
@@ -156,7 +156,7 @@ fun LoginScreen(
                 .align(
                     Alignment.CenterHorizontally,
                 )
-                .clickable(
+                .noRippleClickable(
                     onClick = {
                         val intent = Intent(context, SignUpActivity::class.java)
                         launcher.launch(intent)
