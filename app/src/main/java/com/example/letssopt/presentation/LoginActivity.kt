@@ -86,86 +86,82 @@ fun LoginScreen(
             .background(color = WatchaTheme.colors.backGround)
             .fillMaxSize()
             .imePadding()
-            .verticalScroll(rememberScrollState())
             .padding(horizontal = 20.dp)
     ) {
-        Text(
-            text = "watcha",
-            style = WatchaTheme.typography.logo.logoB36,
-            color = WatchaTheme.colors.primaryRed,
+        Column(
             modifier = Modifier
-                .align(Alignment.CenterHorizontally)
-                .padding(top = 60.dp, bottom = 26.dp)
-        )
-        Text(
-            text = "이메일로 로그인",
-            style = WatchaTheme.typography.headline.head2B20,
-            color = WatchaTheme.colors.textPrimary,
-        )
-        Spacer(modifier = Modifier.height(36.dp))
-        Text(
-            text = "이메일",
-            style = WatchaTheme.typography.cap.captionR14,
-            color = WatchaTheme.colors.textSecondary,
-        )
-
-        Spacer(modifier = Modifier.height(3.dp))
-
-        WatchaBasicTextField(
-            placeholder = "이메일을 입력하세요",
-            value = emailText,
-            onValueChange = {
-                emailText = it
-            },
-            keyboardOptions = KeyboardOptions(
-                imeAction = ImeAction.Next,
-                keyboardType = KeyboardType.Email
-            ),
-            trailingContent = {},
-        )
-
-        Spacer(modifier = Modifier.height(18.dp))
-
-        Text(
-            text = "비밀번호",
-            style = WatchaTheme.typography.cap.captionR14,
-            color = WatchaTheme.colors.textSecondary,
-        )
-        Spacer(modifier = Modifier.height(3.dp))
-
-
-        WatchaBasicTextField(
-            placeholder = "비밀번호를 입력하세요",
-            value = pwText,
-            onValueChange = {
-                pwText = it
-            },
-            trailingContent = {},
-            visualTransformation = PasswordVisualTransformation(),
-            keyboardOptions = KeyboardOptions(
-                keyboardType = KeyboardType.Password,
+                .weight(1f)
+                .verticalScroll(rememberScrollState())
+        ) {
+            Text(
+                text = "watcha",
+                style = WatchaTheme.typography.logo.logoB36,
+                color = WatchaTheme.colors.primaryRed,
+                modifier = Modifier
+                    .align(Alignment.CenterHorizontally)
+                    .padding(top = 60.dp, bottom = 26.dp)
             )
-        )
-
-        Spacer(modifier = Modifier.weight(1f))
-        Text(
-            text = "아직 계정이 없으신가요?  회원가입",
-            style = WatchaTheme.typography.cap.captionR14,
-            color = WatchaTheme.colors.textSecondary,
-            modifier = Modifier
-                .align(
-                    Alignment.CenterHorizontally,
+            Text(
+                text = "이메일로 로그인",
+                style = WatchaTheme.typography.headline.head2B20,
+                color = WatchaTheme.colors.textPrimary,
+            )
+            Spacer(modifier = Modifier.height(36.dp))
+            Text(
+                text = "이메일",
+                style = WatchaTheme.typography.cap.captionR14,
+                color = WatchaTheme.colors.textSecondary,
+            )
+            Spacer(modifier = Modifier.height(3.dp))
+            WatchaBasicTextField(
+                placeholder = "이메일을 입력하세요",
+                value = emailText,
+                onValueChange = {
+                    emailText = it
+                },
+                keyboardOptions = KeyboardOptions(
+                    imeAction = ImeAction.Next,
+                    keyboardType = KeyboardType.Email
+                ),
+                trailingContent = {},
+            )
+            Spacer(modifier = Modifier.height(18.dp))
+            Text(
+                text = "비밀번호",
+                style = WatchaTheme.typography.cap.captionR14,
+                color = WatchaTheme.colors.textSecondary,
+            )
+            Spacer(modifier = Modifier.height(3.dp))
+            WatchaBasicTextField(
+                placeholder = "비밀번호를 입력하세요",
+                value = pwText,
+                onValueChange = {
+                    pwText = it
+                },
+                trailingContent = {},
+                visualTransformation = PasswordVisualTransformation(),
+                keyboardOptions = KeyboardOptions(
+                    keyboardType = KeyboardType.Password,
                 )
-                .noRippleClickable(
-                    onClick = {
-                        val intent = Intent(context, SignUpActivity::class.java)
-                        launcher.launch(intent)
-                    }
-                )
-        )
-
-        Spacer(modifier = Modifier.height(20.dp))
-
+            )
+            Spacer(modifier = Modifier.height(333.dp))
+            Text(
+                text = "아직 계정이 없으신가요?  회원가입",
+                style = WatchaTheme.typography.cap.captionR14,
+                color = WatchaTheme.colors.textSecondary,
+                modifier = Modifier
+                    .align(
+                        Alignment.CenterHorizontally,
+                    )
+                    .noRippleClickable(
+                        onClick = {
+                            val intent = Intent(context, SignUpActivity::class.java)
+                            launcher.launch(intent)
+                        }
+                    )
+            )
+            Spacer(modifier = Modifier.height(20.dp))
+        }
         WatchaBasicButton(
             buttonText = "로그인",
             onClick = {
@@ -186,8 +182,6 @@ fun LoginScreen(
                 .padding(bottom = 26.dp),
         )
     }
-
-
 }
 
 @Preview(showBackground = true)
