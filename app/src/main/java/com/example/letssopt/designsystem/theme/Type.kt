@@ -124,7 +124,7 @@ val LocalWatchaTypographyProvider = staticCompositionLocalOf { defaultWatchaTypo
 
 @Preview(showBackground = true, backgroundColor = 0xFFFFFFFF)
 @Composable
-fun WatchaTypographyPreview() {
+private fun WatchaTypographyPreview() {
     val typography = defaultWatchaTypography
 
     Column(modifier = Modifier.padding(24.dp)) {
