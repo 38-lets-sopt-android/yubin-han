@@ -14,17 +14,18 @@
         <activity
             android:name=".presentation.LoginActivity"
             android:exported="true"
-            android:theme="@style/Theme.LETSSOPT">
+            android:theme="@style/Theme.LETSSOPT"
+            android:windowSoftInputMode="adjustResize">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".presentation.SignUpActivity"
-            />
-        <activity android:name=".presentation.MainActivity"
-            />
+        <activity
+            android:name=".presentation.SignUpActivity"
+            android:windowSoftInputMode="adjustResize" />
+        <activity android:name=".presentation.MainActivity" />
     </application>
 
 </manifest>
