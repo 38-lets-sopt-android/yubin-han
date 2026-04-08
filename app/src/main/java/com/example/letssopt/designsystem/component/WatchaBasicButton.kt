@@ -1,7 +1,6 @@
 package com.example.letssopt.designsystem.component
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
@@ -15,6 +14,7 @@ import androidx.compose.ui.unit.dp
 import com.example.letssopt.designsystem.theme.LETSSOPTTheme
 import com.example.letssopt.designsystem.theme.WatchaTheme
 import com.example.letssopt.designsystem.theme.WatchaTheme.typography
+import com.example.letssopt.extension.noRippleClickable
 
 @Composable
 fun WatchaBasicButton(
@@ -29,8 +29,8 @@ fun WatchaBasicButton(
                 if (!disabled) WatchaTheme.colors.primaryRed else WatchaTheme.colors.disabled,
                 shape = RoundedCornerShape(8.dp)
             )
-            .clickable(
-                enabled = !disabled,
+            .noRippleClickable(
+                isEnabled = !disabled,
                 onClick = onClick
             )
             .padding(horizontal = 97.dp, vertical = 16.dp),
