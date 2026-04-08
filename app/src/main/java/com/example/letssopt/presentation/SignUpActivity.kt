@@ -88,19 +88,19 @@ fun SignUpScreen(
             .imePadding()
             .padding(horizontal = 20.dp)
     ) {
+        Text(
+            text = "watcha",
+            style = WatchaTheme.typography.logo.logoB36,
+            color = WatchaTheme.colors.primaryRed,
+            modifier = Modifier
+                .align(Alignment.CenterHorizontally)
+                .padding(top = 60.dp, bottom = 26.dp)
+        )
         Column(
             modifier = Modifier
                 .weight(1f)
                 .verticalScroll(rememberScrollState())
         ) {
-            Text(
-                text = "watcha",
-                style = WatchaTheme.typography.logo.logoB36,
-                color = WatchaTheme.colors.primaryRed,
-                modifier = Modifier
-                    .align(Alignment.CenterHorizontally)
-                    .padding(top = 60.dp, bottom = 26.dp)
-            )
             Text(
                 text = "회원가입",
                 style = WatchaTheme.typography.headline.head2B20,
