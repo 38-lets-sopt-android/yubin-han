@@ -165,7 +165,6 @@ fun SignUpScreen(
                     keyboardType = KeyboardType.Password,
                 )
             )
-            Spacer(modifier = Modifier.height(280.dp))
         }
 
         WatchaBasicButton(
@@ -191,7 +190,7 @@ fun SignUpScreen(
                 }
             },
             disabled = !isAllEntered,
-            )
+        )
     }
 }
 

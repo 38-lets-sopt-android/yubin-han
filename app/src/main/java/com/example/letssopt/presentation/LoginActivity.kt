@@ -144,24 +144,24 @@ fun LoginScreen(
                     keyboardType = KeyboardType.Password,
                 )
             )
-            Spacer(modifier = Modifier.height(333.dp))
-            Text(
-                text = "아직 계정이 없으신가요?  회원가입",
-                style = WatchaTheme.typography.cap.captionR14,
-                color = WatchaTheme.colors.textSecondary,
-                modifier = Modifier
-                    .align(
-                        Alignment.CenterHorizontally,
-                    )
-                    .noRippleClickable(
-                        onClick = {
-                            val intent = Intent(context, SignUpActivity::class.java)
-                            launcher.launch(intent)
-                        }
-                    )
-            )
-            Spacer(modifier = Modifier.height(20.dp))
         }
+        Text(
+            text = "아직 계정이 없으신가요?  회원가입",
+            style = WatchaTheme.typography.cap.captionR14,
+            color = WatchaTheme.colors.textSecondary,
+            modifier = Modifier
+                .align(
+                    Alignment.CenterHorizontally,
+                )
+                .noRippleClickable(
+                    onClick = {
+                        val intent = Intent(context, SignUpActivity::class.java)
+                        launcher.launch(intent)
+                    }
+                )
+        )
+        Spacer(modifier = Modifier.height(20.dp))
+
         WatchaBasicButton(
             buttonText = "로그인",
             onClick = {
