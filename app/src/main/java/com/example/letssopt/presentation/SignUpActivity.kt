@@ -106,13 +106,17 @@ fun SignUpScreen(
                 style = WatchaTheme.typography.headline.head2B20,
                 color = WatchaTheme.colors.textPrimary,
             )
+
             Spacer(modifier = Modifier.height(36.dp))
+
             Text(
                 text = "이메일",
                 style = WatchaTheme.typography.cap.captionR14,
                 color = WatchaTheme.colors.textSecondary,
             )
+
             Spacer(modifier = Modifier.height(3.dp))
+
             WatchaBasicTextField(
                 placeholder = "이메일을 입력하세요. (ex. abc@naver.com)",
                 value = emailText,
@@ -125,13 +129,17 @@ fun SignUpScreen(
                 ),
                 trailingContent = {},
             )
+
             Spacer(modifier = Modifier.height(18.dp))
+
             Text(
                 text = "비밀번호",
                 style = WatchaTheme.typography.cap.captionR14,
                 color = WatchaTheme.colors.textSecondary,
             )
+
             Spacer(modifier = Modifier.height(3.dp))
+
             WatchaBasicTextField(
                 placeholder = "비밀번호를 입력하세요 (8~12자)",
                 value = pwText,
@@ -145,6 +153,7 @@ fun SignUpScreen(
                     imeAction = ImeAction.Next,
                 )
             )
+
             Spacer(modifier = Modifier.height(18.dp))
 
             Text(
@@ -152,7 +161,9 @@ fun SignUpScreen(
                 style = WatchaTheme.typography.cap.captionR14,
                 color = WatchaTheme.colors.textSecondary,
             )
+
             Spacer(modifier = Modifier.height(3.dp))
+
             WatchaBasicTextField(
                 placeholder = "비밀번호를 다시 입력하세요",
                 value = pwConfirmText,
