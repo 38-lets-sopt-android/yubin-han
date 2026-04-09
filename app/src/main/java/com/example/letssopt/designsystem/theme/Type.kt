@@ -22,7 +22,7 @@ import androidx.compose.ui.unit.sp
 import com.example.letssopt.R
 
 
-object InterFont {
+object PretendardFont {
     val Bold = FontFamily(Font(R.font.pretendard_bold))
     val Regular = FontFamily(Font(R.font.pretendard_regular))
 
@@ -81,38 +81,38 @@ data class WatchaTypography(
 val defaultWatchaTypography = WatchaTypography(
     logo = TypographyTokens.Logo(
         logoB36 = watchaTextStyle(
-            fontFamily = InterFont.Bold,
+            fontFamily = PretendardFont.Bold,
             fontSize = 36.sp,
             fontWeight = FontWeight.Bold
         ),
     ),
     headline = TypographyTokens.Headline(
         head1B24 = watchaTextStyle(
-            fontFamily = InterFont.Bold,
+            fontFamily = PretendardFont.Bold,
             fontSize = 24.sp,
             fontWeight = FontWeight.Bold
         ),
         head2B20 = watchaTextStyle(
-            fontFamily = InterFont.Bold,
+            fontFamily = PretendardFont.Bold,
             fontSize = 20.sp,
             fontWeight = FontWeight.Bold
         ),
         head3B16 = watchaTextStyle(
-            fontFamily = InterFont.Bold,
+            fontFamily = PretendardFont.Bold,
             fontSize = 16.sp,
             fontWeight = FontWeight.Bold
         ),
     ),
     body = TypographyTokens.Body(
         bodyR16 = watchaTextStyle(
-            fontFamily = InterFont.Regular,
+            fontFamily = PretendardFont.Regular,
             fontSize = 16.sp,
             fontWeight = FontWeight.Normal
         ),
     ),
     cap = TypographyTokens.Caption(
         captionR14 = watchaTextStyle(
-            fontFamily = InterFont.Regular,
+            fontFamily = PretendardFont.Regular,
             fontSize = 14.sp,
             fontWeight = FontWeight.Normal
         ),
