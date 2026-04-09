@@ -55,17 +55,24 @@ class SignUpActivity : ComponentActivity() {
     }
 }
 
-private fun getValidationErrorMessage(
+enum class ValidationErrorType(val errorMessage: String) {
+    INVALID_FORMAT("회원가입 형식에 맞지 않습니다."),
+    PASSWORD_MISMATCH("비밀번호가 일치하지 않습니다.");
+}
+
+private fun getValidationError(
     emailText: String,
     pwText: String,
     pwConfirmText: String
-): String? {
+): ValidationErrorType? {
     if (!EMAIL_ADDRESS.matcher(emailText).matches() || pwText.length !in 8..12) {
-        return "회원가입 형식에 맞지 않습니다."
+        return ValidationErrorType.INVALID_FORMAT
     }
+
     if (pwText != pwConfirmText) {
-        return "비밀번호가 일치하지 않습니다."
+        return ValidationErrorType.PASSWORD_MISMATCH
     }
+
     return null
 }
 
@@ -185,10 +192,10 @@ fun SignUpScreen(
                 .fillMaxWidth()
                 .padding(bottom = 26.dp),
             onClick = {
-                val errorMessage = getValidationErrorMessage(emailText, pwText, pwConfirmText)
+                val errorType = getValidationError(emailText, pwText, pwConfirmText)
 
-                if (errorMessage != null) {
-                    Toast.makeText(context, errorMessage, Toast.LENGTH_SHORT).show()
+                if (errorType != null) {
+                    Toast.makeText(context, errorType.errorMessage, Toast.LENGTH_SHORT).show()
                 } else {
                     val intent = Intent(context, LoginActivity::class.java).apply {
                         putExtra("email", emailText)
