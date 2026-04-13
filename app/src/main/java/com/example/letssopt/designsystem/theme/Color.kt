@@ -5,15 +5,15 @@ import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.compose.ui.graphics.Color
 
 
-val PrimaryRed = Color(0xFFE8003C)
+private val PrimaryRed = Color(0xFFE8003C)
 
-val BackGround = Color(0xFF141414)
-val Surface = Color(0xFF2A2A2A)
+private val BackGround = Color(0xFF141414)
+private val Surface = Color(0xFF2A2A2A)
 
-val TextPrimary = Color(0xFFFFFFFF)
-val TextSecondary = Color(0xFF999999)
-val PlaceHolder = Color(0xFF666666)
-val Disabled = Color(0xFF333333)
+private val TextPrimary = Color(0xFFFFFFFF)
+private val TextSecondary = Color(0xFF999999)
+private val PlaceHolder = Color(0xFF666666)
+private val Disabled = Color(0xFF333333)
 
 @Immutable
 data class WatchaColors(
