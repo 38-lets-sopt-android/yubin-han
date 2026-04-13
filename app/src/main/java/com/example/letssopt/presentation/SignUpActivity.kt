@@ -87,7 +87,7 @@ fun SignUpScreen(
 
     val context = LocalContext.current
 
-    val isAllEntered = emailText.isNotEmpty() && pwText.isNotEmpty() && pwConfirmText.isNotEmpty()
+    val isAllEntered = emailText.isNotBlank() && pwText.isNotBlank() && pwConfirmText.isNotBlank()
     Column(
         modifier = modifier
             .background(color = WatchaTheme.colors.backGround)

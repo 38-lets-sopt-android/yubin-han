@@ -77,7 +77,7 @@ fun LoginScreen(
                 registeredPw = pw
             }
         }
-    val isLogInEnabled = emailText.isNotEmpty() && pwText.isNotEmpty()
+    val isLogInEnabled = emailText.isNotBlank() && pwText.isNotBlank()
 
     val context = LocalContext.current
 
@@ -139,7 +139,7 @@ fun LoginScreen(
             )
 
             Spacer(modifier = Modifier.height(3.dp))
-            
+
             WatchaBasicTextField(
                 placeholder = "비밀번호를 입력하세요",
                 value = pwText,
