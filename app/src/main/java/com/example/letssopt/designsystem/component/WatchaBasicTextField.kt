@@ -1,13 +1,10 @@
 package com.example.letssopt.designsystem.component
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
@@ -22,12 +19,15 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
+import com.example.letssopt.designsystem.style.TextFieldStyle
+import com.example.letssopt.designsystem.style.WatchaTextFieldColor
 import com.example.letssopt.designsystem.theme.LETSSOPTTheme
 import com.example.letssopt.designsystem.theme.WatchaTheme
 
 @Composable
 fun WatchaBasicTextField(
+    textStyle: TextStyle,
+    textFieldColor: WatchaTextFieldColor,
     placeholder: String,
     value: String,
     onValueChange: (String) -> Unit,
@@ -35,24 +35,16 @@ fun WatchaBasicTextField(
     singleLine: Boolean = true,
     enabled: Boolean = true,
     trailingContent: @Composable () -> Unit = {},
-    textStyle: TextStyle = WatchaTheme.typography.cap.captionR14,
     keyboardOptions: KeyboardOptions = KeyboardOptions.Default,
     keyboardActions: KeyboardActions = KeyboardActions.Default,
     visualTransformation: VisualTransformation = VisualTransformation.None,
 ) {
     val interactionSource: MutableInteractionSource = remember { MutableInteractionSource() }
 
-    Box(
-        modifier = modifier
-            .background(
-                WatchaTheme.colors.surface,
-                shape = RoundedCornerShape(8.dp),
-            )
-    ) {
         BasicTextField(
-            modifier = Modifier.fillMaxWidth(),
+            modifier = modifier.fillMaxWidth(),
             value = value,
-            textStyle = textStyle.copy(color = WatchaTheme.colors.textPrimary),
+            textStyle = textStyle,
             onValueChange = onValueChange,
             keyboardOptions = keyboardOptions,
             keyboardActions = keyboardActions,
@@ -62,8 +54,6 @@ fun WatchaBasicTextField(
             singleLine = singleLine,
             decorationBox = { innerTextField ->
                 Row(
-                    modifier = Modifier
-                        .padding(horizontal = 16.dp, vertical = 17.dp),
                     horizontalArrangement = Arrangement.SpaceBetween,
                     verticalAlignment = Alignment.CenterVertically,
                 ) {
@@ -74,7 +64,7 @@ fun WatchaBasicTextField(
                             Text(
                                 text = placeholder,
                                 style = textStyle,
-                                color = WatchaTheme.colors.placeHolder,
+                                color = textFieldColor.textColor,
                             )
                         }
                         innerTextField()
@@ -84,7 +74,6 @@ fun WatchaBasicTextField(
             }
         )
     }
-}
 
 @Preview(showBackground = false)
 @Composable
@@ -93,10 +82,11 @@ private fun BasicTextFieldPreview() {
         var text by remember { mutableStateOf("") }
 
         WatchaBasicTextField(
-            placeholder = "이메일 이름을 입력하세요",
+            placeholder = "이메일을 입력하세요",
             value = text,
             onValueChange = { text = it },
-            trailingContent = {},
+            textStyle = WatchaTheme.typography.cap.captionR14,
+            textFieldColor = TextFieldStyle.DEFAULT.getTextFieldColor(),
         )
     }
 }
