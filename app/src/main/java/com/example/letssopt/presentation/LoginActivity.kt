@@ -36,8 +36,9 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.letssopt.designsystem.component.WatchaAuthButton
-import com.example.letssopt.designsystem.component.WatchaBasicTextField
+import com.example.letssopt.designsystem.component.WatchaAuthTextField
 import com.example.letssopt.designsystem.style.ButtonStyle
+import com.example.letssopt.designsystem.style.TextFieldStyle
 import com.example.letssopt.designsystem.theme.LETSSOPTTheme
 import com.example.letssopt.designsystem.theme.WatchaTheme
 import com.example.letssopt.extension.noRippleClickable
@@ -118,7 +119,8 @@ fun LoginScreen(
 
             Spacer(modifier = Modifier.height(3.dp))
 
-            WatchaBasicTextField(
+            WatchaAuthTextField(
+                textFieldStyle = if (emailText.isNotBlank()) TextFieldStyle.INPUT else TextFieldStyle.DISABLED,
                 placeholder = "이메일을 입력하세요",
                 value = emailText,
                 onValueChange = {
@@ -128,7 +130,6 @@ fun LoginScreen(
                     imeAction = ImeAction.Next,
                     keyboardType = KeyboardType.Email
                 ),
-                trailingContent = {},
             )
 
             Spacer(modifier = Modifier.height(18.dp))
@@ -141,13 +142,13 @@ fun LoginScreen(
 
             Spacer(modifier = Modifier.height(3.dp))
 
-            WatchaBasicTextField(
+            WatchaAuthTextField(
+                textFieldStyle = if (pwText.isNotBlank()) TextFieldStyle.INPUT else TextFieldStyle.DISABLED,
                 placeholder = "비밀번호를 입력하세요",
                 value = pwText,
                 onValueChange = {
                     pwText = it
                 },
-                trailingContent = {},
                 visualTransformation = PasswordVisualTransformation(),
                 keyboardOptions = KeyboardOptions(
                     keyboardType = KeyboardType.Password,
@@ -171,7 +172,7 @@ fun LoginScreen(
         )
         Spacer(modifier = Modifier.height(20.dp))
         WatchaAuthButton(
-            buttonStyle = ButtonStyle.PRIMARY,
+            buttonStyle = if (isLogInEnabled) ButtonStyle.PRIMARY else ButtonStyle.DISABLED,
             buttonText = "로그인",
             onClick = {
                 if (emailText == registeredEmail && pwText == registeredPw) {
