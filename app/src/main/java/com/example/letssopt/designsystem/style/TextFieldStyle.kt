@@ -8,13 +8,13 @@ import com.example.letssopt.designsystem.theme.WatchaTheme.colors
 
 
 enum class TextFieldStyle {
-    DEFAULT,
+    INPUT,
     DISABLED;
 
     @ReadOnlyComposable
     @Composable
     fun getTextFieldColor(): WatchaTextFieldColor = when (this) {
-        DEFAULT -> WatchaTextFieldColor(
+        INPUT -> WatchaTextFieldColor(
             backgroundColor = colors.surface,
             textColor = colors.textPrimary,
         )

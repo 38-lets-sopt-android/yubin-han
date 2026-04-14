@@ -1,5 +1,6 @@
 package com.example.letssopt.designsystem.component
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -32,8 +33,8 @@ fun WatchaBasicTextField(
     value: String,
     onValueChange: (String) -> Unit,
     modifier: Modifier = Modifier,
+    disabled: Boolean = true,
     singleLine: Boolean = true,
-    enabled: Boolean = true,
     trailingContent: @Composable () -> Unit = {},
     keyboardOptions: KeyboardOptions = KeyboardOptions.Default,
     keyboardActions: KeyboardActions = KeyboardActions.Default,
@@ -41,39 +42,44 @@ fun WatchaBasicTextField(
 ) {
     val interactionSource: MutableInteractionSource = remember { MutableInteractionSource() }
 
-        BasicTextField(
-            modifier = modifier.fillMaxWidth(),
-            value = value,
-            textStyle = textStyle,
-            onValueChange = onValueChange,
-            keyboardOptions = keyboardOptions,
-            keyboardActions = keyboardActions,
-            enabled = enabled,
-            visualTransformation = visualTransformation,
-            interactionSource = interactionSource,
-            singleLine = singleLine,
-            decorationBox = { innerTextField ->
-                Row(
-                    horizontalArrangement = Arrangement.SpaceBetween,
-                    verticalAlignment = Alignment.CenterVertically,
+    val (backgroundColor, contentColor) =
+        if (!disabled) textFieldColor.backgroundColor to textFieldColor.textColor
+        else textFieldColor.disabledBackgroundColor to textFieldColor.disabledTextColor
+
+    BasicTextField(
+        modifier = modifier.fillMaxWidth(),
+        value = value,
+        textStyle = textStyle.copy(color = contentColor),
+        onValueChange = onValueChange,
+        keyboardOptions = keyboardOptions,
+        keyboardActions = keyboardActions,
+        enabled = !disabled,
+        visualTransformation = visualTransformation,
+        interactionSource = interactionSource,
+        singleLine = singleLine,
+        decorationBox = { innerTextField ->
+            Row(
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically,
+                modifier = Modifier.background(color = backgroundColor)
+            ) {
+                Box(
+                    modifier = Modifier.weight(1f)
                 ) {
-                    Box(
-                        modifier = Modifier.weight(1f)
-                    ) {
-                        if (value.isEmpty()) {
-                            Text(
-                                text = placeholder,
-                                style = textStyle,
-                                color = textFieldColor.textColor,
-                            )
-                        }
-                        innerTextField()
+                    if (value.isEmpty()) {
+                        Text(
+                            text = placeholder,
+                            style = textStyle,
+                            color = contentColor,
+                        )
                     }
-                    trailingContent()
+                    innerTextField()
                 }
+                trailingContent()
             }
-        )
-    }
+        }
+    )
+}
 
 @Preview(showBackground = false)
 @Composable
@@ -86,7 +92,7 @@ private fun BasicTextFieldPreview() {
             value = text,
             onValueChange = { text = it },
             textStyle = WatchaTheme.typography.cap.captionR14,
-            textFieldColor = TextFieldStyle.DEFAULT.getTextFieldColor(),
+            textFieldColor = TextFieldStyle.INPUT.getTextFieldColor(),
         )
     }
 }
