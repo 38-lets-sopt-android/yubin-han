@@ -34,8 +34,9 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.example.letssopt.designsystem.component.WatchaBasicButton
+import com.example.letssopt.designsystem.component.WatchaAuthButton
 import com.example.letssopt.designsystem.component.WatchaBasicTextField
+import com.example.letssopt.designsystem.style.ButtonStyle
 import com.example.letssopt.designsystem.theme.LETSSOPTTheme
 import com.example.letssopt.designsystem.theme.WatchaTheme
 
@@ -184,13 +185,9 @@ fun SignUpScreen(
                 )
             )
         }
-
-        WatchaBasicButton(
+        WatchaAuthButton(
+            buttonStyle = ButtonStyle.PRIMARY,
             buttonText = "회원가입",
-            modifier = Modifier
-                .align(Alignment.CenterHorizontally)
-                .fillMaxWidth()
-                .padding(bottom = 26.dp),
             onClick = {
                 val errorType = getValidationError(emailText, pwText, pwConfirmText)
 
@@ -208,6 +205,10 @@ fun SignUpScreen(
                 }
             },
             disabled = !isAllEntered,
+            modifier = Modifier
+                .align(Alignment.CenterHorizontally)
+                .fillMaxWidth()
+                .padding(bottom = 26.dp),
         )
     }
 }

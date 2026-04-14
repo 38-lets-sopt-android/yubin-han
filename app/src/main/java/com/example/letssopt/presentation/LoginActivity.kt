@@ -35,8 +35,9 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.example.letssopt.designsystem.component.WatchaBasicButton
+import com.example.letssopt.designsystem.component.WatchaAuthButton
 import com.example.letssopt.designsystem.component.WatchaBasicTextField
+import com.example.letssopt.designsystem.style.ButtonStyle
 import com.example.letssopt.designsystem.theme.LETSSOPTTheme
 import com.example.letssopt.designsystem.theme.WatchaTheme
 import com.example.letssopt.extension.noRippleClickable
@@ -169,8 +170,8 @@ fun LoginScreen(
                 )
         )
         Spacer(modifier = Modifier.height(20.dp))
-
-        WatchaBasicButton(
+        WatchaAuthButton(
+            buttonStyle = ButtonStyle.PRIMARY,
             buttonText = "로그인",
             onClick = {
                 if (emailText == registeredEmail && pwText == registeredPw) {
