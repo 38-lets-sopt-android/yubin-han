@@ -35,6 +35,7 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.example.letssopt.data.local.PreferenceManager
 import com.example.letssopt.designsystem.component.WatchaAuthButton
 import com.example.letssopt.designsystem.component.WatchaAuthTextField
 import com.example.letssopt.designsystem.style.ButtonStyle
@@ -46,42 +47,57 @@ import com.example.letssopt.extension.noRippleClickable
 class LoginActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        if (PreferenceManager.getLoggedIn(this)) {
+            navigateToMain()
+            return
+        }
         enableEdgeToEdge()
         setContent {
             LETSSOPTTheme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
                     LoginScreen(
-                        modifier = Modifier.padding(innerPadding)
+                        modifier = Modifier.padding(innerPadding),
+                        onLoginSuccess = { navigateToMain() }
                     )
                 }
             }
         }
     }
+
+    private fun navigateToMain() {
+        val intent = Intent(this, MainActivity::class.java).apply {
+            flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
+        }
+        startActivity(intent)
+        finish()
+    }
 }
+
 
 @Composable
 fun LoginScreen(
     modifier: Modifier = Modifier,
+    onLoginSuccess: () -> Unit = {}
 ) {
+    val context = LocalContext.current
     var emailText by remember { mutableStateOf("") }
     var pwText by remember { mutableStateOf("") }
+    val isLogInEnabled = emailText.isNotBlank() && pwText.isNotBlank()
 
-    var registeredEmail by remember { mutableStateOf("") }
-    var registeredPw by remember { mutableStateOf("") }
+
+    val (savedEmail, savedPw) = remember { PreferenceManager.getUserData(context) }
+    var registeredEmail by remember { mutableStateOf(savedEmail ?: "") }
+    var registeredPw by remember { mutableStateOf(savedPw ?: "") }
 
     val launcher =
         rememberLauncherForActivityResult(contract = ActivityResultContracts.StartActivityForResult()) { result ->
             if (result.resultCode == Activity.RESULT_OK) {
-                val data = result.data
-                val email = data?.getStringExtra("email") ?: ""
-                val pw = data?.getStringExtra("password") ?: ""
-                registeredEmail = email
-                registeredPw = pw
+                val (newEmail, newPw) = PreferenceManager.getUserData(context)
+                registeredEmail = newEmail ?: ""
+                registeredPw = newPw ?: ""
             }
         }
-    val isLogInEnabled = emailText.isNotBlank() && pwText.isNotBlank()
 
-    val context = LocalContext.current
 
     Column(
         modifier = modifier
@@ -176,11 +192,9 @@ fun LoginScreen(
             buttonText = "로그인",
             onClick = {
                 if (emailText == registeredEmail && pwText == registeredPw) {
-                    val intent = Intent(context, MainActivity::class.java).apply {
-                        flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
-                    }
-                    context.startActivity(intent)
+                    PreferenceManager.setLoggedIn(context, true)
                     Toast.makeText(context, "로그인에 성공했습니다", Toast.LENGTH_SHORT).show()
+                    onLoginSuccess()
                 } else {
                     Toast.makeText(context, "이메일 또는 비밀번호가 일치하지 않습니다.", Toast.LENGTH_SHORT).show()
                 }

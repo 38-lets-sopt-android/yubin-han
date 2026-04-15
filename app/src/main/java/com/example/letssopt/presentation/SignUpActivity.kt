@@ -1,7 +1,6 @@
 package com.example.letssopt.presentation
 
 import android.app.Activity
-import android.content.Intent
 import android.os.Bundle
 import android.util.Patterns.EMAIL_ADDRESS
 import android.widget.Toast
@@ -34,6 +33,8 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.example.letssopt.data.local.PreferenceManager
+import com.example.letssopt.data.type.ValidationErrorType
 import com.example.letssopt.designsystem.component.WatchaAuthButton
 import com.example.letssopt.designsystem.component.WatchaAuthTextField
 import com.example.letssopt.designsystem.style.ButtonStyle
@@ -49,7 +50,8 @@ class SignUpActivity : ComponentActivity() {
             LETSSOPTTheme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
                     SignUpScreen(
-                        modifier = Modifier.padding(innerPadding)
+                        modifier = Modifier.padding(innerPadding),
+                        onSignUpSuccess = { finish() }
                     )
                 }
             }
@@ -57,10 +59,6 @@ class SignUpActivity : ComponentActivity() {
     }
 }
 
-enum class ValidationErrorType(val errorMessage: String) {
-    INVALID_FORMAT("회원가입 형식에 맞지 않습니다."),
-    PASSWORD_MISMATCH("비밀번호가 일치하지 않습니다.");
-}
 
 private fun getValidationError(
     emailText: String,
@@ -82,14 +80,15 @@ private fun getValidationError(
 @Composable
 fun SignUpScreen(
     modifier: Modifier = Modifier,
+    onSignUpSuccess: () -> Unit = {}
 ) {
     var emailText by remember { mutableStateOf("") }
     var pwText by remember { mutableStateOf("") }
     var pwConfirmText by remember { mutableStateOf("") }
 
     val context = LocalContext.current
-
     val isAllEntered = emailText.isNotBlank() && pwText.isNotBlank() && pwConfirmText.isNotBlank()
+
     Column(
         modifier = modifier
             .background(color = WatchaTheme.colors.backGround)
@@ -177,9 +176,7 @@ fun SignUpScreen(
                 textFieldStyle = if (pwConfirmText.isNotBlank()) TextFieldStyle.INPUT else TextFieldStyle.DISABLED,
                 placeholder = "비밀번호를 다시 입력하세요",
                 value = pwConfirmText,
-                onValueChange = {
-                    pwConfirmText = it
-                },
+                onValueChange = { pwConfirmText = it },
                 visualTransformation = PasswordVisualTransformation(),
                 keyboardOptions = KeyboardOptions(
                     keyboardType = KeyboardType.Password,
@@ -195,14 +192,11 @@ fun SignUpScreen(
                 if (errorType != null) {
                     Toast.makeText(context, errorType.errorMessage, Toast.LENGTH_SHORT).show()
                 } else {
-                    val intent = Intent(context, LoginActivity::class.java).apply {
-                        putExtra("email", emailText)
-                        putExtra("password", pwText)
-                    }
+                    PreferenceManager.saveUser(context, emailText, pwText)
                     Toast.makeText(context, "회원가입이 완료되었습니다.", Toast.LENGTH_SHORT).show()
                     val activity = context as? Activity
-                    activity?.setResult(Activity.RESULT_OK, intent)
-                    activity?.finish()
+                    activity?.setResult(Activity.RESULT_OK)
+                    onSignUpSuccess()
                 }
             },
             disabled = !isAllEntered,
