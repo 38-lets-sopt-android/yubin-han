@@ -62,6 +62,7 @@ sealed interface TypographyTokens {
     @Immutable
     data class Body(
         val bodyR16: TextStyle,
+        val bodyR12: TextStyle,
     )
 
     @Immutable
@@ -107,6 +108,11 @@ val defaultWatchaTypography = WatchaTypography(
         bodyR16 = watchaTextStyle(
             fontFamily = PretendardFont.Regular,
             fontSize = 16.sp,
+            fontWeight = FontWeight.Normal
+        ),
+        bodyR12 = watchaTextStyle(
+            fontFamily = PretendardFont.Regular,
+            fontSize = 12.sp,
             fontWeight = FontWeight.Normal
         ),
     ),
