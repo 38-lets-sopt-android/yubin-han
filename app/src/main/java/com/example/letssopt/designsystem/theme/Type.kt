@@ -68,7 +68,9 @@ sealed interface TypographyTokens {
     @Immutable
     data class Caption(
         val captionR14: TextStyle,
-    )
+        val captionR18: TextStyle,
+        val captionR20: TextStyle,
+        )
 }
 
 @Immutable
@@ -120,6 +122,16 @@ val defaultWatchaTypography = WatchaTypography(
         captionR14 = watchaTextStyle(
             fontFamily = PretendardFont.Regular,
             fontSize = 14.sp,
+            fontWeight = FontWeight.Normal
+        ),
+        captionR18 = watchaTextStyle(
+            fontFamily = PretendardFont.Regular,
+            fontSize = 18.sp,
+            fontWeight = FontWeight.Normal
+        ),
+        captionR20 = watchaTextStyle(
+            fontFamily = PretendardFont.Regular,
+            fontSize = 20.sp,
             fontWeight = FontWeight.Normal
         ),
     )
