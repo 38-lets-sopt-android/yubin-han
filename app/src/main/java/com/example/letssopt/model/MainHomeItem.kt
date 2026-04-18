@@ -24,8 +24,13 @@ sealed class MainHomeItem {
     ) : MainHomeItem()
 
     data class PartyContent(
-        val movieTitle: String,
+        val title: String,
         val startTime: String,
         val image: Int
     )
 }
+
+data class StorageContent(
+    val title: String,
+    val image: Int,
+)

@@ -72,7 +72,7 @@ fun PartySection(
                     ) {
                         Image(
                             painter = painterResource(id = party.image),
-                            contentDescription = party.movieTitle,
+                            contentDescription = party.title,
                             modifier = Modifier
                                 .fillMaxWidth()
                                 .weight(1f),
@@ -88,7 +88,7 @@ fun PartySection(
                         Spacer(modifier = Modifier.height(6.dp))
 
                         Text(
-                            text = "# ${party.movieTitle}",
+                            text = "# ${party.title}",
                             color = WatchaTheme.colors.textPrimary,
                             style = WatchaTheme.typography.body.bodyR12,
                             modifier = Modifier.padding(horizontal = 8.dp)
