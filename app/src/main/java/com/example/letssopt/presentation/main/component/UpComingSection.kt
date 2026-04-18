@@ -37,7 +37,7 @@ fun UpComingSection(
         modifier = modifier
             .fillMaxWidth()
             .padding(horizontal = 16.dp),
-    ) {
+        ) {
         Row(
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.SpaceBetween,
@@ -55,7 +55,7 @@ fun UpComingSection(
             )
         }
 
-        Spacer(modifier = Modifier.height(8.dp))
+        Spacer(modifier = Modifier.height(24.dp))
 
         LazyRow(horizontalArrangement = Arrangement.spacedBy(16.dp))
         {
@@ -64,8 +64,8 @@ fun UpComingSection(
                     painter = painterResource(id = content.image),
                     contentDescription = content.title,
                     modifier = Modifier
-                        .width(103.dp)
-                        .aspectRatio(103 / 153f)
+                        .width(110.dp)
+                        .aspectRatio(11 / 16f)
                         .clip(RoundedCornerShape(10.dp)),
                     contentScale = ContentScale.Crop
                 )
