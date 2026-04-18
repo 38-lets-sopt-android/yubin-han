@@ -43,6 +43,7 @@ import com.example.letssopt.designsystem.style.TextFieldStyle
 import com.example.letssopt.designsystem.theme.LETSSOPTTheme
 import com.example.letssopt.designsystem.theme.WatchaTheme
 import com.example.letssopt.extension.noRippleClickable
+import com.example.letssopt.presentation.main.MainActivity
 
 class LoginActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
