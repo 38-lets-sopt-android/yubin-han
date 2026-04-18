@@ -65,7 +65,7 @@ fun AlgorithmSection(
             )
         }
 
-        Spacer(modifier = Modifier.height(24.dp))
+        Spacer(modifier = Modifier.height(6.dp))
 
         LazyRow(horizontalArrangement = Arrangement.spacedBy(16.dp))
         {
@@ -74,8 +74,8 @@ fun AlgorithmSection(
                     painter = painterResource(id = content.image),
                     contentDescription = content.title,
                     modifier = Modifier
-                        .width(110.dp)
-                        .aspectRatio(11 / 16f)
+                        .width(103.dp)
+                        .aspectRatio(103 / 153f)
                         .clip(RoundedCornerShape(10.dp)),
                     contentScale = ContentScale.Crop
                 )
