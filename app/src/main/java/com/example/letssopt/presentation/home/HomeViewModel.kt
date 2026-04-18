@@ -1,10 +1,11 @@
-package com.example.letssopt.presentation.main
+package com.example.letssopt.presentation.home
+
 
 import androidx.lifecycle.ViewModel
 import com.example.letssopt.R
 import com.example.letssopt.model.MainHomeItem
 
-class MainViewModel : ViewModel() {
+class HomeViewModel : ViewModel() {
     val homeItems: List<MainHomeItem> = listOf(
         MainHomeItem.TopBanner(
             banners =listOf(

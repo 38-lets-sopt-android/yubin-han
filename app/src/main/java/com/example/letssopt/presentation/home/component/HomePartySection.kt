@@ -1,4 +1,4 @@
-package com.example.letssopt.presentation.main.component
+package com.example.letssopt.presentation.home.component
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
