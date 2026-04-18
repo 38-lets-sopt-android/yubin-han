@@ -2,8 +2,6 @@ package com.example.letssopt.designsystem.component
 
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
-import androidx.compose.runtime.Composable
-import androidx.compose.ui.tooling.preview.Preview
 import com.example.letssopt.R
 import com.example.letssopt.navigation.Main
 import com.example.letssopt.navigation.MainTabRoute
