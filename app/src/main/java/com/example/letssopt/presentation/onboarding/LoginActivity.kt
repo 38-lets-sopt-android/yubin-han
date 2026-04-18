@@ -1,4 +1,4 @@
-package com.example.letssopt.presentation
+package com.example.letssopt.presentation.onboarding
 
 import android.app.Activity
 import android.content.Intent
