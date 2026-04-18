@@ -71,7 +71,7 @@ fun TopBannerSection(
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(160.dp)
-                    .clip(RoundedCornerShape(8.dp))
+                    .clip(RoundedCornerShape(10.dp))
                     .graphicsLayer {
                         val pageOffset = pagerState.getOffsetDistanceInPages(page).absoluteValue
                         alpha = lerp(

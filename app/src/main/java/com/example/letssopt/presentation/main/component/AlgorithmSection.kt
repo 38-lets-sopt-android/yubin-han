@@ -76,7 +76,7 @@ fun AlgorithmSection(
                     modifier = Modifier
                         .width(110.dp)
                         .aspectRatio(11 / 16f)
-                        .clip(RoundedCornerShape(12.dp)),
+                        .clip(RoundedCornerShape(10.dp)),
                     contentScale = ContentScale.Crop
                 )
             }
