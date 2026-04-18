@@ -110,7 +110,7 @@ fun PartySection(
 
 @Preview
 @Composable
-fun PartySectionPreview() {
+private fun PartySectionPreview() {
     LETSSOPTTheme {
         PartySection(
             parties =

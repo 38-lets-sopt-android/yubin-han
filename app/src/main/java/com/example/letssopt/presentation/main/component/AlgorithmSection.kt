@@ -86,7 +86,7 @@ fun AlgorithmSection(
 
 @Preview
 @Composable
-fun AlgorithmSectionPreview() {
+private fun AlgorithmSectionPreview() {
     LETSSOPTTheme {
         AlgorithmSection(
             contents =
