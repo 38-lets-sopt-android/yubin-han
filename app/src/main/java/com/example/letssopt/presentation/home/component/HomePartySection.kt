@@ -32,7 +32,7 @@ import com.example.letssopt.model.MainHomeItem
 
 
 @Composable
-fun PartySection(
+fun HomePartySection(
     parties: List<MainHomeItem.PartyContent>,
     modifier: Modifier = Modifier,
 ) {
@@ -115,7 +115,7 @@ fun PartySection(
 @Composable
 private fun PartySectionPreview() {
     LETSSOPTTheme {
-        PartySection(
+        HomePartySection(
             parties =
                 listOf(
                     MainHomeItem.PartyContent(

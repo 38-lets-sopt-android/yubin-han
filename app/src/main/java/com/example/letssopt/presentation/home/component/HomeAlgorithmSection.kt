@@ -31,7 +31,7 @@ import com.example.letssopt.designsystem.theme.WatchaTheme
 import com.example.letssopt.model.MainHomeItem
 
 @Composable
-fun AlgorithmSection(
+fun HomeAlgorithmSection(
     contents: List<MainHomeItem.Contents>,
     modifier: Modifier = Modifier,
 ) {
@@ -88,7 +88,7 @@ fun AlgorithmSection(
 @Composable
 private fun AlgorithmSectionPreview() {
     LETSSOPTTheme {
-        AlgorithmSection(
+        HomeAlgorithmSection(
             contents =
                 listOf(
                     MainHomeItem.Contents("이 사랑 통역 되나요?", R.drawable.img_poster_love_translate),

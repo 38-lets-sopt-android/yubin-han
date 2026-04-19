@@ -28,7 +28,7 @@ import com.example.letssopt.model.MainHomeItem
 import kotlin.math.absoluteValue
 
 @Composable
-fun TopBannerSection(
+fun HomeTopBannerSection(
     banners: List<MainHomeItem.Contents>,
     modifier: Modifier = Modifier,
     pagerState: PagerState = rememberPagerState(
@@ -89,7 +89,7 @@ fun TopBannerSection(
 @Composable
 private fun TopBannerSectionPreview() {
     LETSSOPTTheme {
-        TopBannerSection(
+        HomeTopBannerSection(
             banners = listOf(
                 MainHomeItem.Contents("메니페스트", R.drawable.img_poster_manifest),
                 MainHomeItem.Contents("크라임씬", R.drawable.img_poster_crime_scene),

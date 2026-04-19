@@ -18,7 +18,7 @@ import com.example.letssopt.designsystem.theme.WatchaTheme
 
 
 @Composable
-fun TopActionBar(
+fun HomeTopActionBar(
     modifier: Modifier = Modifier,
 ) {
     Row(

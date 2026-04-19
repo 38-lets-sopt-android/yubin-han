@@ -29,7 +29,7 @@ import com.example.letssopt.model.MainHomeItem
 
 
 @Composable
-fun UpComingSection(
+fun HomeUpComingSection(
     contents: List<MainHomeItem.Contents>,
     modifier: Modifier = Modifier,
 ) {
@@ -78,7 +78,7 @@ fun UpComingSection(
 @Composable
 private fun UpcomingSectionPreview() {
     LETSSOPTTheme {
-        UpComingSection(
+        HomeUpComingSection(
             contents =
                 listOf(
                     MainHomeItem.Contents("이 사랑 통역 되나요?", R.drawable.img_poster_love_translate),
