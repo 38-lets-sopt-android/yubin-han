@@ -18,6 +18,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.letssopt.R
 import com.example.letssopt.core.data.model.StorageContent
 import com.example.letssopt.core.designsystem.theme.LETSSOPTTheme
@@ -28,7 +29,7 @@ import com.example.letssopt.presentation.storage.component.StorageItemCard
 @Composable
 fun StorageRoute(
     paddingValues: PaddingValues,
-    viewModel: StorageViewModel = StorageViewModel(),
+    viewModel: StorageViewModel = viewModel(),
 ) {
     val storageItems = viewModel.storageItems
 
