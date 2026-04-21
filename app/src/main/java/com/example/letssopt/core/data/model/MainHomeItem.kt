@@ -29,8 +29,3 @@ sealed class MainHomeItem {
         val image: Int
     )
 }
-
-data class StorageContent(
-    val title: String,
-    val image: Int,
-)
