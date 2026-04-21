@@ -83,7 +83,6 @@ fun HomeTopBannerSection(
                 contentDescription = banner.title,
                 contentScale = ContentScale.Crop,
                 modifier = Modifier
-                    .fillMaxWidth()
                     .aspectRatio(7f / 4f)
                     .graphicsLayer {
                         val pageOffset = pagerState.getOffsetDistanceInPages(page).absoluteValue
