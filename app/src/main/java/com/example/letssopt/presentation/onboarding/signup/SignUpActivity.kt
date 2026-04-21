@@ -1,14 +1,11 @@
-package com.example.letssopt.presentation.onboarding
+package com.example.letssopt.presentation.onboarding.signup
 
-import android.app.Activity
-import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
 import androidx.activity.ComponentActivity
-import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import androidx.activity.result.contract.ActivityResultContracts
+import androidx.activity.viewModels
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -23,10 +20,7 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -35,71 +29,87 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.example.letssopt.core.data.local.PreferenceManager
 import com.example.letssopt.core.designsystem.component.WatchaAuthButton
 import com.example.letssopt.core.designsystem.component.WatchaAuthTextField
 import com.example.letssopt.core.designsystem.style.ButtonStyle
 import com.example.letssopt.core.designsystem.style.TextFieldStyle
 import com.example.letssopt.core.designsystem.theme.LETSSOPTTheme
 import com.example.letssopt.core.designsystem.theme.WatchaTheme
-import com.example.letssopt.core.extension.noRippleClickable
-import com.example.letssopt.presentation.main.MainActivity
+import kotlinx.coroutines.flow.collectLatest
 
-class LoginActivity : ComponentActivity() {
+class SignUpActivity : ComponentActivity() {
+    private val viewModel by viewModels<SignUpViewModel>()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        if (PreferenceManager.getLoggedIn(this)) {
-            navigateToMain()
-            return
-        }
         enableEdgeToEdge()
         setContent {
             LETSSOPTTheme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    LoginScreen(
+                    SignUpRoute(
                         modifier = Modifier.padding(innerPadding),
-                        onLoginSuccess = { navigateToMain() }
+                        viewModel = viewModel,
+                        onSignUpSuccess = {
+                            setResult(RESULT_OK)
+                            finish()
+                        }
                     )
                 }
             }
         }
     }
-
-    private fun navigateToMain() {
-        val intent = Intent(this, MainActivity::class.java).apply {
-            flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
-        }
-        startActivity(intent)
-        finish()
-    }
 }
 
 
 @Composable
-fun LoginScreen(
+fun SignUpRoute(
+    viewModel: SignUpViewModel,
+    onSignUpSuccess: () -> Unit,
     modifier: Modifier = Modifier,
-    onLoginSuccess: () -> Unit = {}
 ) {
     val context = LocalContext.current
-    var emailText by remember { mutableStateOf("") }
-    var pwText by remember { mutableStateOf("") }
-    val isLogInEnabled = emailText.isNotBlank() && pwText.isNotBlank()
+    val uiState = viewModel.uiState
 
-
-    val (savedEmail, savedPw) = remember { PreferenceManager.getUserData(context) }
-    var registeredEmail by remember { mutableStateOf(savedEmail ?: "") }
-    var registeredPw by remember { mutableStateOf(savedPw ?: "") }
-
-    val launcher =
-        rememberLauncherForActivityResult(contract = ActivityResultContracts.StartActivityForResult()) { result ->
-            if (result.resultCode == Activity.RESULT_OK) {
-                val (newEmail, newPw) = PreferenceManager.getUserData(context)
-                registeredEmail = newEmail ?: ""
-                registeredPw = newPw ?: ""
+    LaunchedEffect(Unit) {
+        viewModel.effect.collectLatest { effect ->
+            when (effect) {
+                is SignUpContract.Effect.ShowToast -> {
+                    Toast.makeText(context, effect.message, Toast.LENGTH_SHORT).show()
+                }
+                is SignUpContract.Effect.NavigateToNext -> {
+                    onSignUpSuccess()
+                }
             }
         }
+    }
+
+    SignUpScreen(
+        modifier = modifier,
+        emailText = uiState.emailText,
+        pwText = uiState.pwText,
+        pwConfirmText = uiState.pwConfirmText,
+        isAllEntered = uiState.isAllEntered,
+        onEmailChange = viewModel::updateEmail,
+        onPwChange = viewModel::updatePw,
+        onPwConfirmChange = viewModel::updatePwConfirm,
+        onSignUpClick = {viewModel.signUp()}
+
+    )
+}
 
 
+@Composable
+fun SignUpScreen(
+    emailText: String,
+    pwText: String,
+    pwConfirmText: String,
+    isAllEntered: Boolean,
+    onEmailChange: (String) -> Unit,
+    onPwChange: (String) -> Unit,
+    onPwConfirmChange: (String) -> Unit,
+    onSignUpClick: () -> Unit,
+    modifier: Modifier = Modifier,
+) {
     Column(
         modifier = modifier
             .background(color = WatchaTheme.colors.backGround)
@@ -121,7 +131,7 @@ fun LoginScreen(
                 .verticalScroll(rememberScrollState())
         ) {
             Text(
-                text = "이메일로 로그인",
+                text = "회원가입",
                 style = WatchaTheme.typography.headline.head2B20,
                 color = WatchaTheme.colors.textPrimary,
             )
@@ -138,11 +148,9 @@ fun LoginScreen(
 
             WatchaAuthTextField(
                 textFieldStyle = if (emailText.isNotBlank()) TextFieldStyle.INPUT else TextFieldStyle.DISABLED,
-                placeholder = "이메일을 입력하세요",
+                placeholder = "이메일을 입력하세요 ex)abc@Watcha.com",
                 value = emailText,
-                onValueChange = {
-                    emailText = it
-                },
+                onValueChange = onEmailChange,
                 keyboardOptions = KeyboardOptions(
                     imeAction = ImeAction.Next,
                     keyboardType = KeyboardType.Email
@@ -161,46 +169,42 @@ fun LoginScreen(
 
             WatchaAuthTextField(
                 textFieldStyle = if (pwText.isNotBlank()) TextFieldStyle.INPUT else TextFieldStyle.DISABLED,
-                placeholder = "비밀번호를 입력하세요",
+                placeholder = "비밀번호를 입력하세요 (8~12자)",
                 value = pwText,
-                onValueChange = {
-                    pwText = it
-                },
+                onValueChange = onPwChange,
+                visualTransformation = PasswordVisualTransformation(),
+                keyboardOptions = KeyboardOptions(
+                    keyboardType = KeyboardType.Password,
+                    imeAction = ImeAction.Next,
+                )
+            )
+
+            Spacer(modifier = Modifier.height(18.dp))
+
+            Text(
+                text = "비밀번호 확인",
+                style = WatchaTheme.typography.cap.captionR14,
+                color = WatchaTheme.colors.textSecondary,
+            )
+
+            Spacer(modifier = Modifier.height(3.dp))
+
+            WatchaAuthTextField(
+                textFieldStyle = if (pwConfirmText.isNotBlank()) TextFieldStyle.INPUT else TextFieldStyle.DISABLED,
+                placeholder = "비밀번호를 다시 입력하세요",
+                value = pwConfirmText,
+                onValueChange = onPwConfirmChange,
                 visualTransformation = PasswordVisualTransformation(),
                 keyboardOptions = KeyboardOptions(
                     keyboardType = KeyboardType.Password,
                 )
             )
         }
-        Text(
-            text = "아직 계정이 없으신가요?  회원가입",
-            style = WatchaTheme.typography.cap.captionR14,
-            color = WatchaTheme.colors.textSecondary,
-            modifier = Modifier
-                .align(
-                    Alignment.CenterHorizontally,
-                )
-                .noRippleClickable(
-                    onClick = {
-                        val intent = Intent(context, SignUpActivity::class.java)
-                        launcher.launch(intent)
-                    }
-                )
-        )
-        Spacer(modifier = Modifier.height(20.dp))
         WatchaAuthButton(
-            buttonStyle = if (isLogInEnabled) ButtonStyle.PRIMARY else ButtonStyle.DISABLED,
-            buttonText = "로그인",
-            onClick = {
-                if (emailText == registeredEmail && pwText == registeredPw) {
-                    PreferenceManager.setLoggedIn(context, true)
-                    Toast.makeText(context, "로그인에 성공했습니다", Toast.LENGTH_SHORT).show()
-                    onLoginSuccess()
-                } else {
-                    Toast.makeText(context, "이메일 또는 비밀번호가 일치하지 않습니다.", Toast.LENGTH_SHORT).show()
-                }
-            },
-            disabled = !isLogInEnabled,
+            buttonStyle = if (isAllEntered) ButtonStyle.PRIMARY else ButtonStyle.DISABLED,
+            buttonText = "회원가입",
+            onClick = onSignUpClick,
+            disabled = !isAllEntered,
             modifier = Modifier
                 .align(Alignment.CenterHorizontally)
                 .fillMaxWidth()
@@ -211,8 +215,18 @@ fun LoginScreen(
 
 @Preview(showBackground = true)
 @Composable
-private fun LoginPreview() {
+private fun SignUpPreview() {
     LETSSOPTTheme {
-        LoginScreen()
+        SignUpScreen(
+            emailText = "",
+            pwText = "",
+            pwConfirmText = "",
+            isAllEntered = false,
+            onEmailChange = {},
+            onPwChange = {},
+            onPwConfirmChange = {},
+            onSignUpClick = {},
+        )
     }
 }
+

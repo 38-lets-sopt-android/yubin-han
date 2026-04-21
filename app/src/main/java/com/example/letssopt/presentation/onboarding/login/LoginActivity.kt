@@ -1,12 +1,12 @@
-package com.example.letssopt.presentation.onboarding
+package com.example.letssopt.presentation.onboarding.login
 
-import android.app.Activity
+import android.content.Intent
 import android.os.Bundle
-import android.util.Patterns.EMAIL_ADDRESS
 import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.activity.viewModels
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -21,10 +21,7 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -33,61 +30,103 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.example.letssopt.core.data.local.PreferenceManager
-import com.example.letssopt.core.data.type.ValidationErrorType
+import com.example.letssopt.core.data.repository.UserRepository
 import com.example.letssopt.core.designsystem.component.WatchaAuthButton
 import com.example.letssopt.core.designsystem.component.WatchaAuthTextField
 import com.example.letssopt.core.designsystem.style.ButtonStyle
 import com.example.letssopt.core.designsystem.style.TextFieldStyle
 import com.example.letssopt.core.designsystem.theme.LETSSOPTTheme
 import com.example.letssopt.core.designsystem.theme.WatchaTheme
+import com.example.letssopt.core.extension.noRippleClickable
+import com.example.letssopt.presentation.main.MainActivity
+import com.example.letssopt.presentation.onboarding.signup.SignUpActivity
+import kotlinx.coroutines.flow.collectLatest
 
-class SignUpActivity : ComponentActivity() {
+class LoginActivity : ComponentActivity() {
+    private val viewModel by viewModels<LoginViewModel>()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        if (UserRepository.getLoggedIn()) {
+            navigateToMain()
+            return
+        }
+
         enableEdgeToEdge()
         setContent {
             LETSSOPTTheme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    SignUpScreen(
+                    LoginRoute(
                         modifier = Modifier.padding(innerPadding),
-                        onSignUpSuccess = { finish() }
+                        onLoginSuccess = { navigateToMain() },
+                        onNavigateToSignUp = {
+                            val intent = Intent(this, SignUpActivity::class.java)
+                            startActivity(intent)
+                        },
+                        viewModel = viewModel,
                     )
                 }
             }
         }
     }
-}
-
-
-private fun getValidationError(
-    emailText: String,
-    pwText: String,
-    pwConfirmText: String
-): ValidationErrorType? {
-    if (!EMAIL_ADDRESS.matcher(emailText).matches() || pwText.length !in 8..12) {
-        return ValidationErrorType.INVALID_FORMAT
+    private fun navigateToMain() {
+        val intent = Intent(this, MainActivity::class.java).apply {
+            flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
+        }
+        startActivity(intent)
+        finish()
     }
-
-    if (pwText != pwConfirmText) {
-        return ValidationErrorType.PASSWORD_MISMATCH
-    }
-
-    return null
 }
 
 
 @Composable
-fun SignUpScreen(
-    modifier: Modifier = Modifier,
-    onSignUpSuccess: () -> Unit = {}
+fun LoginRoute(
+    onLoginSuccess: () -> Unit,
+    onNavigateToSignUp: () -> Unit,
+    viewModel: LoginViewModel,
+    modifier: Modifier = Modifier
 ) {
-    var emailText by remember { mutableStateOf("") }
-    var pwText by remember { mutableStateOf("") }
-    var pwConfirmText by remember { mutableStateOf("") }
-
     val context = LocalContext.current
-    val isAllEntered = emailText.isNotBlank() && pwText.isNotBlank() && pwConfirmText.isNotBlank()
+    val uiState = viewModel.uiState
+
+    LaunchedEffect(Unit) {
+        viewModel.effect.collectLatest { effect ->
+            when (effect) {
+                is LoginContract.Effect.ShowToast -> {
+                    Toast.makeText(context, effect.message, Toast.LENGTH_SHORT).show()
+                }
+
+                is LoginContract.Effect.NavigateToMain -> {
+                    onLoginSuccess()
+                }
+            }
+        }
+    }
+
+    LoginScreen(
+        modifier = modifier,
+        emailText = uiState.emailText,
+        pwText = uiState.pwText,
+        isLogInEnabled = uiState.isLogInEnabled,
+        onEmailChange = viewModel::updateEmail,
+        onPwChange = viewModel::updatePw,
+        onLoginClick = { viewModel.login() },
+        onSignUpClick = onNavigateToSignUp
+    )
+
+}
+
+@Composable
+fun LoginScreen(
+    emailText: String,
+    pwText: String,
+    isLogInEnabled: Boolean,
+    onEmailChange: (String) -> Unit,
+    onPwChange: (String) -> Unit,
+    onLoginClick: () -> Unit,
+    onSignUpClick: () -> Unit,
+    modifier: Modifier = Modifier
+) {
 
     Column(
         modifier = modifier
@@ -110,7 +149,7 @@ fun SignUpScreen(
                 .verticalScroll(rememberScrollState())
         ) {
             Text(
-                text = "회원가입",
+                text = "이메일로 로그인",
                 style = WatchaTheme.typography.headline.head2B20,
                 color = WatchaTheme.colors.textPrimary,
             )
@@ -127,11 +166,9 @@ fun SignUpScreen(
 
             WatchaAuthTextField(
                 textFieldStyle = if (emailText.isNotBlank()) TextFieldStyle.INPUT else TextFieldStyle.DISABLED,
-                placeholder = "이메일을 입력하세요 ex)abc@Watcha.com",
+                placeholder = "이메일을 입력하세요",
                 value = emailText,
-                onValueChange = {
-                    emailText = it
-                },
+                onValueChange = onEmailChange,
                 keyboardOptions = KeyboardOptions(
                     imeAction = ImeAction.Next,
                     keyboardType = KeyboardType.Email
@@ -150,56 +187,30 @@ fun SignUpScreen(
 
             WatchaAuthTextField(
                 textFieldStyle = if (pwText.isNotBlank()) TextFieldStyle.INPUT else TextFieldStyle.DISABLED,
-                placeholder = "비밀번호를 입력하세요 (8~12자)",
+                placeholder = "비밀번호를 입력하세요",
                 value = pwText,
-                onValueChange = {
-                    pwText = it
-                },
-                visualTransformation = PasswordVisualTransformation(),
-                keyboardOptions = KeyboardOptions(
-                    keyboardType = KeyboardType.Password,
-                    imeAction = ImeAction.Next,
-                )
-            )
-
-            Spacer(modifier = Modifier.height(18.dp))
-
-            Text(
-                text = "비밀번호 확인",
-                style = WatchaTheme.typography.cap.captionR14,
-                color = WatchaTheme.colors.textSecondary,
-            )
-
-            Spacer(modifier = Modifier.height(3.dp))
-
-            WatchaAuthTextField(
-                textFieldStyle = if (pwConfirmText.isNotBlank()) TextFieldStyle.INPUT else TextFieldStyle.DISABLED,
-                placeholder = "비밀번호를 다시 입력하세요",
-                value = pwConfirmText,
-                onValueChange = { pwConfirmText = it },
+                onValueChange = onPwChange,
                 visualTransformation = PasswordVisualTransformation(),
                 keyboardOptions = KeyboardOptions(
                     keyboardType = KeyboardType.Password,
                 )
             )
         }
-        WatchaAuthButton(
-            buttonStyle = if (isAllEntered) ButtonStyle.PRIMARY else ButtonStyle.DISABLED,
-            buttonText = "회원가입",
-            onClick = {
-                val errorType = getValidationError(emailText, pwText, pwConfirmText)
+        Text(
+            text = "아직 계정이 없으신가요?  회원가입",
+            style = WatchaTheme.typography.cap.captionR14,
+            color = WatchaTheme.colors.textSecondary,
+            modifier = Modifier
+                .align(Alignment.CenterHorizontally)
+                .noRippleClickable(onClick = onSignUpClick)
+        )
+        Spacer(modifier = Modifier.height(20.dp))
 
-                if (errorType != null) {
-                    Toast.makeText(context, errorType.errorMessage, Toast.LENGTH_SHORT).show()
-                } else {
-                    PreferenceManager.saveUser(context, emailText, pwText)
-                    Toast.makeText(context, "회원가입이 완료되었습니다.", Toast.LENGTH_SHORT).show()
-                    val activity = context as? Activity
-                    activity?.setResult(Activity.RESULT_OK)
-                    onSignUpSuccess()
-                }
-            },
-            disabled = !isAllEntered,
+        WatchaAuthButton(
+            buttonStyle = if (isLogInEnabled) ButtonStyle.PRIMARY else ButtonStyle.DISABLED,
+            buttonText = "로그인",
+            onClick = onLoginClick,
+            disabled = !isLogInEnabled,
             modifier = Modifier
                 .align(Alignment.CenterHorizontally)
                 .fillMaxWidth()
@@ -210,9 +221,16 @@ fun SignUpScreen(
 
 @Preview(showBackground = true)
 @Composable
-private fun SignUpPreview() {
+private fun LoginPreview() {
     LETSSOPTTheme {
-        SignUpScreen()
+        LoginScreen(
+            emailText = "",
+            pwText = "",
+            isLogInEnabled = false,
+            onEmailChange = {},
+            onPwChange = {},
+            onLoginClick = {},
+            onSignUpClick = {}
+        )
     }
 }
-
