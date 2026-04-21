@@ -1,9 +1,12 @@
 package com.example.letssopt.presentation.home.component
 
+import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -13,9 +16,13 @@ import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.graphicsLayer
+import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -66,6 +73,10 @@ fun HomeTopBannerSection(
         ) { page ->
             val actualIndex = page % banners.size
             val banner = banners[actualIndex]
+            var isPressed by remember { mutableStateOf(false) }
+            val pressScale by animateFloatAsState(
+                targetValue = if (isPressed) 0.97f else 1f
+            )
 
             Image(
                 painter = painterResource(id = banner.image),
@@ -73,14 +84,28 @@ fun HomeTopBannerSection(
                 contentScale = ContentScale.Crop,
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(160.dp)
-                    .clip(RoundedCornerShape(10.dp))
+                    .aspectRatio(7f / 4f)
                     .graphicsLayer {
                         val pageOffset = pagerState.getOffsetDistanceInPages(page).absoluteValue
                         alpha = lerp(
                             start = 0.5f,
                             stop = 1f,
                             fraction = 1f - pageOffset.coerceIn(0f, 1f)
+                        )
+                        val swipeScale = lerp(0.88f, 1f, 1f - pageOffset.coerceIn(0f, 1f))
+                        scaleX = swipeScale * pressScale
+                        scaleY = swipeScale * pressScale
+                        clip = true  // graphicsLayer 내부에서 클리핑
+                        shape = RoundedCornerShape(10.dp)
+
+                    }
+                    .pointerInput(banner.title) {
+                        detectTapGestures(
+                            onPress = {
+                                isPressed = true
+                                tryAwaitRelease()
+                                isPressed = false
+                            }
                         )
                     }
             )
