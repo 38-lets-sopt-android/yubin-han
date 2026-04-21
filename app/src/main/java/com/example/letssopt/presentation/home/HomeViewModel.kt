@@ -3,7 +3,7 @@ package com.example.letssopt.presentation.home
 
 import androidx.lifecycle.ViewModel
 import com.example.letssopt.R
-import com.example.letssopt.model.MainHomeItem
+import com.example.letssopt.core.data.model.MainHomeItem
 
 class HomeViewModel : ViewModel() {
     val homeItems: List<MainHomeItem> = listOf(

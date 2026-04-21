@@ -33,14 +33,14 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.example.letssopt.data.local.PreferenceManager
-import com.example.letssopt.data.type.ValidationErrorType
-import com.example.letssopt.designsystem.component.WatchaAuthButton
-import com.example.letssopt.designsystem.component.WatchaAuthTextField
-import com.example.letssopt.designsystem.style.ButtonStyle
-import com.example.letssopt.designsystem.style.TextFieldStyle
-import com.example.letssopt.designsystem.theme.LETSSOPTTheme
-import com.example.letssopt.designsystem.theme.WatchaTheme
+import com.example.letssopt.core.data.local.PreferenceManager
+import com.example.letssopt.core.data.type.ValidationErrorType
+import com.example.letssopt.core.designsystem.component.WatchaAuthButton
+import com.example.letssopt.core.designsystem.component.WatchaAuthTextField
+import com.example.letssopt.core.designsystem.style.ButtonStyle
+import com.example.letssopt.core.designsystem.style.TextFieldStyle
+import com.example.letssopt.core.designsystem.theme.LETSSOPTTheme
+import com.example.letssopt.core.designsystem.theme.WatchaTheme
 
 class SignUpActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {

@@ -4,7 +4,7 @@ package com.example.letssopt.presentation.storage
 import androidx.compose.runtime.mutableStateListOf
 import androidx.lifecycle.ViewModel
 import com.example.letssopt.R
-import com.example.letssopt.model.StorageContent
+import com.example.letssopt.core.data.model.StorageContent
 
 class StorageViewModel : ViewModel() {
     private val _storageItems = mutableStateListOf(

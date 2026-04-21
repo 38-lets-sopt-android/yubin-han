@@ -1,4 +1,4 @@
-package com.example.letssopt.designsystem.component
+package com.example.letssopt.core.designsystem.component
 
 
 import androidx.compose.foundation.layout.Column
@@ -8,9 +8,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.example.letssopt.designsystem.style.ButtonStyle
-import com.example.letssopt.designsystem.theme.LETSSOPTTheme
-import com.example.letssopt.designsystem.theme.WatchaTheme.typography
+import com.example.letssopt.core.designsystem.style.ButtonStyle
+import com.example.letssopt.core.designsystem.theme.LETSSOPTTheme
+import com.example.letssopt.core.designsystem.theme.WatchaTheme.typography
 
 @Composable
 fun WatchaAuthButton(

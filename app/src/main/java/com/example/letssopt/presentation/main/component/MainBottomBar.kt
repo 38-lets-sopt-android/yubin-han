@@ -1,4 +1,4 @@
-package com.example.letssopt.designsystem.component
+package com.example.letssopt.presentation.main.component
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.fadeIn
@@ -26,12 +26,13 @@ import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
-import com.example.letssopt.designsystem.theme.LETSSOPTTheme
-import com.example.letssopt.designsystem.theme.WatchaTheme.colors
-import com.example.letssopt.designsystem.theme.WatchaTheme.typography
-import com.example.letssopt.extension.noRippleClickable
+import com.example.letssopt.core.designsystem.theme.LETSSOPTTheme
+import com.example.letssopt.core.designsystem.theme.WatchaTheme.colors
+import com.example.letssopt.core.designsystem.theme.WatchaTheme.typography
+import com.example.letssopt.core.extension.noRippleClickable
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.toImmutableList
+
 @Composable
 fun MainBottomBar(
     isVisible: Boolean,
@@ -116,7 +117,7 @@ private fun MainBottomBarPreview() {
         MainBottomBar(
             isVisible = true,
             tabs = MainTab.entries.toImmutableList(),
-            currentTab = MainTab.MAIN,
+            currentTab = MainTab.HOME,
             onTabSelected = {},
         )
     }

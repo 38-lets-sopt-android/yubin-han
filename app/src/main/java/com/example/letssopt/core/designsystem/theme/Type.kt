@@ -1,4 +1,4 @@
-package com.example.letssopt.designsystem.theme
+package com.example.letssopt.core.designsystem.theme
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer

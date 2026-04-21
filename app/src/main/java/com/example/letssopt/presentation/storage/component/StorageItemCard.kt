@@ -22,8 +22,8 @@ import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.letssopt.R
-import com.example.letssopt.designsystem.theme.LETSSOPTTheme
-import com.example.letssopt.extension.noRippleClickable
+import com.example.letssopt.core.designsystem.theme.LETSSOPTTheme
+import com.example.letssopt.core.extension.noRippleClickable
 
 @Composable
 fun StorageItemCard(

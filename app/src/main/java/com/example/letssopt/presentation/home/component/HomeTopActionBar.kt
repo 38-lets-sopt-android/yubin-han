@@ -1,5 +1,6 @@
 package com.example.letssopt.presentation.home.component
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -12,9 +13,10 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.vectorResource
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.letssopt.R
-import com.example.letssopt.designsystem.theme.WatchaTheme
+import com.example.letssopt.core.designsystem.theme.WatchaTheme
 
 
 @Composable
@@ -23,7 +25,9 @@ fun HomeTopActionBar(
 ) {
     Row(
         modifier = modifier
+            .background(color = WatchaTheme.colors.backGround)
             .fillMaxWidth()
+            .padding(vertical = 23.dp)
             .padding(end = 20.dp),
         horizontalArrangement = Arrangement.End,
         verticalAlignment = Alignment.CenterVertically,
@@ -46,4 +50,10 @@ fun HomeTopActionBar(
             tint = WatchaTheme.colors.textPrimary
         )
     }
+}
+
+@Preview
+@Composable
+private fun HomeTopActionBarPreview() {
+    HomeTopActionBar()
 }

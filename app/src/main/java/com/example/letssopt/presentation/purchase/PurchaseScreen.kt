@@ -31,7 +31,7 @@ fun PurchaseScreen(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Text(
-            text = "Purchase"
+            text = "개별구매"
         )
     }
 }

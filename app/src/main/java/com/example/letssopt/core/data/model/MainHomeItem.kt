@@ -1,4 +1,4 @@
-package com.example.letssopt.model
+package com.example.letssopt.core.data.model
 
 sealed class MainHomeItem {
     data class Contents(

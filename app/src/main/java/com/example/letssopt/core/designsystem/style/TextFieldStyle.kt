@@ -1,34 +1,35 @@
-package com.example.letssopt.designsystem.style
+package com.example.letssopt.core.designsystem.style
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.ReadOnlyComposable
 import androidx.compose.ui.graphics.Color
-import com.example.letssopt.designsystem.theme.WatchaTheme.colors
+import com.example.letssopt.core.designsystem.theme.WatchaTheme.colors
 
-enum class ButtonStyle {
-    PRIMARY,
+
+enum class TextFieldStyle {
+    INPUT,
     DISABLED;
 
     @ReadOnlyComposable
     @Composable
-    fun getButtonColor(): WatchaBtnColor = when (this) {
-        PRIMARY -> WatchaBtnColor(
-            backgroundColor = colors.primaryRed,
+    fun getTextFieldColor(): WatchaTextFieldColor = when (this) {
+        INPUT -> WatchaTextFieldColor(
+            backgroundColor = colors.surface,
             textColor = colors.textPrimary,
         )
 
-        DISABLED -> WatchaBtnColor(
-            backgroundColor = colors.disabled,
-            textColor =  colors.placeHolder,
-            disabledBackgroundColor = colors.disabled,
+        DISABLED -> WatchaTextFieldColor(
+            backgroundColor = colors.surface,
+            textColor = colors.placeHolder,
+            disabledBackgroundColor = colors.surface,
             disabledTextColor = colors.placeHolder,
         )
     }
 }
 
 @Immutable
-data class WatchaBtnColor(
+data class WatchaTextFieldColor(
     val backgroundColor: Color,
     val textColor: Color,
     val disabledBackgroundColor: Color = backgroundColor,

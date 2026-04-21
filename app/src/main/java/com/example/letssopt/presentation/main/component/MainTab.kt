@@ -1,9 +1,9 @@
-package com.example.letssopt.designsystem.component
+package com.example.letssopt.presentation.main.component
 
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
 import com.example.letssopt.R
-import com.example.letssopt.navigation.Main
+import com.example.letssopt.navigation.Home
 import com.example.letssopt.navigation.MainTabRoute
 import com.example.letssopt.navigation.Purchase
 import com.example.letssopt.navigation.Route
@@ -11,18 +11,17 @@ import com.example.letssopt.navigation.Search
 import com.example.letssopt.navigation.Storage
 import com.example.letssopt.navigation.Webtoon
 
-//TODO 네비게이션 구현시 unselected ic 등록 및 변경
 enum class MainTab(
     @DrawableRes val selectedIconRes: Int,
     @DrawableRes val unselectedIconRes: Int,
     @StringRes val titleRes: Int,
     val route: MainTabRoute,
 ) {
-    MAIN(
+    HOME(
         selectedIconRes = R.drawable.ic_watcha_selected,
         unselectedIconRes = R.drawable.ic_watcha_unselected,
         titleRes = R.string.main,
-        route = Main,
+        route = Home,
     ),
     PURCHASE(
         selectedIconRes = R.drawable.ic_purchase_unselected,
@@ -59,4 +58,3 @@ enum class MainTab(
         }
     }
 }
-

@@ -24,8 +24,13 @@
         </activity>
         <activity
             android:name=".presentation.onboarding.SignUpActivity"
+            android:exported="false"
             android:windowSoftInputMode="adjustResize" />
-        <activity android:name=".presentation.main.MainActivity" />
+        <activity
+            android:name=".presentation.main.MainActivity"
+            android:exported="false"
+            android:theme="@style/Theme.LETSSOPT"
+            android:windowSoftInputMode="adjustResize" />
     </application>
 
 </manifest>

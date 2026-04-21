@@ -31,7 +31,7 @@ fun SearchScreen(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Text(
-            text = "Search"
+            text = "찾기"
         )
     }
 }

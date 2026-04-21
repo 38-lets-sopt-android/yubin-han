@@ -1,4 +1,4 @@
-package com.example.letssopt.data.local
+package com.example.letssopt.core.data.local
 
 import android.content.Context
 import androidx.core.content.edit

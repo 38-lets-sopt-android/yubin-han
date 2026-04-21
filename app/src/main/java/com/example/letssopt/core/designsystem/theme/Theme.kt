@@ -1,4 +1,4 @@
-package com.example.letssopt.designsystem.theme
+package com.example.letssopt.core.designsystem.theme
 
 import android.app.Activity
 import androidx.compose.material3.MaterialTheme

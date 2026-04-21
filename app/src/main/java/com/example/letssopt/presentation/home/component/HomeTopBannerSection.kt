@@ -22,9 +22,9 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.util.lerp
 import com.example.letssopt.R
-import com.example.letssopt.designsystem.theme.LETSSOPTTheme
-import com.example.letssopt.designsystem.theme.WatchaTheme
-import com.example.letssopt.model.MainHomeItem
+import com.example.letssopt.core.data.model.MainHomeItem
+import com.example.letssopt.core.designsystem.theme.LETSSOPTTheme
+import com.example.letssopt.core.designsystem.theme.WatchaTheme
 import kotlin.math.absoluteValue
 
 @Composable
@@ -43,7 +43,10 @@ fun HomeTopBannerSection(
             text = "방금 막 도착한 신상 컨텐츠",
             style = WatchaTheme.typography.headline.head2B20,
             color = WatchaTheme.colors.textPrimary,
-            modifier = Modifier.padding(start = 19.dp),
+            modifier = Modifier.padding(
+                start = 19.dp,
+                top = 24.dp
+            ),
         )
         Spacer(modifier = Modifier.height(4.dp))
 

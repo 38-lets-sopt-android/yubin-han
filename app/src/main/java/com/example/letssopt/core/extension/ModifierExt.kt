@@ -1,4 +1,4 @@
-package com.example.letssopt.extension
+package com.example.letssopt.core.extension
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource

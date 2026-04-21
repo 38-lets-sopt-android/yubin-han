@@ -1,39 +1,21 @@
 package com.example.letssopt.navigation
 
-import kotlinx.serialization.KSerializer
 import kotlinx.serialization.Serializable
 
 @Serializable
-data object Main : MainTabRoute {
-    fun serializer(): KSerializer<Main> {
-        return serializer()
-    }
-}
+data object Home : MainTabRoute
 
 @Serializable
-data object Purchase : MainTabRoute {
-    fun serializer(): KSerializer<Purchase> {
-        return serializer()
-    }
-}
+data object Purchase : MainTabRoute
 
 @Serializable
-data object Webtoon : MainTabRoute {
-    fun serializer(): KSerializer<Webtoon> {
-        return serializer()
-    }
-}
+data object Webtoon : MainTabRoute
+
 
 @Serializable
-data object Search : MainTabRoute {
-    fun serializer(): KSerializer<Search> {
-        return serializer()
-    }
-}
+data object Search : MainTabRoute
+
 
 @Serializable
-data object Storage : MainTabRoute {
-    fun serializer(): KSerializer<Storage> {
-        return serializer()
-    }
-}
+data object Storage : MainTabRoute
+

@@ -1,4 +1,4 @@
-package com.example.letssopt.designsystem.theme
+package com.example.letssopt.core.designsystem.theme
 
 import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.staticCompositionLocalOf
