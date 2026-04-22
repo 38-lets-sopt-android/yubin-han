@@ -12,19 +12,22 @@ import androidx.compose.ui.Modifier
 
 @Composable
 fun SearchRoute(
-    paddingValues: PaddingValues
+    paddingValues: PaddingValues,
+    modifier: Modifier = Modifier,
 ) {
     SearchScreen(
-        paddingValues = paddingValues
+        paddingValues = paddingValues,
+        modifier = modifier
     )
 }
 
 @Composable
 fun SearchScreen(
-    paddingValues: PaddingValues
+    paddingValues: PaddingValues,
+    modifier: Modifier = Modifier
 ) {
-    Column (
-        modifier = Modifier
+    Column(
+        modifier = modifier
             .fillMaxSize()
             .padding(paddingValues),
         verticalArrangement = Arrangement.Center,

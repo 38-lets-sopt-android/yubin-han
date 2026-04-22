@@ -12,19 +12,22 @@ import androidx.compose.ui.Modifier
 
 @Composable
 fun WebtoonRoute(
-    paddingValues: PaddingValues
+    paddingValues: PaddingValues,
+    modifier: Modifier = Modifier
 ) {
     WebtoonScreen(
-        paddingValues = paddingValues
+        paddingValues = paddingValues,
+        modifier = modifier
     )
 }
 
 @Composable
 fun WebtoonScreen(
-    paddingValues: PaddingValues
+    paddingValues: PaddingValues,
+    modifier: Modifier = Modifier
 ) {
-    Column (
-        modifier = Modifier
+    Column(
+        modifier = modifier
             .fillMaxSize()
             .padding(paddingValues),
         verticalArrangement = Arrangement.Center,

@@ -28,13 +28,14 @@ import com.example.letssopt.presentation.home.component.HomeUpComingSection
 @Composable
 fun HomeRoute(
     paddingValues: PaddingValues,
+    modifier: Modifier = Modifier,
     viewModel: HomeViewModel = viewModel(),
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
     HomeScreen(
         state = uiState,
-        modifier = Modifier.padding(paddingValues)
+        modifier = modifier.padding(paddingValues)
     )
 }
 

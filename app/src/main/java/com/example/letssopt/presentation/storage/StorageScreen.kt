@@ -29,12 +29,13 @@ import com.example.letssopt.presentation.storage.component.StorageItemCard
 @Composable
 fun StorageRoute(
     paddingValues: PaddingValues,
+    modifier: Modifier = Modifier,
     viewModel: StorageViewModel = viewModel(),
 ) {
     val storageItems = viewModel.storageItems
 
     StorageScreen(
-        modifier = Modifier.padding(paddingValues),
+        modifier = modifier.padding(paddingValues),
         items = storageItems,
         onDeleteClick = { item -> viewModel.removeItem(item) }
     )

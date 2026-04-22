@@ -12,19 +12,22 @@ import androidx.compose.ui.Modifier
 
 @Composable
 fun PurchaseRoute(
-    paddingValues: PaddingValues
+    paddingValues: PaddingValues,
+    modifier: Modifier = Modifier,
 ) {
     PurchaseScreen(
-        paddingValues = paddingValues
+        paddingValues = paddingValues,
+        modifier = modifier
     )
 }
 
 @Composable
 fun PurchaseScreen(
+    modifier: Modifier = Modifier,
     paddingValues: PaddingValues
 ) {
-    Column (
-        modifier = Modifier
+    Column(
+        modifier = modifier
             .fillMaxSize()
             .padding(paddingValues),
         verticalArrangement = Arrangement.Center,
