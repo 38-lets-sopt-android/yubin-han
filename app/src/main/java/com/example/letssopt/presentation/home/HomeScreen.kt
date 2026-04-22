@@ -76,7 +76,7 @@ fun HomeScreen(
 
 @Preview(showBackground = true)
 @Composable
-private fun MainScreenPreview() {
+private fun HomeScreenPreview() {
     LETSSOPTTheme {
         HomeScreen(
             state = HomeContract.UiState(
