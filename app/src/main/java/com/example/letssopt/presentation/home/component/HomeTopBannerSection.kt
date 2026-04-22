@@ -65,7 +65,7 @@ fun HomeTopBannerSection(
         if (banners.isEmpty()) return
         HorizontalPager(
             state = pagerState,
-            contentPadding = PaddingValues(horizontal = 30.dp),
+            contentPadding = PaddingValues(horizontal = 50.dp),
             pageSpacing = 16.dp,
         ) { page ->
             val actualIndex = page % banners.size
@@ -91,7 +91,7 @@ fun HomeTopBannerSection(
                         val swipeScale = lerp(0.88f, 1f, 1f - pageOffset.coerceIn(0f, 1f))
                         scaleX = swipeScale * pressScale
                         scaleY = swipeScale * pressScale
-                        clip = true  // graphicsLayer 내부에서 클리핑
+                        clip = true
                         shape = RoundedCornerShape(10.dp)
 
                     }
