@@ -65,7 +65,7 @@ fun HomeTopBannerSection(
         if (banners.isEmpty()) return
         HorizontalPager(
             state = pagerState,
-            contentPadding = PaddingValues(horizontal = 50.dp),
+            contentPadding = PaddingValues(horizontal = 40.dp),
             pageSpacing = 16.dp,
         ) { page ->
             val actualIndex = page % banners.size
@@ -83,12 +83,8 @@ fun HomeTopBannerSection(
                     .aspectRatio(7f / 4f)
                     .graphicsLayer {
                         val pageOffset = pagerState.getOffsetDistanceInPages(page).absoluteValue
-                        alpha = lerp(
-                            start = 0.5f,
-                            stop = 1f,
-                            fraction = 1f - pageOffset.coerceIn(0f, 1f)
-                        )
-                        val swipeScale = lerp(0.88f, 1f, 1f - pageOffset.coerceIn(0f, 1f))
+                        alpha = lerp(0.5f, 1f, 1f - pageOffset.coerceIn(0f, 1f))
+                        val swipeScale = lerp(0.95f, 1f, 1f - pageOffset.coerceIn(0f, 1f))
                         scaleX = swipeScale * pressScale
                         scaleY = swipeScale * pressScale
                         clip = true
