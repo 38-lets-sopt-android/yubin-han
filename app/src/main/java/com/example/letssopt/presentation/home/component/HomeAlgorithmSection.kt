@@ -1,6 +1,7 @@
 package com.example.letssopt.presentation.home.component
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -33,6 +34,7 @@ import com.example.letssopt.core.designsystem.theme.WatchaTheme
 fun HomeAlgorithmSection(
     contents: List<MainHomeItem.Contents>,
     modifier: Modifier = Modifier,
+    onClick: () -> Unit = {},
 ) {
     Column(
         modifier = modifier
@@ -63,6 +65,7 @@ fun HomeAlgorithmSection(
                 text = "더보기",
                 style = WatchaTheme.typography.body.bodyR12,
                 color = WatchaTheme.colors.textSecondary,
+                modifier = Modifier.clickable(onClick = onClick)
             )
         }
 

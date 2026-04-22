@@ -1,6 +1,7 @@
 package com.example.letssopt.presentation.home.component
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -22,6 +23,7 @@ import com.example.letssopt.core.designsystem.theme.WatchaTheme
 @Composable
 fun HomeTopActionBar(
     modifier: Modifier = Modifier,
+    onClick: () -> Unit = {},
 ) {
     Row(
         modifier = modifier
@@ -35,19 +37,23 @@ fun HomeTopActionBar(
         Icon(
             ImageVector.vectorResource(R.drawable.ic_watch),
             null,
-            tint = WatchaTheme.colors.textPrimary
+            tint = WatchaTheme.colors.textPrimary,
+            modifier = Modifier.clickable(onClick = onClick)
         )
         Spacer(modifier = Modifier.width(14.dp))
         Icon(
             ImageVector.vectorResource(R.drawable.ic_noti),
             null,
-            tint = WatchaTheme.colors.textPrimary
+            tint = WatchaTheme.colors.textPrimary,
+            modifier = Modifier.clickable(onClick = onClick)
+
         )
         Spacer(modifier = Modifier.width(14.dp))
         Icon(
             ImageVector.vectorResource(R.drawable.ic_profile),
             null,
-            tint = WatchaTheme.colors.textPrimary
+            tint = WatchaTheme.colors.textPrimary,
+            modifier = Modifier.clickable(onClick = onClick)
         )
     }
 }
