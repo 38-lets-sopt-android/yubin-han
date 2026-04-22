@@ -76,9 +76,7 @@ fun HomePartySection(
                         Image(
                             painter = painterResource(id = party.image),
                             contentDescription = party.title,
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .weight(1f),
+                            modifier = Modifier.weight(1f),
                             contentScale = ContentScale.Crop
                         )
                         Spacer(modifier = Modifier.height(8.dp))

@@ -50,10 +50,7 @@ fun HomeTopBannerSection(
             text = "방금 막 도착한 신상 컨텐츠",
             style = WatchaTheme.typography.headline.head2B20,
             color = WatchaTheme.colors.textPrimary,
-            modifier = Modifier.padding(
-                start = 19.dp,
-                top = 24.dp
-            ),
+            modifier = Modifier.padding(start = 19.dp, top = 24.dp),
         )
         Spacer(modifier = Modifier.height(4.dp))
 

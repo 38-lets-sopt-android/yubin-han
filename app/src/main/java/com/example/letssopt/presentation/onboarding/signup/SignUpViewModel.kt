@@ -5,7 +5,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.letssopt.core.data.repository.UserRepository
+import com.example.letssopt.core.data.repository.AuthRepository
 import com.example.letssopt.core.data.type.ValidationErrorType
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.receiveAsFlow
@@ -13,7 +13,7 @@ import kotlinx.coroutines.launch
 
 
 class SignUpViewModel(
-    private val userRepository: UserRepository = UserRepository
+    private val userRepository: AuthRepository = AuthRepository
 ) : ViewModel() {
 
     var uiState by mutableStateOf(SignUpContract.SignUpUiState())

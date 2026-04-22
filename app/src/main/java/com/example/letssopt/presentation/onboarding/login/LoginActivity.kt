@@ -30,7 +30,7 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.example.letssopt.core.data.repository.UserRepository
+import com.example.letssopt.core.data.repository.AuthRepository
 import com.example.letssopt.core.designsystem.component.WatchaAuthButton
 import com.example.letssopt.core.designsystem.component.WatchaAuthTextField
 import com.example.letssopt.core.designsystem.style.ButtonStyle
@@ -47,7 +47,7 @@ class LoginActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        if (UserRepository.getLoggedIn()) {
+        if (AuthRepository.getLoggedIn()) {
             navigateToMain()
             return
         }

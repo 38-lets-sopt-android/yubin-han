@@ -4,7 +4,7 @@ import android.content.Context
 import android.content.SharedPreferences
 import androidx.core.content.edit
 
-object UserRepository {
+object AuthRepository {
     private lateinit var prefs: SharedPreferences
 
     fun init(context: Context) {
