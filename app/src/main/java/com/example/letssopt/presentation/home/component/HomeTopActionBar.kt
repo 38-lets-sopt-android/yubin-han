@@ -4,10 +4,8 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -31,7 +29,10 @@ fun HomeTopActionBar(
             .fillMaxWidth()
             .padding(vertical = 23.dp)
             .padding(end = 20.dp),
-        horizontalArrangement = Arrangement.End,
+        horizontalArrangement = Arrangement.spacedBy(
+            space = 14.dp,
+            alignment = Alignment.End,
+        ),
         verticalAlignment = Alignment.CenterVertically,
     ) {
         Icon(
@@ -40,7 +41,6 @@ fun HomeTopActionBar(
             tint = WatchaTheme.colors.textPrimary,
             modifier = Modifier.clickable(onClick = onClick)
         )
-        Spacer(modifier = Modifier.width(14.dp))
         Icon(
             ImageVector.vectorResource(R.drawable.ic_noti),
             null,
@@ -48,7 +48,6 @@ fun HomeTopActionBar(
             modifier = Modifier.clickable(onClick = onClick)
 
         )
-        Spacer(modifier = Modifier.width(14.dp))
         Icon(
             ImageVector.vectorResource(R.drawable.ic_profile),
             null,
