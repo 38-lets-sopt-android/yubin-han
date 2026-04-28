@@ -20,8 +20,7 @@ class SignUpViewModel(
         private set
     private val _effect = Channel<SignUpContract.Effect>()
     val effect = _effect.receiveAsFlow()
-    private val emailRegex = "^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+\$".toRegex()
-
+    private val emailRegex = "^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}$".toRegex()
 
     fun signUp() {
         val errorType = validate()
@@ -31,11 +30,13 @@ class SignUpViewModel(
                 _effect.send(SignUpContract.Effect.ShowToast(errorType.errorMessage))
             } else {
                 userRepository.saveUser(uiState.emailText, uiState.pwText)
+                uiState = SignUpContract.SignUpUiState()
                 _effect.send(SignUpContract.Effect.ShowToast("회원가입이 완료되었습니다."))
                 _effect.send(SignUpContract.Effect.NavigateToNext)
             }
         }
     }
+
     fun updateEmail(text: String) {
         uiState = uiState.copy(emailText = text)
     }
