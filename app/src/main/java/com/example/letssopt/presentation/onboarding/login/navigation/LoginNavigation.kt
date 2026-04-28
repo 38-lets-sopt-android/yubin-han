@@ -24,8 +24,8 @@ fun NavGraphBuilder.loginGraph(
     navController: NavController,
     innerPadding: PaddingValues,
 ) {
-    composable<Login> {
-        val viewModel: LoginViewModel = viewModel()
+    composable<Login> { backStackEntry ->
+        val viewModel: LoginViewModel = viewModel(backStackEntry)
         LoginRoute(
             viewModel = viewModel,
             navigateToSignUp = navController::navigateToSignUp,

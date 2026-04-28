@@ -20,8 +20,8 @@ fun NavGraphBuilder.signUpGraph(
     navController: NavController,
     innerPadding: PaddingValues,
 ) {
-    composable<SignUp> {
-        val viewModel: SignUpViewModel = viewModel()
+    composable<SignUp> { backStackEntry ->
+        val viewModel: SignUpViewModel = viewModel(backStackEntry)
         SignUpRoute(
             viewModel = viewModel,
             navigateToLogin = { navController.navigateToLogin() },
