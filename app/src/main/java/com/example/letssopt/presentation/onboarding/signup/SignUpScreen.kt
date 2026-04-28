@@ -1,11 +1,6 @@
 package com.example.letssopt.presentation.onboarding.signup
 
-import android.os.Bundle
 import android.widget.Toast
-import androidx.activity.ComponentActivity
-import androidx.activity.compose.setContent
-import androidx.activity.enableEdgeToEdge
-import androidx.activity.viewModels
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -17,7 +12,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -37,34 +31,11 @@ import com.example.letssopt.core.designsystem.theme.LETSSOPTTheme
 import com.example.letssopt.core.designsystem.theme.WatchaTheme
 import kotlinx.coroutines.flow.collectLatest
 
-class SignUpActivity : ComponentActivity() {
-    private val viewModel by viewModels<SignUpViewModel>()
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
-        setContent {
-            LETSSOPTTheme {
-                Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    SignUpRoute(
-                        modifier = Modifier.padding(innerPadding),
-                        viewModel = viewModel,
-                        onSignUpSuccess = {
-                            setResult(RESULT_OK)
-                            finish()
-                        }
-                    )
-                }
-            }
-        }
-    }
-}
-
 
 @Composable
 fun SignUpRoute(
     viewModel: SignUpViewModel,
-    onSignUpSuccess: () -> Unit,
+    navigateToLogin: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
     val context = LocalContext.current
@@ -76,8 +47,9 @@ fun SignUpRoute(
                 is SignUpContract.Effect.ShowToast -> {
                     Toast.makeText(context, effect.message, Toast.LENGTH_SHORT).show()
                 }
+
                 is SignUpContract.Effect.NavigateToNext -> {
-                    onSignUpSuccess()
+                    navigateToLogin()
                 }
             }
         }
@@ -92,7 +64,7 @@ fun SignUpRoute(
         onEmailChange = viewModel::updateEmail,
         onPwChange = viewModel::updatePw,
         onPwConfirmChange = viewModel::updatePwConfirm,
-        onSignUpClick = {viewModel.signUp()}
+        onSignUpClick = { viewModel.signUp() }
 
     )
 }
