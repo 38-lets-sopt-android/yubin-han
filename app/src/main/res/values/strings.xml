@@ -1,3 +1,13 @@
 <resources>
+    <!--Common  -->
+    <string name="main">메인</string>
+    <string name="purchase">개별 구매</string>
+    <string name="webtoon">웹툰</string>
+    <string name="search">찾기</string>
+    <string name="storage">보관함</string>
+
+
+
     <string name="app_name">LETSSOPT</string>
+
 </resources>

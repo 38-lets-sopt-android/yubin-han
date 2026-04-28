@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <application
+        android:name=".LetsSoptApplication"
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
@@ -12,7 +13,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.LETSSOPT">
         <activity
-            android:name=".presentation.LoginActivity"
+            android:name=".presentation.onboarding.login.LoginActivity"
             android:exported="true"
             android:theme="@style/Theme.LETSSOPT"
             android:windowSoftInputMode="adjustResize">
@@ -23,9 +24,14 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".presentation.SignUpActivity"
+            android:name=".presentation.onboarding.signup.SignUpActivity"
+            android:exported="false"
             android:windowSoftInputMode="adjustResize" />
-        <activity android:name=".presentation.MainActivity" />
+        <activity
+            android:name=".presentation.main.MainActivity"
+            android:exported="false"
+            android:theme="@style/Theme.LETSSOPT"
+            android:windowSoftInputMode="adjustResize" />
     </application>
 
 </manifest>
