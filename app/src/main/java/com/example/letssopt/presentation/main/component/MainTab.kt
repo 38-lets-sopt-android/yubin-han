@@ -12,9 +12,9 @@ import com.example.letssopt.navigation.Storage
 import com.example.letssopt.navigation.Webtoon
 
 enum class MainTab(
-    @DrawableRes val selectedIconRes: Int,
-    @DrawableRes val unselectedIconRes: Int,
-    @StringRes val titleRes: Int,
+    @get:DrawableRes val selectedIconRes: Int,
+    @get:DrawableRes val unselectedIconRes: Int,
+    @get:StringRes val titleRes: Int,
     val route: MainTabRoute,
 ) {
     HOME(
