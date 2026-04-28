@@ -1,12 +1,6 @@
 package com.example.letssopt.presentation.onboarding.login
 
-import android.content.Intent
-import android.os.Bundle
 import android.widget.Toast
-import androidx.activity.ComponentActivity
-import androidx.activity.compose.setContent
-import androidx.activity.enableEdgeToEdge
-import androidx.activity.viewModels
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -18,7 +12,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -30,7 +23,6 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.example.letssopt.core.data.repository.AuthRepository
 import com.example.letssopt.core.designsystem.component.WatchaAuthButton
 import com.example.letssopt.core.designsystem.component.WatchaAuthTextField
 import com.example.letssopt.core.designsystem.style.ButtonStyle
@@ -38,51 +30,13 @@ import com.example.letssopt.core.designsystem.style.TextFieldStyle
 import com.example.letssopt.core.designsystem.theme.LETSSOPTTheme
 import com.example.letssopt.core.designsystem.theme.WatchaTheme
 import com.example.letssopt.core.extension.noRippleClickable
-import com.example.letssopt.presentation.main.MainActivity
-import com.example.letssopt.presentation.onboarding.signup.SignUpActivity
 import kotlinx.coroutines.flow.collectLatest
-
-class LoginActivity : ComponentActivity() {
-    private val viewModel by viewModels<LoginViewModel>()
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        if (AuthRepository.getLoggedIn()) {
-            navigateToMain()
-            return
-        }
-
-        enableEdgeToEdge()
-        setContent {
-            LETSSOPTTheme {
-                Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    LoginRoute(
-                        modifier = Modifier.padding(innerPadding),
-                        onLoginSuccess = { navigateToMain() },
-                        onNavigateToSignUp = {
-                            val intent = Intent(this, SignUpActivity::class.java)
-                            startActivity(intent)
-                        },
-                        viewModel = viewModel,
-                    )
-                }
-            }
-        }
-    }
-    private fun navigateToMain() {
-        val intent = Intent(this, MainActivity::class.java).apply {
-            flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
-        }
-        startActivity(intent)
-        finish()
-    }
-}
 
 
 @Composable
 fun LoginRoute(
-    onLoginSuccess: () -> Unit,
-    onNavigateToSignUp: () -> Unit,
+    navigateToHome: () -> Unit,
+    navigateToSignUp: () -> Unit,
     viewModel: LoginViewModel,
     modifier: Modifier = Modifier
 ) {
@@ -97,7 +51,7 @@ fun LoginRoute(
                 }
 
                 is LoginContract.Effect.NavigateToMain -> {
-                    onLoginSuccess()
+                    navigateToHome()
                 }
             }
         }
@@ -111,7 +65,7 @@ fun LoginRoute(
         onEmailChange = viewModel::updateEmail,
         onPwChange = viewModel::updatePw,
         onLoginClick = { viewModel.login() },
-        onSignUpClick = onNavigateToSignUp
+        onSignUpClick = navigateToSignUp
     )
 
 }
