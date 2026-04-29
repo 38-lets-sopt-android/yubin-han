@@ -20,7 +20,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.letssopt.R
-import com.example.letssopt.core.data.model.StorageContent
+import com.example.letssopt.core.data.model.storage.StorageContent
 import com.example.letssopt.core.designsystem.theme.LETSSOPTTheme
 import com.example.letssopt.core.designsystem.theme.WatchaTheme
 import com.example.letssopt.presentation.storage.component.StorageItemCard
@@ -83,7 +83,8 @@ fun StorageScreen(
                 items(items) { item ->
                     StorageItemCard(
                         imageRes = item.image,
-                        onDeleteClick = { onDeleteClick(item) }
+                        contentTitle = item.title,
+                        onDeleteClick = { onDeleteClick(item) },
                     )
                 }
             }
