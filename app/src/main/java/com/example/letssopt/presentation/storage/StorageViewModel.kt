@@ -1,22 +1,38 @@
 package com.example.letssopt.presentation.storage
 
 
-import androidx.compose.runtime.mutableStateListOf
 import androidx.lifecycle.ViewModel
-import com.example.letssopt.R
-import com.example.letssopt.core.data.model.storage.StorageContent
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.viewModelScope
+import com.example.letssopt.core.data.local.dao.StoredItemDao
+import com.example.letssopt.core.data.local.entity.StoredItemEntity
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.launch
 
-class StorageViewModel : ViewModel() {
-    private val _storageItems = mutableStateListOf(
-        StorageContent("이 사랑 통역 되나요?", R.drawable.img_poster_love_translate),
-        StorageContent("기묘한 이야기", R.drawable.img_poster_stranger_things),
-        StorageContent("프로젝트 헤일메리", R.drawable.img_poster_hail_mary),
-        StorageContent("이 사랑 통역 되나요?", R.drawable.img_poster_love_translate),
-        StorageContent("기묘한 이야기", R.drawable.img_poster_stranger_things),
-        StorageContent("프로젝트 헤일메리", R.drawable.img_poster_hail_mary),
-    )
-    val storageItems: List<StorageContent> = _storageItems
-    fun removeItem(item: StorageContent) {
-        _storageItems.remove(item)
+class StorageViewModel(private val storedItemDao: StoredItemDao) : ViewModel() {
+    val storedItems: StateFlow<List<StoredItemEntity>> = storedItemDao.getAllStoredItems()
+        .stateIn(
+            scope = viewModelScope,
+            started = SharingStarted.WhileSubscribed(5000),
+            initialValue = emptyList()
+        )
+
+    fun deleteItem(item: StoredItemEntity) {
+        viewModelScope.launch(Dispatchers.IO) {
+            storedItemDao.deleteItem(item)
+        }
+    }
+}
+
+class StorageViewModelFactory(private val dao: StoredItemDao) : ViewModelProvider.Factory {
+    override fun <T : ViewModel> create(modelClass: Class<T>): T {
+        if (modelClass.isAssignableFrom(StorageViewModel::class.java)) {
+            @Suppress("UNCHECKED_CAST")
+            return StorageViewModel(dao) as T
+        }
+        throw IllegalArgumentException("Unknown ViewModel class")
     }
 }
