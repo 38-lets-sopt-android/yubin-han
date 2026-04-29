@@ -75,7 +75,7 @@ fun StorageScreen(
                 Text(
                     text = "찜해놓은 목록이 없습니다.",
                     style = WatchaTheme.typography.headline.head2B20,
-                    color = WatchaTheme.colors.primaryRed,
+                    color = WatchaTheme.colors.textPrimary,
                 )
             }
         } else {
