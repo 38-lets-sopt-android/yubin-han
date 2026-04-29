@@ -8,6 +8,7 @@ import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavOptions
 import androidx.navigation.compose.composable
+import com.example.letssopt.core.extension.clearBackStackNavOptions
 import com.example.letssopt.navigation.Route
 import com.example.letssopt.presentation.onboarding.login.navigation.navigateToLogin
 import kotlinx.serialization.Serializable
@@ -24,7 +25,7 @@ fun NavGraphBuilder.signUpGraph(
         val viewModel: SignUpViewModel = viewModel(backStackEntry)
         SignUpRoute(
             viewModel = viewModel,
-            navigateToLogin = { navController.navigateToLogin() },
+            navigateToLogin = { navController.navigateToLogin(clearBackStackNavOptions()) },
             modifier = Modifier.padding(innerPadding),
         )
     }
