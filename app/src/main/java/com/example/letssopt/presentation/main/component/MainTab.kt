@@ -3,13 +3,13 @@ package com.example.letssopt.presentation.main.component
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
 import com.example.letssopt.R
-import com.example.letssopt.navigation.Home
 import com.example.letssopt.navigation.MainTabRoute
-import com.example.letssopt.navigation.Purchase
 import com.example.letssopt.navigation.Route
-import com.example.letssopt.navigation.Search
-import com.example.letssopt.navigation.Storage
-import com.example.letssopt.navigation.Webtoon
+import com.example.letssopt.presentation.home.navigation.Home
+import com.example.letssopt.presentation.purchase.navigation.Purchase
+import com.example.letssopt.presentation.search.navigation.Search
+import com.example.letssopt.presentation.storage.navigation.Storage
+import com.example.letssopt.presentation.webtoon.navigation.Webtoon
 
 enum class MainTab(
     @get:DrawableRes val selectedIconRes: Int,

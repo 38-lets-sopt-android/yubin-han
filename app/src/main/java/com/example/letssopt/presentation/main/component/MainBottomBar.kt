@@ -50,8 +50,9 @@ fun MainBottomBar(
             modifier = modifier
                 .fillMaxWidth()
                 .background(color = colors.backGround)
-                .padding(horizontal = 15.dp, vertical = 30.dp)
-                .navigationBarsPadding(),
+                .navigationBarsPadding()
+                .padding(horizontal = 30.dp)
+                .padding(top= 15.dp,bottom=12.dp),
             horizontalArrangement = Arrangement.SpaceAround,
             verticalAlignment = Alignment.CenterVertically,
         ) {
