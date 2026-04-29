@@ -15,6 +15,8 @@ private val TextSecondary = Color(0xFF999999)
 private val PlaceHolder = Color(0xFF666666)
 private val Disabled = Color(0xFF333333)
 
+private val Black = Color(0xFF000000)
+
 @Immutable
 data class WatchaColors(
     val primaryRed: Color = PrimaryRed,
@@ -24,6 +26,7 @@ data class WatchaColors(
     val textSecondary: Color = TextSecondary,
     val placeHolder: Color = PlaceHolder,
     val disabled: Color = Disabled,
+    val black: Color = Black,
 )
 
 
@@ -35,7 +38,7 @@ val defaultWatchaColors = WatchaColors(
     textSecondary = TextSecondary,
     placeHolder = PlaceHolder,
     disabled = Disabled,
-
-    )
+    black = Black,
+)
 
 val LocalWatchaColorsProvider = staticCompositionLocalOf { defaultWatchaColors }
