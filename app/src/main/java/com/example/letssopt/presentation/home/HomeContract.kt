@@ -1,6 +1,6 @@
 package com.example.letssopt.presentation.home
 
-import com.example.letssopt.core.data.model.MainHomeItem
+import com.example.letssopt.core.data.model.home.MainHomeItem
 
 class HomeContract {
     data class UiState(
