@@ -22,7 +22,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.example.letssopt.core.data.local.database.AppDatabase
+import com.example.letssopt.core.data.local.AppDatabase
 import com.example.letssopt.core.data.local.entity.StoredItemEntity
 import com.example.letssopt.core.designsystem.theme.LETSSOPTTheme
 import com.example.letssopt.core.designsystem.theme.WatchaTheme
@@ -84,7 +84,7 @@ fun StorageScreen(
                 horizontalArrangement = Arrangement.spacedBy(11.dp),
                 verticalArrangement = Arrangement.spacedBy(24.dp),
             ) {
-                items(storedItems) { item ->
+                items(storedItems, key = { it.id }) { item ->
                     StorageItemCard(
                         imageRes = item.imageRes,
                         contentTitle = item.title,
