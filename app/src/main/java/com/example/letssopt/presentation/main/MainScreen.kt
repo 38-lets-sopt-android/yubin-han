@@ -11,6 +11,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.compose.NavHost
+import com.example.letssopt.core.designsystem.theme.WatchaTheme
 import com.example.letssopt.presentation.home.component.HomeTopActionBar
 import com.example.letssopt.presentation.home.navigation.homeGraph
 import com.example.letssopt.presentation.main.component.MainBottomBar
@@ -36,6 +37,7 @@ fun MainScreen(
         modifier = modifier
             .fillMaxSize()
             .statusBarsPadding(),
+        containerColor = WatchaTheme.colors.backGround,
         bottomBar = {
             MainBottomBar(
                 isVisible = isBottomBarVisible,
@@ -45,9 +47,8 @@ fun MainScreen(
             )
         },
         topBar = {
-            when (currentTab) {
-                MainTab.HOME -> HomeTopActionBar()
-                else -> {}
+                if (currentTab == MainTab.HOME) {
+                HomeTopActionBar()
             }
         },
     ) { innerPadding ->
