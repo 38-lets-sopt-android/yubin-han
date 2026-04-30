@@ -49,14 +49,14 @@ fun PurchaseRoute(
 
     PurchaseScreen(
         modifier = modifier.padding(paddingValues),
-        items = purchaseItems,
+        purchaseItems = purchaseItems,
         onStoreClick = { item -> viewModel.storeItem(item) }
     )
 }
 
 @Composable
 fun PurchaseScreen(
-    items: List<PurchaseContent>,
+    purchaseItems: List<PurchaseContent>,
     onStoreClick: (PurchaseContent) -> Unit,
     modifier: Modifier = Modifier,
 ) {
@@ -81,7 +81,7 @@ fun PurchaseScreen(
             horizontalArrangement = Arrangement.spacedBy(11.dp),
             verticalArrangement = Arrangement.spacedBy(24.dp),
         ) {
-            items(items) { item ->
+            items(purchaseItems) { item ->
                 PurchaseItemCard(
                     imageRes = item.image,
                     onStoreClick = { onStoreClick(item) },
@@ -97,7 +97,7 @@ fun PurchaseScreen(
 private fun PurchaseScreenPreview() {
     LETSSOPTTheme {
         PurchaseScreen(
-            items = listOf(
+            purchaseItems = listOf(
                 PurchaseContent("이 사랑 통역 되나요?", R.drawable.img_poster_love_translate),
                 PurchaseContent("기묘한 이야기", R.drawable.img_poster_stranger_things),
             ),

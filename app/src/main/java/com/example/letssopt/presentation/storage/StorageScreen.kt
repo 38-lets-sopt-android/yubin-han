@@ -37,10 +37,10 @@ fun StorageRoute(
     val context = LocalContext.current
     val dao = AppDatabase.getDatabase(context).storedItemDao()
     val viewModel: StorageViewModel = viewModel(factory = StorageViewModelFactory(dao))
-    val items by viewModel.storedItems.collectAsState()
+    val storedItems by viewModel.storedItems.collectAsState()
 
     StorageScreen(
-        items = items,
+        storedItems = storedItems,
         onDeleteClick = { item -> viewModel.deleteItem(item) },
         modifier = modifier.padding(paddingValues),
     )
@@ -49,7 +49,7 @@ fun StorageRoute(
 
 @Composable
 fun StorageScreen(
-    items: List<StoredItemEntity>,
+    storedItems: List<StoredItemEntity>,
     onDeleteClick: (StoredItemEntity) -> Unit,
     modifier: Modifier = Modifier,
 ) {
@@ -67,7 +67,7 @@ fun StorageScreen(
         )
 
         Spacer(modifier = Modifier.height(45.dp))
-        if (items.isEmpty()) {
+        if (storedItems.isEmpty()) {
             Box(
                 modifier = Modifier.fillMaxSize(),
                 contentAlignment = Alignment.Center,
@@ -84,7 +84,7 @@ fun StorageScreen(
                 horizontalArrangement = Arrangement.spacedBy(11.dp),
                 verticalArrangement = Arrangement.spacedBy(24.dp),
             ) {
-                items(items) { item ->
+                items(storedItems) { item ->
                     StorageItemCard(
                         imageRes = item.imageRes,
                         contentTitle = item.title,
@@ -101,7 +101,7 @@ fun StorageScreen(
 private fun StorageScreenPreview() {
     LETSSOPTTheme {
         StorageScreen(
-            items = emptyList(),
+            storedItems = emptyList(),
             onDeleteClick = {},
         )
     }
