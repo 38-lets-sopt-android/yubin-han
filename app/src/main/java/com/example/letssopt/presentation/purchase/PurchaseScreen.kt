@@ -15,10 +15,12 @@ import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.letssopt.R
 import com.example.letssopt.core.data.local.AppDatabase
@@ -39,17 +41,21 @@ fun PurchaseRoute(
     val viewModel: PurchaseViewModel = viewModel(
         factory = PurchaseViewModelFactory(dao)
     )
-    val purchaseItems = viewModel.purchaseItems
+    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
-    LaunchedEffect(viewModel.toastEvent) {
-        viewModel.toastEvent.collect { message ->
-            Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
+    LaunchedEffect(viewModel.effect) {
+        viewModel.effect.collect { effect ->
+            when (effect) {
+                is PurchaseContract.Effect.ShowToast -> {
+                    Toast.makeText(context, effect.message, Toast.LENGTH_SHORT).show()
+                }
+            }
         }
     }
 
     PurchaseScreen(
         modifier = modifier.padding(paddingValues),
-        purchaseItems = purchaseItems,
+        purchaseItems = uiState.purchaseItems,
         onStoreClick = { item -> viewModel.storeItem(item) }
     )
 }
@@ -71,7 +77,7 @@ fun PurchaseScreen(
             style = WatchaTheme.typography.headline.head2B20,
             color = WatchaTheme.colors.textPrimary,
             modifier = Modifier.padding(top = 70.dp),
-            )
+        )
 
         Spacer(modifier = Modifier.height(45.dp))
 
@@ -80,7 +86,7 @@ fun PurchaseScreen(
             horizontalArrangement = Arrangement.spacedBy(11.dp),
             verticalArrangement = Arrangement.spacedBy(24.dp),
         ) {
-            items(purchaseItems) { item ->
+            items(purchaseItems, key = { it.title }) { item ->
                 PurchaseItemCard(
                     imageRes = item.image,
                     onStoreClick = { onStoreClick(item) },
