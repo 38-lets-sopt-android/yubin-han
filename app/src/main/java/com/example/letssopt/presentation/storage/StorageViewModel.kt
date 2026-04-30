@@ -7,20 +7,33 @@ import androidx.lifecycle.viewModelScope
 import com.example.letssopt.core.data.local.dao.StoredItemDao
 import com.example.letssopt.core.data.local.entity.StoredItemEntity
 import com.example.letssopt.core.data.repository.api.StorageRepository
-import com.example.letssopt.core.data.repository.impl.StorageRepositoryImpl
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.receiveAsFlow
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 class StorageViewModel(private val storageRepository: StorageRepository) : ViewModel() {
-    val storedItems: StateFlow<List<StoredItemEntity>> = storageRepository.getAllStoredItems()
-        .stateIn(
-            scope = viewModelScope,
-            started = SharingStarted.WhileSubscribed(5000),
-            initialValue = emptyList(),
-        )
+    private val _uiState = MutableStateFlow(StorageContract.UiState())
+    val uiState: StateFlow<StorageContract.UiState> = _uiState.asStateFlow()
+
+    private val _effect = Channel<StorageContract.Effect>()
+    val effect = _effect.receiveAsFlow()
+
+    init {
+        observeStoredItems()
+    }
+
+    private fun observeStoredItems() {
+        viewModelScope.launch {
+            storageRepository.getAllStoredItems().collect { items ->
+                _uiState.update { it.copy(storedItems = items) }
+            }
+        }
+    }
 
     fun deleteItem(item: StoredItemEntity) {
         viewModelScope.launch(Dispatchers.IO) {
@@ -33,7 +46,7 @@ class StorageViewModelFactory(private val dao: StoredItemDao) : ViewModelProvide
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
         if (modelClass.isAssignableFrom(StorageViewModel::class.java)) {
             @Suppress("UNCHECKED_CAST")
-            return StorageViewModel(StorageRepositoryImpl(dao)) as T
+            return StorageViewModel(StorageRepository.getInstance(dao)) as T
         }
         throw IllegalArgumentException("Unknown ViewModel class")
     }

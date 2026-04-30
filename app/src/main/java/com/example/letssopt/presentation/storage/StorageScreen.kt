@@ -1,5 +1,6 @@
 package com.example.letssopt.presentation.storage
 
+import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -14,13 +15,14 @@ import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.letssopt.core.data.local.AppDatabase
 import com.example.letssopt.core.data.local.entity.StoredItemEntity
@@ -37,10 +39,20 @@ fun StorageRoute(
     val context = LocalContext.current
     val dao = AppDatabase.getDatabase(context).storedItemDao()
     val viewModel: StorageViewModel = viewModel(factory = StorageViewModelFactory(dao))
-    val storedItems by viewModel.storedItems.collectAsState()
+    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+
+    LaunchedEffect(viewModel.effect) {
+        viewModel.effect.collect { effect ->
+            when (effect) {
+                is StorageContract.Effect.ShowToast -> {
+                    Toast.makeText(context, effect.message, Toast.LENGTH_SHORT).show()
+                }
+            }
+        }
+    }
 
     StorageScreen(
-        storedItems = storedItems,
+        storedItems = uiState.storedItems,
         onDeleteClick = { item -> viewModel.deleteItem(item) },
         modifier = modifier.padding(paddingValues),
     )
