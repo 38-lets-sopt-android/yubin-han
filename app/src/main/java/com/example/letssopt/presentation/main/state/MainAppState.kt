@@ -9,7 +9,7 @@ import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navOptions
-import com.example.letssopt.core.data.repository.AuthRepository
+import com.example.letssopt.core.data.repository.api.AuthRepository
 import com.example.letssopt.navigation.Route
 import com.example.letssopt.presentation.home.navigation.Home
 import com.example.letssopt.presentation.home.navigation.navigateToHome
@@ -30,7 +30,7 @@ class MainAppState(
     val navController: NavHostController,
     coroutineScope: CoroutineScope,
 ) {
-    val startDestination: Route = if (AuthRepository.getLoggedIn()) Home else Login
+    val startDestination: Route = if (AuthRepository.getInstance().getLoggedIn()) Home else Login
 
     private val currentDestination = navController.currentBackStackEntryFlow
         .map { it.destination }
