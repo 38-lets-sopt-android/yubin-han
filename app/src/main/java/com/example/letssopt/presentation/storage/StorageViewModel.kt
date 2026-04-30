@@ -17,7 +17,7 @@ class StorageViewModel(private val storedItemDao: StoredItemDao) : ViewModel() {
         .stateIn(
             scope = viewModelScope,
             started = SharingStarted.WhileSubscribed(5000),
-            initialValue = emptyList()
+            initialValue = emptyList(),
         )
 
     fun deleteItem(item: StoredItemEntity) {

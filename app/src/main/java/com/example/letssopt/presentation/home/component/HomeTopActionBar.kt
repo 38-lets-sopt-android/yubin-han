@@ -37,20 +37,20 @@ fun HomeTopActionBar(
             ImageVector.vectorResource(R.drawable.ic_watch),
             null,
             tint = WatchaTheme.colors.textPrimary,
-            modifier = Modifier.clickable(onClick = onClick)
+            modifier = Modifier.clickable(onClick = onClick),
         )
         Icon(
             ImageVector.vectorResource(R.drawable.ic_noti),
             null,
             tint = WatchaTheme.colors.textPrimary,
-            modifier = Modifier.clickable(onClick = onClick)
+            modifier = Modifier.clickable(onClick = onClick),
 
         )
         Icon(
             ImageVector.vectorResource(R.drawable.ic_profile),
             null,
             tint = WatchaTheme.colors.textPrimary,
-            modifier = Modifier.clickable(onClick = onClick)
+            modifier = Modifier.clickable(onClick = onClick),
         )
     }
 }

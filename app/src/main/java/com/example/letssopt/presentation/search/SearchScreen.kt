@@ -19,7 +19,7 @@ fun SearchRoute(
 ) {
     SearchScreen(
         paddingValues = paddingValues,
-        modifier = modifier
+        modifier = modifier,
     )
 }
 
@@ -34,7 +34,7 @@ fun SearchScreen(
             .fillMaxSize()
             .padding(paddingValues),
         verticalArrangement = Arrangement.Center,
-        horizontalAlignment = Alignment.CenterHorizontally
+        horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         Text(
             text = "찾기",

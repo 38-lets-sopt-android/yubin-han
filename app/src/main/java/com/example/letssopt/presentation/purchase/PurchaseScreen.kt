@@ -70,9 +70,8 @@ fun PurchaseScreen(
             text = "개별 구매",
             style = WatchaTheme.typography.headline.head2B20,
             color = WatchaTheme.colors.textPrimary,
-            modifier = Modifier.padding(top = 70.dp)
-
-        )
+            modifier = Modifier.padding(top = 70.dp),
+            )
 
         Spacer(modifier = Modifier.height(45.dp))
 

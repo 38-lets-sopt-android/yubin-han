@@ -38,7 +38,7 @@ fun WebtoonScreen(
     ) {
         Text(
             text = "웹툰",
-            color= WatchaTheme.colors.textPrimary,
-            )
+            color = WatchaTheme.colors.textPrimary,
+        )
     }
 }
