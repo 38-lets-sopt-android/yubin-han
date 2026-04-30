@@ -12,7 +12,6 @@ import androidx.compose.ui.Modifier
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.compose.NavHost
 import com.example.letssopt.core.designsystem.theme.WatchaTheme
-import com.example.letssopt.presentation.home.component.HomeTopActionBar
 import com.example.letssopt.presentation.home.navigation.homeGraph
 import com.example.letssopt.presentation.main.component.MainBottomBar
 import com.example.letssopt.presentation.main.component.MainTab
@@ -45,11 +44,7 @@ fun MainScreen(
                 currentTab = currentTab ?: MainTab.HOME,
                 onTabSelected = { appState.navigate(it) }
             )
-        },
-        topBar = {
-                if (currentTab == MainTab.HOME) {
-                HomeTopActionBar()
-            }
+
         },
     ) { innerPadding ->
         MainNavHost(
