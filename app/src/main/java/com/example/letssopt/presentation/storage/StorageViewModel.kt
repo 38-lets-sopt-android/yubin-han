@@ -36,6 +36,7 @@ class StorageViewModel(private val storageRepository: StorageRepository) : ViewM
     fun deleteItem(item: StoredItemEntity) {
         viewModelScope.launch(Dispatchers.IO) {
             storageRepository.deleteItem(item)
+            _effect.send(StorageContract.Effect.ShowToast("콘텐츠를 삭제했습니다."))
         }
     }
 }
