@@ -11,6 +11,7 @@ import androidx.compose.ui.Modifier
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.compose.NavHost
 import com.example.letssopt.core.designsystem.theme.WatchaTheme
+import com.example.letssopt.presentation.home.myprofile.myProfileGraph
 import com.example.letssopt.presentation.home.navigation.homeGraph
 import com.example.letssopt.presentation.main.component.MainBottomBar
 import com.example.letssopt.presentation.main.component.MainTab
@@ -91,6 +92,10 @@ private fun MainNavHost(
             innerPadding = innerPadding,
         )
         webtoonGraph(
+            navController = appState.navController,
+            innerPadding = innerPadding,
+        )
+        myProfileGraph(
             navController = appState.navController,
             innerPadding = innerPadding,
         )

@@ -30,6 +30,7 @@ import com.example.letssopt.presentation.home.component.HomeUpComingSection
 @Composable
 fun HomeRoute(
     paddingValues: PaddingValues,
+    navigateToMyProfile: () -> Unit,
     modifier: Modifier = Modifier,
     viewModel: HomeViewModel = viewModel(),
 ) {
@@ -37,6 +38,7 @@ fun HomeRoute(
 
     HomeScreen(
         state = uiState,
+        navigateToMyProfile = navigateToMyProfile,
         modifier = modifier.padding(paddingValues)
     )
 }
@@ -44,14 +46,15 @@ fun HomeRoute(
 @Composable
 fun HomeScreen(
     state: HomeContract.UiState,
-    modifier: Modifier = Modifier,
-) {
+    navigateToMyProfile: () -> Unit,
+    modifier: Modifier = Modifier
+    ) {
     Column(
         modifier = modifier
             .background(color = WatchaTheme.colors.backGround)
             .fillMaxSize()
     ) {
-        HomeTopActionBar()
+        HomeTopActionBar(onMyPageClick = navigateToMyProfile)
         LazyColumn(
             modifier = Modifier.fillMaxSize()
         ) {
@@ -118,7 +121,8 @@ private fun HomeScreenPreview() {
                         )
                     )
                 )
-            )
+            ),
+            navigateToMyProfile = {},
         )
     }
 }
