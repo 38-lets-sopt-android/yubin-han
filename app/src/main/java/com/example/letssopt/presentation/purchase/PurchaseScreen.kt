@@ -27,6 +27,7 @@ import com.example.letssopt.core.data.local.AppDatabase
 import com.example.letssopt.core.data.model.purchase.PurchaseContent
 import com.example.letssopt.core.designsystem.theme.LETSSOPTTheme
 import com.example.letssopt.core.designsystem.theme.WatchaTheme
+import com.example.letssopt.core.util.HandleUiEffects
 import com.example.letssopt.presentation.purchase.component.PurchaseItemCard
 
 @Composable
@@ -43,12 +44,10 @@ fun PurchaseRoute(
     )
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
-    LaunchedEffect(viewModel.effect) {
-        viewModel.effect.collect { effect ->
-            when (effect) {
-                is PurchaseContract.Effect.ShowToast -> {
-                    Toast.makeText(context, effect.message, Toast.LENGTH_SHORT).show()
-                }
+    HandleUiEffects(viewModel.effect) { effect ->
+        when (effect) {
+            is PurchaseContract.Effect.ShowToast -> {
+                Toast.makeText(context, effect.message, Toast.LENGTH_SHORT).show()
             }
         }
     }

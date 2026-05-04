@@ -15,7 +15,6 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -31,7 +30,7 @@ import com.example.letssopt.core.designsystem.style.TextFieldStyle
 import com.example.letssopt.core.designsystem.theme.LETSSOPTTheme
 import com.example.letssopt.core.designsystem.theme.WatchaTheme
 import com.example.letssopt.core.extension.noRippleClickable
-import kotlinx.coroutines.flow.collectLatest
+import com.example.letssopt.core.util.HandleUiEffects
 
 
 @Composable
@@ -44,16 +43,14 @@ fun LoginRoute(
     val context = LocalContext.current
     val uiState = viewModel.uiState
 
-    LaunchedEffect(Unit) {
-        viewModel.effect.collectLatest { effect ->
-            when (effect) {
-                is LoginContract.Effect.ShowToast -> {
-                    Toast.makeText(context, effect.message, Toast.LENGTH_SHORT).show()
-                }
+    HandleUiEffects(viewModel.effect) { effect ->
+        when (effect) {
+            is LoginContract.Effect.ShowToast -> {
+                Toast.makeText(context, effect.message, Toast.LENGTH_SHORT).show()
+            }
 
-                is LoginContract.Effect.NavigateToMain -> {
-                    navigateToHome()
-                }
+            is LoginContract.Effect.NavigateToMain -> {
+                navigateToHome()
             }
         }
     }

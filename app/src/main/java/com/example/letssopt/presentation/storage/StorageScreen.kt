@@ -15,7 +15,6 @@ import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -28,6 +27,7 @@ import com.example.letssopt.core.data.local.AppDatabase
 import com.example.letssopt.core.data.local.entity.StoredItemEntity
 import com.example.letssopt.core.designsystem.theme.LETSSOPTTheme
 import com.example.letssopt.core.designsystem.theme.WatchaTheme
+import com.example.letssopt.core.util.HandleUiEffects
 import com.example.letssopt.presentation.storage.component.StorageItemCard
 
 
@@ -41,12 +41,10 @@ fun StorageRoute(
     val viewModel: StorageViewModel = viewModel(factory = StorageViewModelFactory(dao))
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
-    LaunchedEffect(viewModel.effect) {
-        viewModel.effect.collect { effect ->
-            when (effect) {
-                is StorageContract.Effect.ShowToast -> {
-                    Toast.makeText(context, effect.message, Toast.LENGTH_SHORT).show()
-                }
+    HandleUiEffects(viewModel.effect) { effect ->
+        when (effect) {
+            is StorageContract.Effect.ShowToast -> {
+                Toast.makeText(context, effect.message, Toast.LENGTH_SHORT).show()
             }
         }
     }

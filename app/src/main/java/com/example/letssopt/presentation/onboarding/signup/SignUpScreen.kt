@@ -30,6 +30,7 @@ import com.example.letssopt.core.designsystem.style.ButtonStyle
 import com.example.letssopt.core.designsystem.style.TextFieldStyle
 import com.example.letssopt.core.designsystem.theme.LETSSOPTTheme
 import com.example.letssopt.core.designsystem.theme.WatchaTheme
+import com.example.letssopt.core.util.HandleUiEffects
 import kotlinx.coroutines.flow.collectLatest
 
 
@@ -42,16 +43,14 @@ fun SignUpRoute(
     val context = LocalContext.current
     val uiState = viewModel.uiState
 
-    LaunchedEffect(Unit) {
-        viewModel.effect.collectLatest { effect ->
-            when (effect) {
-                is SignUpContract.Effect.ShowToast -> {
-                    Toast.makeText(context, effect.message, Toast.LENGTH_SHORT).show()
-                }
+    HandleUiEffects(viewModel.effect) { effect ->
+        when (effect) {
+            is SignUpContract.Effect.ShowToast -> {
+                Toast.makeText(context, effect.message, Toast.LENGTH_SHORT).show()
+            }
 
-                is SignUpContract.Effect.NavigateToNext -> {
-                    navigateToLogin()
-                }
+            is SignUpContract.Effect.NavigateToNext -> {
+                navigateToLogin()
             }
         }
     }
