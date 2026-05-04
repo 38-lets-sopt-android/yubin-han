@@ -19,8 +19,8 @@ class LoginViewModel(
     private val _effect = Channel<LoginContract.Effect>()
     val effect = _effect.receiveAsFlow()
 
-    fun updateEmail(text: String) {
-        uiState = uiState.copy(emailText = text)
+    fun updateId(text: String) {
+        uiState = uiState.copy(idText = text)
     }
 
     fun updatePw(text: String) {
@@ -29,7 +29,7 @@ class LoginViewModel(
 
     fun login() {
         viewModelScope.launch {
-            userRepository.login(uiState.emailText, uiState.pwText)
+            userRepository.login(uiState.idText, uiState.pwText)
                 .onSuccess {
                     _effect.send(LoginContract.Effect.ShowToast("로그인에 성공했습니다"))
                     _effect.send(LoginContract.Effect.NavigateToMain)

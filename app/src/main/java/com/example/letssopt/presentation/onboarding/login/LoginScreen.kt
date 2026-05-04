@@ -57,10 +57,10 @@ fun LoginRoute(
 
     LoginScreen(
         modifier = modifier,
-        emailText = uiState.emailText,
+        idText = uiState.idText,
         pwText = uiState.pwText,
         isLogInEnabled = uiState.isLogInEnabled,
-        onEmailChange = viewModel::updateEmail,
+        onIdChange = viewModel::updateId,
         onPwChange = viewModel::updatePw,
         onLoginClick = { viewModel.login() },
         onSignUpClick = navigateToSignUp
@@ -70,10 +70,10 @@ fun LoginRoute(
 
 @Composable
 fun LoginScreen(
-    emailText: String,
+    idText: String,
     pwText: String,
     isLogInEnabled: Boolean,
-    onEmailChange: (String) -> Unit,
+    onIdChange: (String) -> Unit,
     onPwChange: (String) -> Unit,
     onLoginClick: () -> Unit,
     onSignUpClick: () -> Unit,
@@ -102,7 +102,7 @@ fun LoginScreen(
                 .verticalScroll(rememberScrollState())
         ) {
             Text(
-                text = "이메일로 로그인",
+                text = "아이디로 로그인",
                 style = WatchaTheme.typography.headline.head2B20,
                 color = WatchaTheme.colors.textPrimary,
             )
@@ -110,7 +110,7 @@ fun LoginScreen(
             Spacer(modifier = Modifier.height(36.dp))
 
             Text(
-                text = "이메일",
+                text = "아이디",
                 style = WatchaTheme.typography.cap.captionR14,
                 color = WatchaTheme.colors.textSecondary,
             )
@@ -118,10 +118,10 @@ fun LoginScreen(
             Spacer(modifier = Modifier.height(3.dp))
 
             WatchaAuthTextField(
-                textFieldStyle = if (emailText.isNotBlank()) TextFieldStyle.INPUT else TextFieldStyle.DISABLED,
-                placeholder = "이메일을 입력하세요",
-                value = emailText,
-                onValueChange = onEmailChange,
+                textFieldStyle = if (idText.isNotBlank()) TextFieldStyle.INPUT else TextFieldStyle.DISABLED,
+                placeholder = "아이디를 입력하세요",
+                value = idText,
+                onValueChange = onIdChange,
                 keyboardOptions = KeyboardOptions(
                     imeAction = ImeAction.Next,
                     keyboardType = KeyboardType.Email
@@ -177,10 +177,10 @@ fun LoginScreen(
 private fun LoginPreview() {
     LETSSOPTTheme {
         LoginScreen(
-            emailText = "",
+            idText = "",
             pwText = "",
             isLogInEnabled = false,
-            onEmailChange = {},
+            onIdChange = {},
             onPwChange = {},
             onLoginClick = {},
             onSignUpClick = {}

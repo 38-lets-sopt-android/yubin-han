@@ -3,11 +3,11 @@ package com.example.letssopt.presentation.onboarding.login
 
 class LoginContract {
     data class UiState(
-        val emailText: String = "",
+        val idText: String = "",
         val pwText: String = ""
     ) {
         val isLogInEnabled: Boolean
-            get() = emailText.isNotBlank() && pwText.isNotBlank()
+            get() = idText.isNotBlank() && pwText.isNotBlank()
     }
 
     sealed interface Effect {
