@@ -18,7 +18,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
@@ -113,10 +112,6 @@ fun LoginScreen(
                 placeholder = "아이디를 입력하세요",
                 value = idText,
                 onValueChange = onIdChange,
-                keyboardOptions = KeyboardOptions(
-                    imeAction = ImeAction.Next,
-                    keyboardType = KeyboardType.Email
-                ),
             )
 
             Spacer(modifier = Modifier.height(18.dp))
@@ -127,11 +122,10 @@ fun LoginScreen(
                 value = pwText,
                 onValueChange = onPwChange,
                 visualTransformation = PasswordVisualTransformation(),
-                keyboardOptions = KeyboardOptions(
-                    keyboardType = KeyboardType.Password,
-                )
+                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password)
             )
         }
+
         Text(
             text = "아직 계정이 없으신가요?  회원가입",
             style = WatchaTheme.typography.cap.captionR14,
@@ -140,6 +134,7 @@ fun LoginScreen(
                 .align(Alignment.CenterHorizontally)
                 .noRippleClickable(onClick = onSignUpClick)
         )
+
         Spacer(modifier = Modifier.height(20.dp))
 
         WatchaAuthButton(
