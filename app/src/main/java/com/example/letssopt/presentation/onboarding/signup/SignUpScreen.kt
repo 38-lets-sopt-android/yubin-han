@@ -15,7 +15,6 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -27,12 +26,9 @@ import androidx.compose.ui.unit.dp
 import com.example.letssopt.core.designsystem.component.WatchaAuthButton
 import com.example.letssopt.core.designsystem.component.WatchaAuthTextField
 import com.example.letssopt.core.designsystem.style.ButtonStyle
-import com.example.letssopt.core.designsystem.style.TextFieldStyle
 import com.example.letssopt.core.designsystem.theme.LETSSOPTTheme
 import com.example.letssopt.core.designsystem.theme.WatchaTheme
 import com.example.letssopt.core.util.HandleUiEffects
-import kotlinx.coroutines.flow.collectLatest
-
 
 @Composable
 fun SignUpRoute(
@@ -57,28 +53,42 @@ fun SignUpRoute(
 
     SignUpScreen(
         modifier = modifier,
-        emailText = uiState.emailText,
+        idText = uiState.idText,
         pwText = uiState.pwText,
         pwConfirmText = uiState.pwConfirmText,
+        nameText = uiState.nameText,
+        emailText = uiState.emailText,
+        ageText = uiState.ageText,
+        partText = uiState.partText,
         isAllEntered = uiState.isAllEntered,
-        onEmailChange = viewModel::updateEmail,
+        onIdChange = viewModel::updateId,
         onPwChange = viewModel::updatePw,
         onPwConfirmChange = viewModel::updatePwConfirm,
-        onSignUpClick = { viewModel.signUp() }
-
+        onNameChange = viewModel::updateName,
+        onEmailChange = viewModel::updateEmail,
+        onAgeChange = viewModel::updateAge,
+        onPartChange = viewModel::updatePart,
+        onSignUpClick = viewModel::signUp
     )
 }
 
-
 @Composable
 fun SignUpScreen(
-    emailText: String,
+    idText: String,
     pwText: String,
     pwConfirmText: String,
+    nameText: String,
+    emailText: String,
+    ageText: String,
+    partText: String,
     isAllEntered: Boolean,
-    onEmailChange: (String) -> Unit,
+    onIdChange: (String) -> Unit,
     onPwChange: (String) -> Unit,
     onPwConfirmChange: (String) -> Unit,
+    onNameChange: (String) -> Unit,
+    onEmailChange: (String) -> Unit,
+    onAgeChange: (String) -> Unit,
+    onPartChange: (String) -> Unit,
     onSignUpClick: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
@@ -88,7 +98,7 @@ fun SignUpScreen(
             .background(color = WatchaTheme.colors.backGround)
             .fillMaxSize()
             .imePadding()
-            .padding(horizontal = 20.dp)
+            .padding(horizontal = 20.dp),
     ) {
         Text(
             text = "watcha",
@@ -96,12 +106,12 @@ fun SignUpScreen(
             color = WatchaTheme.colors.primaryRed,
             modifier = Modifier
                 .align(Alignment.CenterHorizontally)
-                .padding(top = 60.dp, bottom = 26.dp)
+                .padding(top = 60.dp, bottom = 26.dp),
         )
         Column(
             modifier = Modifier
                 .weight(1f)
-                .verticalScroll(rememberScrollState())
+                .verticalScroll(rememberScrollState()),
         ) {
             Text(
                 text = "회원가입",
@@ -111,68 +121,78 @@ fun SignUpScreen(
 
             Spacer(modifier = Modifier.height(36.dp))
 
-            Text(
-                text = "이메일",
-                style = WatchaTheme.typography.cap.captionR14,
-                color = WatchaTheme.colors.textSecondary,
-            )
-
-            Spacer(modifier = Modifier.height(3.dp))
-
             WatchaAuthTextField(
-                textFieldStyle = if (emailText.isNotBlank()) TextFieldStyle.INPUT else TextFieldStyle.DISABLED,
-                placeholder = "이메일을 입력하세요 ex)abc@Watcha.com",
-                value = emailText,
-                onValueChange = onEmailChange,
-                keyboardOptions = KeyboardOptions(
-                    imeAction = ImeAction.Next,
-                    keyboardType = KeyboardType.Email
-                ),
+                "아이디",
+                idText,
+                "아이디를 입력하세요",
+                onIdChange,
             )
 
             Spacer(modifier = Modifier.height(18.dp))
 
-            Text(
-                text = "비밀번호",
-                style = WatchaTheme.typography.cap.captionR14,
-                color = WatchaTheme.colors.textSecondary,
-            )
-
-            Spacer(modifier = Modifier.height(3.dp))
-
             WatchaAuthTextField(
-                textFieldStyle = if (pwText.isNotBlank()) TextFieldStyle.INPUT else TextFieldStyle.DISABLED,
-                placeholder = "비밀번호를 입력하세요 (8~12자)",
+                label = "비밀번호",
                 value = pwText,
+                placeholder = "비밀번호를 입력하세요 (8~12자)",
                 onValueChange = onPwChange,
                 visualTransformation = PasswordVisualTransformation(),
                 keyboardOptions = KeyboardOptions(
                     keyboardType = KeyboardType.Password,
-                    imeAction = ImeAction.Next,
                 )
             )
 
             Spacer(modifier = Modifier.height(18.dp))
 
-            Text(
-                text = "비밀번호 확인",
-                style = WatchaTheme.typography.cap.captionR14,
-                color = WatchaTheme.colors.textSecondary,
-            )
-
-            Spacer(modifier = Modifier.height(3.dp))
-
             WatchaAuthTextField(
-                textFieldStyle = if (pwConfirmText.isNotBlank()) TextFieldStyle.INPUT else TextFieldStyle.DISABLED,
-                placeholder = "비밀번호를 다시 입력하세요",
+                label = "비밀번호 확인",
                 value = pwConfirmText,
+                placeholder = "비밀번호를 다시 입력하세요",
                 onValueChange = onPwConfirmChange,
                 visualTransformation = PasswordVisualTransformation(),
                 keyboardOptions = KeyboardOptions(
                     keyboardType = KeyboardType.Password,
                 )
             )
+            Spacer(modifier = Modifier.height(18.dp))
+
+            WatchaAuthTextField("이름", nameText, "이름을 입력하세요", onNameChange)
+
+            Spacer(modifier = Modifier.height(18.dp))
+
+            WatchaAuthTextField(
+                label = "이메일",
+                value = emailText,
+                placeholder = "이메일을 입력하세요",
+                onValueChange = onEmailChange,
+                keyboardOptions = KeyboardOptions(
+                    keyboardType = KeyboardType.Email,
+                )
+            )
+            Spacer(modifier = Modifier.height(18.dp))
+
+            WatchaAuthTextField(
+                label = "나이",
+                value = ageText,
+                placeholder = "나이를 입력하세요",
+                onValueChange = onAgeChange,
+                keyboardOptions = KeyboardOptions(
+                    keyboardType = KeyboardType.Number,
+                )
+            )
+            Spacer(modifier = Modifier.height(18.dp))
+
+            WatchaAuthTextField(
+                label = "파트",
+                value = partText,
+                placeholder = "파트를 입력하세요 (안드로이드/iOS/웹)",
+                onValueChange = onPartChange,
+                keyboardOptions = KeyboardOptions(
+                    imeAction = ImeAction.Done,
+                )
+            )
+            Spacer(modifier = Modifier.height(30.dp))
         }
+
         WatchaAuthButton(
             buttonStyle = if (isAllEntered) ButtonStyle.PRIMARY else ButtonStyle.DISABLED,
             buttonText = "회원가입",
@@ -186,20 +206,28 @@ fun SignUpScreen(
     }
 }
 
+
 @Preview(showBackground = true)
 @Composable
 private fun SignUpPreview() {
     LETSSOPTTheme {
         SignUpScreen(
-            emailText = "",
+            idText = "",
             pwText = "",
             pwConfirmText = "",
+            nameText = "",
+            emailText = "",
+            ageText = "",
+            partText = "",
             isAllEntered = false,
-            onEmailChange = {},
+            onIdChange = {},
             onPwChange = {},
             onPwConfirmChange = {},
+            onNameChange = {},
+            onEmailChange = {},
+            onAgeChange = {},
+            onPartChange = {},
             onSignUpClick = {},
         )
     }
 }
-

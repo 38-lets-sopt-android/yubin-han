@@ -23,16 +23,25 @@ class SignUpViewModel(
 
     fun signUp() {
         val errorType = AuthValidator.validateSignUp(
-            uiState.emailText,
-            uiState.pwText,
-            uiState.pwConfirmText
+            email = uiState.emailText,
+            pw = uiState.pwText,
+            pwConfirm = uiState.pwConfirmText,
+            age = uiState.ageText,
+            part = uiState.partText
         )
 
         viewModelScope.launch {
             if (errorType != null) {
                 _effect.send(SignUpContract.Effect.ShowToast(errorType.errorMessage))
             } else {
-                userRepository.signUp(uiState.emailText, uiState.pwText)
+                userRepository.signUp(
+                    id = uiState.idText,
+                    pw = uiState.pwText,
+                    name = uiState.nameText,
+                    email = uiState.emailText,
+                    age = uiState.ageText.toIntOrNull() ?: 0,
+                    part = uiState.partText
+                )
                     .onSuccess {
                         uiState = SignUpContract.SignUpUiState()
                         _effect.send(SignUpContract.Effect.ShowToast("회원가입이 완료되었습니다."))
@@ -46,8 +55,8 @@ class SignUpViewModel(
     }
 
 
-    fun updateEmail(text: String) {
-        uiState = uiState.copy(emailText = text)
+    fun updateId(text: String) {
+        uiState = uiState.copy(idText = text)
     }
 
     fun updatePw(text: String) {
@@ -56,5 +65,21 @@ class SignUpViewModel(
 
     fun updatePwConfirm(text: String) {
         uiState = uiState.copy(pwConfirmText = text)
+    }
+
+    fun updateName(text: String) {
+        uiState = uiState.copy(nameText = text)
+    }
+
+    fun updateEmail(text: String) {
+        uiState = uiState.copy(emailText = text)
+    }
+
+    fun updateAge(text: String) {
+        uiState = uiState.copy(ageText = text)
+    }
+
+    fun updatePart(text: String) {
+        uiState = uiState.copy(partText = text)
     }
 }

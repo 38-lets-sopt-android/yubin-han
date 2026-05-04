@@ -2,14 +2,17 @@ package com.example.letssopt.presentation.onboarding.signup
 
 class SignUpContract {
     data class SignUpUiState(
-        val emailText: String = "",
+        val idText: String = "",
         val pwText: String = "",
-        val pwConfirmText: String = ""
+        val pwConfirmText: String = "",
+        val nameText: String = "",
+        val emailText: String = "",
+        val ageText: String = "",
+        val partText: String = "",
     ) {
         val isAllEntered: Boolean
-            get() = emailText.isNotBlank() && pwText.isNotBlank() && pwConfirmText.isNotBlank()
+            get() = idText.isNotBlank() && pwText.isNotBlank() && pwConfirmText.isNotBlank() && nameText.isNotBlank() && emailText.isNotBlank() && ageText.isNotBlank() && partText.isNotBlank()
     }
-
     sealed interface Effect {
         data class ShowToast(val message: String) : Effect
         object NavigateToNext : Effect
