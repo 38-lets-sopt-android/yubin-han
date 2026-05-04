@@ -1,22 +1,43 @@
 package com.example.letssopt.presentation.storage
 
 
-import androidx.compose.runtime.mutableStateListOf
 import androidx.lifecycle.ViewModel
-import com.example.letssopt.R
-import com.example.letssopt.core.data.model.StorageContent
+import androidx.lifecycle.viewModelScope
+import com.example.letssopt.core.data.local.entity.StoredItemEntity
+import com.example.letssopt.core.data.repository.api.StorageRepository
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.receiveAsFlow
+import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.launch
 
-class StorageViewModel : ViewModel() {
-    private val _storageItems = mutableStateListOf(
-        StorageContent("이 사랑 통역 되나요?", R.drawable.img_poster_love_translate),
-        StorageContent("기묘한 이야기", R.drawable.img_poster_stranger_things),
-        StorageContent("프로젝트 헤일메리", R.drawable.img_poster_hail_mary),
-        StorageContent("이 사랑 통역 되나요?", R.drawable.img_poster_love_translate),
-        StorageContent("기묘한 이야기", R.drawable.img_poster_stranger_things),
-        StorageContent("프로젝트 헤일메리", R.drawable.img_poster_hail_mary),
-    )
-    val storageItems: List<StorageContent> = _storageItems
-    fun removeItem(item: StorageContent) {
-        _storageItems.remove(item)
+class StorageViewModel(private val storageRepository: StorageRepository) : ViewModel() {
+    private val _uiState = MutableStateFlow(StorageContract.UiState())
+    val uiState: StateFlow<StorageContract.UiState> = _uiState.asStateFlow()
+
+    private val _effect = Channel<StorageContract.Effect>()
+    val effect = _effect.receiveAsFlow()
+
+    init {
+        observeStoredItems()
+    }
+
+    private fun observeStoredItems() {
+        viewModelScope.launch {
+            storageRepository.getAllStoredItems().collect { items ->
+                _uiState.update { it.copy(storedItems = items) }
+            }
+        }
+    }
+
+    fun deleteItem(item: StoredItemEntity) {
+        viewModelScope.launch(Dispatchers.IO) {
+            storageRepository.deleteItem(item)
+            _effect.send(StorageContract.Effect.ShowToast("콘텐츠를 삭제했습니다."))
+        }
     }
 }
+

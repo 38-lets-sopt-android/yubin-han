@@ -33,7 +33,7 @@ private fun watchaTextStyle(
     fontSize: TextUnit,
     fontWeight: FontWeight,
     lineHeight: TextUnit = 1.3.em,
-    letterSpacing: TextUnit = (-1.5).sp
+    letterSpacing: TextUnit = (-1.0).sp
 ): TextStyle = TextStyle(
     fontFamily = fontFamily,
     fontWeight = fontWeight,

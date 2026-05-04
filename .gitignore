@@ -15,3 +15,5 @@
 local.properties
 .idea/firebender/chat_history.db-wal
 .idea/appInsightsSettings.xml
+.idea/
+.idea/deploymentTargetSelector.xml
