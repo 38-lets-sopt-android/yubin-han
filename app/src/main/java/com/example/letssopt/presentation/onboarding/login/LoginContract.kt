@@ -1,7 +1,7 @@
 package com.example.letssopt.presentation.onboarding.login
 
 
-class LoginContract {
+interface LoginContract {
     data class UiState(
         val idText: String = "",
         val pwText: String = ""
@@ -9,7 +9,6 @@ class LoginContract {
         val isLogInEnabled: Boolean
             get() = idText.isNotBlank() && pwText.isNotBlank()
     }
-
     sealed interface Effect {
         data class ShowToast(val message: String) : Effect
         object NavigateToMain : Effect

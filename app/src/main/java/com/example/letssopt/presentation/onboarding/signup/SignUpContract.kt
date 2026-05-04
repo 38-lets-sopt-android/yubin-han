@@ -1,6 +1,6 @@
 package com.example.letssopt.presentation.onboarding.signup
 
-class SignUpContract {
+interface SignUpContract {
     data class SignUpUiState(
         val idText: String = "",
         val pwText: String = "",
