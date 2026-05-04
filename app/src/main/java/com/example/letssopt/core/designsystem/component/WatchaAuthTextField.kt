@@ -34,7 +34,7 @@ fun WatchaAuthTextField(
     textFieldStyle: TextFieldStyle = if (value.isNotBlank()) TextFieldStyle.INPUT else TextFieldStyle.DISABLED,
     keyboardOptions: KeyboardOptions = KeyboardOptions(
         imeAction = ImeAction.Next,
-        keyboardType = KeyboardType.Text
+        keyboardType = KeyboardType.Text,
     ),
     visualTransformation: VisualTransformation = VisualTransformation.None,
     enabled: Boolean = true,
