@@ -26,7 +26,6 @@ import androidx.compose.ui.unit.dp
 import com.example.letssopt.core.designsystem.component.WatchaAuthButton
 import com.example.letssopt.core.designsystem.component.WatchaAuthTextField
 import com.example.letssopt.core.designsystem.style.ButtonStyle
-import com.example.letssopt.core.designsystem.style.TextFieldStyle
 import com.example.letssopt.core.designsystem.theme.LETSSOPTTheme
 import com.example.letssopt.core.designsystem.theme.WatchaTheme
 import com.example.letssopt.core.extension.noRippleClickable
@@ -109,16 +108,8 @@ fun LoginScreen(
 
             Spacer(modifier = Modifier.height(36.dp))
 
-            Text(
-                text = "아이디",
-                style = WatchaTheme.typography.cap.captionR14,
-                color = WatchaTheme.colors.textSecondary,
-            )
-
-            Spacer(modifier = Modifier.height(3.dp))
-
             WatchaAuthTextField(
-                textFieldStyle = if (idText.isNotBlank()) TextFieldStyle.INPUT else TextFieldStyle.DISABLED,
+                label = "아이디",
                 placeholder = "아이디를 입력하세요",
                 value = idText,
                 onValueChange = onIdChange,
@@ -130,16 +121,8 @@ fun LoginScreen(
 
             Spacer(modifier = Modifier.height(18.dp))
 
-            Text(
-                text = "비밀번호",
-                style = WatchaTheme.typography.cap.captionR14,
-                color = WatchaTheme.colors.textSecondary,
-            )
-
-            Spacer(modifier = Modifier.height(3.dp))
-
             WatchaAuthTextField(
-                textFieldStyle = if (pwText.isNotBlank()) TextFieldStyle.INPUT else TextFieldStyle.DISABLED,
+                label = "비밀번호",
                 placeholder = "비밀번호를 입력하세요",
                 value = pwText,
                 onValueChange = onPwChange,
