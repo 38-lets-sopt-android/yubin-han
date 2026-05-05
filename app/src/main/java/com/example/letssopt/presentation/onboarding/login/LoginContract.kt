@@ -1,7 +1,10 @@
 package com.example.letssopt.presentation.onboarding.login
 
+import androidx.compose.runtime.Immutable
+
 
 interface LoginContract {
+    @Immutable
     data class UiState(
         val idText: String = "",
         val pwText: String = ""

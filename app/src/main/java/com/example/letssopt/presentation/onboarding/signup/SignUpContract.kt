@@ -1,6 +1,9 @@
 package com.example.letssopt.presentation.onboarding.signup
 
+import androidx.compose.runtime.Immutable
+
 interface SignUpContract {
+    @Immutable
     data class SignUpUiState(
         val idText: String = "",
         val pwText: String = "",
