@@ -13,7 +13,7 @@ import kotlinx.coroutines.launch
 
 
 class SignUpViewModel(
-    private val userRepository: AuthRepository = AuthRepository.getInstance()
+    private val authRepository: AuthRepository = AuthRepository.getInstance()
 ) : ViewModel() {
 
     var uiState by mutableStateOf(SignUpContract.SignUpUiState())
@@ -34,7 +34,7 @@ class SignUpViewModel(
             if (errorType != null) {
                 _effect.send(SignUpContract.Effect.ShowToast(errorType.errorMessage))
             } else {
-                userRepository.signUp(
+                authRepository.signUp(
                     id = uiState.idText,
                     pw = uiState.pwText,
                     name = uiState.nameText,
