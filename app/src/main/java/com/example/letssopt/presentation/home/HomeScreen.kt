@@ -37,7 +37,7 @@ fun HomeRoute(
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
     HomeScreen(
-        state = uiState,
+        uiState = uiState,
         navigateToMyProfile = navigateToMyProfile,
         modifier = modifier.padding(paddingValues)
     )
@@ -45,7 +45,7 @@ fun HomeRoute(
 
 @Composable
 fun HomeScreen(
-    state: HomeContract.UiState,
+    uiState: HomeContract.UiState,
     navigateToMyProfile: () -> Unit,
     modifier: Modifier = Modifier
     ) {
@@ -58,7 +58,7 @@ fun HomeScreen(
         LazyColumn(
             modifier = Modifier.fillMaxSize()
         ) {
-            items(state.homeItems) { item ->
+            items(uiState.homeItems) { item ->
                 when (item) {
                     is MainHomeItem.TopBanner -> {
                         HomeTopBannerSection(item.banners)
@@ -90,7 +90,7 @@ fun HomeScreen(
 private fun HomeScreenPreview() {
     LETSSOPTTheme {
         HomeScreen(
-            state = HomeContract.UiState(
+            uiState = HomeContract.UiState(
                 homeItems = listOf(
                     MainHomeItem.TopBanner(
                         banners = listOf(
