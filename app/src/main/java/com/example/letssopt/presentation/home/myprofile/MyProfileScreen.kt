@@ -14,36 +14,42 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.letssopt.core.data.model.home.myprofile.UserProfile
 import com.example.letssopt.core.designsystem.component.WatchaBasicButton
 import com.example.letssopt.core.designsystem.style.ButtonStyle
 import com.example.letssopt.core.designsystem.theme.LETSSOPTTheme
 import com.example.letssopt.core.designsystem.theme.WatchaTheme.colors
 import com.example.letssopt.core.designsystem.theme.WatchaTheme.typography
+import com.example.letssopt.core.util.HandleUiEffects
 import com.example.letssopt.presentation.home.myprofile.component.MyProfileItemSection
-
 
 @Composable
 fun MyProfileRoute(
     paddingValues: PaddingValues,
+    navigateToUserList: () -> Unit,
     modifier: Modifier = Modifier,
+    viewModel: MyProfileViewModel = viewModel(),
 ) {
+    val uiState = viewModel.uiState
+
+    HandleUiEffects(viewModel.effect) { effect ->
+        when (effect) {
+            is MyProfileContract.Effect.NavigateToUserList -> navigateToUserList()
+        }
+    }
+
     MyProfileScreen(
+        uiState = uiState,
+        onNavigateToUserList = viewModel::navigateToUserList,
         modifier = modifier.padding(paddingValues),
-        id = "ID",
-        name = "이름",
-        email = "email@example.com",
-        age = "20",
-        part = "Android"
     )
 }
 
 @Composable
 fun MyProfileScreen(
-    id: String,
-    name: String,
-    email: String,
-    age: String,
-    part: String,
+    uiState: MyProfileContract.UiState,
+    onNavigateToUserList: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
     Column(
@@ -63,61 +69,66 @@ fun MyProfileScreen(
 
         MyProfileItemSection(
             label = "아이디",
-            value = id,
+            value = uiState.myProfile?.id ?: "",
         )
         Spacer(modifier = Modifier.height(30.dp))
 
         MyProfileItemSection(
             label = "이름",
-            value = name,
+            value = uiState.myProfile?.name ?: "",
         )
 
         Spacer(modifier = Modifier.height(30.dp))
 
         MyProfileItemSection(
             label = "이메일",
-            value = email,
+            value = uiState.myProfile?.email ?: "",
         )
 
         Spacer(modifier = Modifier.height(30.dp))
 
         MyProfileItemSection(
             label = "나이",
-            value = age,
+            value = uiState.myProfile?.age?.toString() ?: "",
         )
 
         Spacer(modifier = Modifier.height(30.dp))
 
         MyProfileItemSection(
             label = "파트",
-            value = part,
+            value = uiState.myProfile?.part ?: "",
         )
 
         Spacer(modifier = Modifier.height(30.dp))
 
         WatchaBasicButton(
             buttonText = "다른 유저들 보러가기",
-            onClick = {},
+            onClick = onNavigateToUserList,
             modifier = Modifier.fillMaxWidth(),
             buttonColor = ButtonStyle.PRIMARY.getButtonColor(),
             textStyle = typography.headline.head3B16,
             contentPadding = PaddingValues(horizontal = 90.dp, vertical = 16.dp),
             shape = RoundedCornerShape(8.dp),
+            disabled = false,
         )
     }
 }
-
 
 @Preview
 @Composable
 private fun MyProfileScreenPreview() {
     LETSSOPTTheme {
         MyProfileScreen(
-            id = "아이디아이디",
-            name = "이름이름",
-            email = "이메일이메일",
-            age = "1234",
-            part = "안드로이드"
+            uiState = MyProfileContract.UiState(
+                myProfile = UserProfile(
+                    id = "아이디아이디",
+                    name = "어쩌고저쩌고",
+                    email = "watcha@example.com",
+                    age = 20,
+                    part = "안드로이드"
+                )
+            ),
+            onNavigateToUserList = {}
         )
     }
 }
