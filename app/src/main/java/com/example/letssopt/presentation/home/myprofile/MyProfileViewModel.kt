@@ -1,20 +1,21 @@
 package com.example.letssopt.presentation.home.myprofile
 
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.letssopt.core.data.repository.api.UserRepository
 import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.receiveAsFlow
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 class MyProfileViewModel(
     private val userRepository: UserRepository = UserRepository.getInstance()
 ) : ViewModel() {
-    var uiState by mutableStateOf(MyProfileContract.UiState())
-        private set
+    private val _uiState = MutableStateFlow(MyProfileContract.UiState())
+    val uiState: StateFlow<MyProfileContract.UiState> = _uiState.asStateFlow()
 
     private val _effect = Channel<MyProfileContract.Effect>()
     val effect = _effect.receiveAsFlow()
@@ -31,16 +32,18 @@ class MyProfileViewModel(
 
     private fun fetchUserProfile() {
         viewModelScope.launch {
-            uiState = uiState.copy(isLoading = true)
+            _uiState.update { it.copy(isLoading = true) }
             userRepository.getMyProfile()
                 .onSuccess { profile ->
-                    uiState = uiState.copy(
-                        isLoading = false,
-                        myProfile = profile
-                    )
+                    _uiState.update {
+                        it.copy(
+                            isLoading = false,
+                            myProfile = profile
+                        )
+                    }
                 }
                 .onFailure {
-                    uiState = uiState.copy(isLoading = false)
+                    _uiState.update { it.copy(isLoading = false) }
                 }
         }
     }

@@ -15,6 +15,7 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -22,6 +23,7 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.example.letssopt.core.designsystem.component.WatchaAuthButton
 import com.example.letssopt.core.designsystem.component.WatchaAuthTextField
 import com.example.letssopt.core.designsystem.style.ButtonStyle
@@ -39,7 +41,7 @@ fun LoginRoute(
     modifier: Modifier = Modifier
 ) {
     val context = LocalContext.current
-    val uiState = viewModel.uiState
+    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
     HandleUiEffects(viewModel.effect) { effect ->
         when (effect) {

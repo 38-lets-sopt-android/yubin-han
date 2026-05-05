@@ -1,14 +1,15 @@
 package com.example.letssopt.presentation.onboarding.signup
 
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.letssopt.core.data.repository.api.AuthRepository
 import com.example.letssopt.core.util.AuthValidator
 import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.receiveAsFlow
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 
@@ -16,18 +17,21 @@ class SignUpViewModel(
     private val authRepository: AuthRepository = AuthRepository.getInstance()
 ) : ViewModel() {
 
-    var uiState by mutableStateOf(SignUpContract.SignUpUiState())
-        private set
+
+    private val _uiState = MutableStateFlow(SignUpContract.SignUpUiState())
+    val uiState: StateFlow<SignUpContract.SignUpUiState> = _uiState.asStateFlow()
+
     private val _effect = Channel<SignUpContract.Effect>()
     val effect = _effect.receiveAsFlow()
 
     fun signUp() {
+        val currentState = _uiState.value
         val errorType = AuthValidator.validateSignUp(
-            email = uiState.emailText,
-            pw = uiState.pwText,
-            pwConfirm = uiState.pwConfirmText,
-            age = uiState.ageText,
-            part = uiState.partText
+            email = currentState.emailText,
+            pw = currentState.pwText,
+            pwConfirm = currentState.pwConfirmText,
+            age = currentState.ageText,
+            part = currentState.partText
         )
 
         viewModelScope.launch {
@@ -35,15 +39,15 @@ class SignUpViewModel(
                 _effect.send(SignUpContract.Effect.ShowToast(errorType.errorMessage))
             } else {
                 authRepository.signUp(
-                    id = uiState.idText,
-                    pw = uiState.pwText,
-                    name = uiState.nameText,
-                    email = uiState.emailText,
-                    age = uiState.ageText.toIntOrNull() ?: 0,
-                    part = uiState.partText
+                    id = currentState.idText,
+                    pw = currentState.pwText,
+                    name = currentState.nameText,
+                    email = currentState.emailText,
+                    age = currentState.ageText.toIntOrNull() ?: 0,
+                    part = currentState.partText
                 )
                     .onSuccess {
-                        uiState = SignUpContract.SignUpUiState()
+                        _uiState.update { SignUpContract.SignUpUiState() }
                         _effect.send(SignUpContract.Effect.ShowToast("회원가입이 완료되었습니다."))
                         _effect.send(SignUpContract.Effect.NavigateToNext)
                     }
@@ -56,30 +60,30 @@ class SignUpViewModel(
 
 
     fun updateId(text: String) {
-        uiState = uiState.copy(idText = text)
+        _uiState.update { it.copy(idText = text) }
     }
 
     fun updatePw(text: String) {
-        uiState = uiState.copy(pwText = text)
+        _uiState.update { it.copy(pwText = text) }
     }
 
     fun updatePwConfirm(text: String) {
-        uiState = uiState.copy(pwConfirmText = text)
+        _uiState.update { it.copy(pwConfirmText = text) }
     }
 
     fun updateName(text: String) {
-        uiState = uiState.copy(nameText = text)
+        _uiState.update { it.copy(nameText = text) }
     }
 
     fun updateEmail(text: String) {
-        uiState = uiState.copy(emailText = text)
+        _uiState.update { it.copy(emailText = text) }
     }
 
     fun updateAge(text: String) {
-        uiState = uiState.copy(ageText = text)
+        _uiState.update { it.copy(ageText = text) }
     }
 
     fun updatePart(text: String) {
-        uiState = uiState.copy(partText = text)
+        _uiState.update { it.copy(partText = text) }
     }
 }
