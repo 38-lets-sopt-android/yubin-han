@@ -11,9 +11,11 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.letssopt.core.data.model.home.myprofile.UserProfile
 import com.example.letssopt.core.designsystem.component.WatchaBasicButton
@@ -31,7 +33,7 @@ fun MyProfileRoute(
     modifier: Modifier = Modifier,
     viewModel: MyProfileViewModel = viewModel(),
 ) {
-    val uiState = viewModel.uiState
+    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
     HandleUiEffects(viewModel.effect) { effect ->
         when (effect) {
