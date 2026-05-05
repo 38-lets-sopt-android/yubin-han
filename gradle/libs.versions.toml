@@ -17,6 +17,7 @@ room = "2.8.4"
 ksp = "2.3.4"
 retrofit = "3.0.0"
 okhttp = "5.3.2"
+paging = "3.4.2"
 
 [libraries]
 retrofit-core = { group = "com.squareup.retrofit2", name = "retrofit", version.ref = "retrofit" }
@@ -44,6 +45,9 @@ androidx-compose-material3 = { group = "androidx.compose.material3", name = "mat
 kotlinx-collections-immutable = { group = "org.jetbrains.kotlinx", name = "kotlinx-collections-immutable", version.ref = "kotlinxImmutable" }
 androidx-room-runtime = { group = "androidx.room", name = "room-runtime", version.ref = "room" }
 androidx-room-ktx = { group = "androidx.room", name = "room-ktx", version.ref = "room" }
+androidx-paging-runtime = { group = "androidx.paging", name = "paging-runtime-ktx", version.ref = "paging" }
+androidx-paging-compose = { group = "androidx.paging", name = "paging-compose", version.ref = "paging" }
+androidx-paging-common = { group = "androidx.paging", name = "paging-common-ktx", version.ref = "paging" }
 
 [plugins]
 kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
