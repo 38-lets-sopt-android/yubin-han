@@ -6,7 +6,7 @@ import com.example.letssopt.core.data.dto.PostSignUpRequest
 import com.example.letssopt.core.data.dto.PostSignUpResponse
 import retrofit2.Response
 
-interface AuthDataSource {
+interface AuthRemoteDataSource {
     suspend fun signUp(request: PostSignUpRequest): Response<PostSignUpResponse>
 
     suspend fun signIn(request: PostSignInRequest): Response<PostSignInResponse>
