@@ -18,8 +18,8 @@ class SignUpViewModel(
 ) : ViewModel() {
 
 
-    private val _uiState = MutableStateFlow(SignUpContract.SignUpUiState())
-    val uiState: StateFlow<SignUpContract.SignUpUiState> = _uiState.asStateFlow()
+    private val _uiState = MutableStateFlow(SignUpContract.UiState())
+    val uiState: StateFlow<SignUpContract.UiState> = _uiState.asStateFlow()
 
     private val _effect = Channel<SignUpContract.Effect>()
     val effect = _effect.receiveAsFlow()
@@ -47,7 +47,7 @@ class SignUpViewModel(
                     part = currentState.partText
                 )
                     .onSuccess {
-                        _uiState.update { SignUpContract.SignUpUiState() }
+                        _uiState.update { SignUpContract.UiState() }
                         _effect.send(SignUpContract.Effect.ShowToast("회원가입이 완료되었습니다."))
                         _effect.send(SignUpContract.Effect.NavigateToNext)
                     }

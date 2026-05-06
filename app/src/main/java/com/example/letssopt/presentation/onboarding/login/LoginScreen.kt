@@ -56,23 +56,19 @@ fun LoginRoute(
     }
 
     LoginScreen(
-        modifier = modifier,
-        idText = uiState.idText,
-        pwText = uiState.pwText,
-        isLogInEnabled = uiState.isLogInEnabled,
+        uiState = uiState,
         onIdChange = viewModel::updateId,
         onPwChange = viewModel::updatePw,
-        onLoginClick = { viewModel.login() },
-        onSignUpClick = navigateToSignUp
+        onLoginClick = viewModel::login,
+        onSignUpClick = navigateToSignUp,
+        modifier = modifier,
     )
 
 }
 
 @Composable
 fun LoginScreen(
-    idText: String,
-    pwText: String,
-    isLogInEnabled: Boolean,
+    uiState: LoginContract.UiState,
     onIdChange: (String) -> Unit,
     onPwChange: (String) -> Unit,
     onLoginClick: () -> Unit,
@@ -112,7 +108,7 @@ fun LoginScreen(
             WatchaAuthTextField(
                 label = "아이디",
                 placeholder = "아이디를 입력하세요",
-                value = idText,
+                value = uiState.idText,
                 onValueChange = onIdChange,
             )
 
@@ -121,7 +117,7 @@ fun LoginScreen(
             WatchaAuthTextField(
                 label = "비밀번호",
                 placeholder = "비밀번호를 입력하세요",
-                value = pwText,
+                value = uiState.pwText,
                 onValueChange = onPwChange,
                 visualTransformation = PasswordVisualTransformation(),
                 keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password)
@@ -140,10 +136,10 @@ fun LoginScreen(
         Spacer(modifier = Modifier.height(20.dp))
 
         WatchaAuthButton(
-            buttonStyle = if (isLogInEnabled) ButtonStyle.PRIMARY else ButtonStyle.DISABLED,
+            buttonStyle = if (uiState.isLogInEnabled) ButtonStyle.PRIMARY else ButtonStyle.DISABLED,
             buttonText = "로그인",
             onClick = onLoginClick,
-            disabled = !isLogInEnabled,
+            disabled = !uiState.isLogInEnabled,
             modifier = Modifier
                 .align(Alignment.CenterHorizontally)
                 .fillMaxWidth()
@@ -157,9 +153,7 @@ fun LoginScreen(
 private fun LoginPreview() {
     LETSSOPTTheme {
         LoginScreen(
-            idText = "",
-            pwText = "",
-            isLogInEnabled = false,
+            uiState = LoginContract.UiState(),
             onIdChange = {},
             onPwChange = {},
             onLoginClick = {},

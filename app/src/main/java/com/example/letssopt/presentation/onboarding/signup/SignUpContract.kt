@@ -4,7 +4,7 @@ import androidx.compose.runtime.Immutable
 
 interface SignUpContract {
     @Immutable
-    data class SignUpUiState(
+    data class UiState(
         val idText: String = "",
         val pwText: String = "",
         val pwConfirmText: String = "",

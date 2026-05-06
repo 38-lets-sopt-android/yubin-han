@@ -50,7 +50,7 @@ fun StorageRoute(
     }
 
     StorageScreen(
-        storedItems = uiState.storedItems,
+        uiState = uiState,
         onDeleteClick = { item -> viewModel.deleteItem(item) },
         modifier = modifier.padding(paddingValues),
     )
@@ -59,7 +59,7 @@ fun StorageRoute(
 
 @Composable
 fun StorageScreen(
-    storedItems: List<StoredItemEntity>,
+    uiState: StorageContract.UiState,
     onDeleteClick: (StoredItemEntity) -> Unit,
     modifier: Modifier = Modifier,
 ) {
@@ -77,7 +77,7 @@ fun StorageScreen(
         )
 
         Spacer(modifier = Modifier.height(45.dp))
-        if (storedItems.isEmpty()) {
+        if (uiState.storedItems.isEmpty()) {
             Box(
                 modifier = Modifier.fillMaxSize(),
                 contentAlignment = Alignment.Center,
@@ -94,7 +94,7 @@ fun StorageScreen(
                 horizontalArrangement = Arrangement.spacedBy(11.dp),
                 verticalArrangement = Arrangement.spacedBy(24.dp),
             ) {
-                items(storedItems, key = { it.id }) { item ->
+                items(uiState.storedItems, key = { it.id }) { item ->
                     StorageItemCard(
                         imageRes = item.imageRes,
                         contentTitle = item.title,
@@ -106,12 +106,12 @@ fun StorageScreen(
     }
 }
 
-@Preview
+@Preview(showBackground = true)
 @Composable
 private fun StorageScreenPreview() {
     LETSSOPTTheme {
         StorageScreen(
-            storedItems = emptyList(),
+            uiState = StorageContract.UiState(storedItems = emptyList()),
             onDeleteClick = {},
         )
     }

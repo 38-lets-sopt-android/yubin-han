@@ -54,15 +54,7 @@ fun SignUpRoute(
     }
 
     SignUpScreen(
-        modifier = modifier,
-        idText = uiState.idText,
-        pwText = uiState.pwText,
-        pwConfirmText = uiState.pwConfirmText,
-        nameText = uiState.nameText,
-        emailText = uiState.emailText,
-        ageText = uiState.ageText,
-        partText = uiState.partText,
-        isAllEntered = uiState.isAllEntered,
+        uiState = uiState,
         onIdChange = viewModel::updateId,
         onPwChange = viewModel::updatePw,
         onPwConfirmChange = viewModel::updatePwConfirm,
@@ -70,20 +62,14 @@ fun SignUpRoute(
         onEmailChange = viewModel::updateEmail,
         onAgeChange = viewModel::updateAge,
         onPartChange = viewModel::updatePart,
-        onSignUpClick = viewModel::signUp
+        onSignUpClick = viewModel::signUp,
+        modifier = modifier,
     )
 }
 
 @Composable
 fun SignUpScreen(
-    idText: String,
-    pwText: String,
-    pwConfirmText: String,
-    nameText: String,
-    emailText: String,
-    ageText: String,
-    partText: String,
-    isAllEntered: Boolean,
+    uiState: SignUpContract.UiState,
     onIdChange: (String) -> Unit,
     onPwChange: (String) -> Unit,
     onPwConfirmChange: (String) -> Unit,
@@ -124,17 +110,17 @@ fun SignUpScreen(
             Spacer(modifier = Modifier.height(36.dp))
 
             WatchaAuthTextField(
-                "아이디",
-                idText,
-                "아이디를 입력하세요",
-                onIdChange,
+                label = "아이디",
+                value = uiState.idText,
+                placeholder = "아이디를 입력하세요",
+                onValueChange = onIdChange,
             )
 
             Spacer(modifier = Modifier.height(18.dp))
 
             WatchaAuthTextField(
                 label = "비밀번호",
-                value = pwText,
+                value = uiState.pwText,
                 placeholder = "비밀번호를 입력하세요 (8~12자)",
                 onValueChange = onPwChange,
                 visualTransformation = PasswordVisualTransformation(),
@@ -147,7 +133,7 @@ fun SignUpScreen(
 
             WatchaAuthTextField(
                 label = "비밀번호 확인",
-                value = pwConfirmText,
+                value = uiState.pwConfirmText,
                 placeholder = "비밀번호를 다시 입력하세요",
                 onValueChange = onPwConfirmChange,
                 visualTransformation = PasswordVisualTransformation(),
@@ -157,13 +143,18 @@ fun SignUpScreen(
             )
             Spacer(modifier = Modifier.height(18.dp))
 
-            WatchaAuthTextField("이름", nameText, "이름을 입력하세요", onNameChange)
+            WatchaAuthTextField(
+                label = "이름",
+                value = uiState.nameText,
+                placeholder = "이름을 입력하세요",
+                onValueChange = onNameChange
+            )
 
             Spacer(modifier = Modifier.height(18.dp))
 
             WatchaAuthTextField(
                 label = "이메일",
-                value = emailText,
+                value = uiState.emailText,
                 placeholder = "이메일을 입력하세요",
                 onValueChange = onEmailChange,
                 keyboardOptions = KeyboardOptions(
@@ -174,7 +165,7 @@ fun SignUpScreen(
 
             WatchaAuthTextField(
                 label = "나이",
-                value = ageText,
+                value = uiState.ageText,
                 placeholder = "나이를 입력하세요",
                 onValueChange = onAgeChange,
                 keyboardOptions = KeyboardOptions(
@@ -185,7 +176,7 @@ fun SignUpScreen(
 
             WatchaAuthTextField(
                 label = "파트",
-                value = partText,
+                value = uiState.partText,
                 placeholder = "파트를 입력하세요 (안드로이드/iOS/웹)",
                 onValueChange = onPartChange,
                 keyboardOptions = KeyboardOptions(
@@ -196,10 +187,10 @@ fun SignUpScreen(
         }
 
         WatchaAuthButton(
-            buttonStyle = if (isAllEntered) ButtonStyle.PRIMARY else ButtonStyle.DISABLED,
+            buttonStyle = if (uiState.isAllEntered) ButtonStyle.PRIMARY else ButtonStyle.DISABLED,
             buttonText = "회원가입",
             onClick = onSignUpClick,
-            disabled = !isAllEntered,
+            disabled = !uiState.isAllEntered,
             modifier = Modifier
                 .align(Alignment.CenterHorizontally)
                 .fillMaxWidth()
@@ -214,14 +205,7 @@ fun SignUpScreen(
 private fun SignUpPreview() {
     LETSSOPTTheme {
         SignUpScreen(
-            idText = "",
-            pwText = "",
-            pwConfirmText = "",
-            nameText = "",
-            emailText = "",
-            ageText = "",
-            partText = "",
-            isAllEntered = false,
+            uiState = SignUpContract.UiState(),
             onIdChange = {},
             onPwChange = {},
             onPwConfirmChange = {},

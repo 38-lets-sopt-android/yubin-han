@@ -52,15 +52,15 @@ fun PurchaseRoute(
     }
 
     PurchaseScreen(
+        uiState = uiState,
+        onStoreClick = { item -> viewModel.storeItem(item) },
         modifier = modifier.padding(paddingValues),
-        purchaseItems = uiState.purchaseItems,
-        onStoreClick = { item -> viewModel.storeItem(item) }
     )
 }
 
 @Composable
 fun PurchaseScreen(
-    purchaseItems: List<PurchaseContent>,
+    uiState: PurchaseContract.UiState,
     onStoreClick: (PurchaseContent) -> Unit,
     modifier: Modifier = Modifier,
 ) {
@@ -84,7 +84,7 @@ fun PurchaseScreen(
             horizontalArrangement = Arrangement.spacedBy(11.dp),
             verticalArrangement = Arrangement.spacedBy(24.dp),
         ) {
-            items(purchaseItems, key = { it.title }) { item ->
+            items(uiState.purchaseItems, key = { it.title }) { item ->
                 PurchaseItemCard(
                     imageRes = item.image,
                     onStoreClick = { onStoreClick(item) },
@@ -95,14 +95,16 @@ fun PurchaseScreen(
     }
 }
 
-@Preview
+@Preview(showBackground = true)
 @Composable
 private fun PurchaseScreenPreview() {
     LETSSOPTTheme {
         PurchaseScreen(
-            purchaseItems = listOf(
-                PurchaseContent("이 사랑 통역 되나요?", R.drawable.img_poster_love_translate),
-                PurchaseContent("기묘한 이야기", R.drawable.img_poster_stranger_things),
+            uiState = PurchaseContract.UiState(
+                purchaseItems = listOf(
+                    PurchaseContent("이 사랑 통역 되나요?", R.drawable.img_poster_love_translate),
+                    PurchaseContent("기묘한 이야기", R.drawable.img_poster_stranger_things),
+                )
             ),
             onStoreClick = {}
         )
