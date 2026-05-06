@@ -1,4 +1,4 @@
-package com.example.letssopt.core.data.model.home.myprofile
+package com.example.letssopt.core.data.model.profile
 
 data class UserProfile(
     val id: String,

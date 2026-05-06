@@ -1,7 +1,7 @@
 package com.example.letssopt.presentation.home.myprofile
 
 import androidx.compose.runtime.Immutable
-import com.example.letssopt.core.data.model.home.myprofile.UserProfile
+import com.example.letssopt.core.data.model.profile.UserProfile
 
 interface MyProfileContract {
     @Immutable
