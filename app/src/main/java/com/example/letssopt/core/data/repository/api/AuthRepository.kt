@@ -1,7 +1,7 @@
 package com.example.letssopt.core.data.repository.api
 
 import android.content.Context
-import com.example.letssopt.core.data.network.datasource.api.AuthDataSource
+import com.example.letssopt.core.data.network.datasource.api.AuthRemoteDataSource
 import com.example.letssopt.core.data.repository.impl.AuthRepositoryImpl
 import kotlinx.coroutines.flow.Flow
 
@@ -37,7 +37,7 @@ interface AuthRepository {
     companion object {
         private lateinit var _instance: AuthRepository
 
-        fun init(context: Context, authDataSource: AuthDataSource) {
+        fun init(context: Context, authDataSource: AuthRemoteDataSource) {
             _instance = AuthRepositoryImpl(context, authDataSource)
         }
 

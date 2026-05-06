@@ -14,7 +14,7 @@ import com.example.letssopt.core.data.dto.PostSignInResponse
 import com.example.letssopt.core.data.dto.PostSignUpRequest
 import com.example.letssopt.core.data.dto.PostSignUpResponse
 import com.example.letssopt.core.data.network.RetrofitClient
-import com.example.letssopt.core.data.network.datasource.api.AuthDataSource
+import com.example.letssopt.core.data.network.datasource.api.AuthRemoteDataSource
 import com.example.letssopt.core.data.repository.api.AuthRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
@@ -25,7 +25,7 @@ private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(na
 
 class AuthRepositoryImpl(
     private val context: Context,
-    private val authDataSource: AuthDataSource
+    private val authDataSource: AuthRemoteDataSource
 ) : AuthRepository {
 
     private object PreferencesKeys {
@@ -95,8 +95,10 @@ class AuthRepositoryImpl(
             )
             if (response.isSuccessful) {
                 setLoggedIn(true)
+                val userId = response.body()?.data?.userId?.toString() ?: id
+
                 context.dataStore.edit { prefs ->
-                    prefs[PreferencesKeys.ID] = id
+                    prefs[PreferencesKeys.ID] = userId
                     prefs[PreferencesKeys.PW] = pw
                 }
                 Result.success(Unit)
@@ -129,8 +131,12 @@ class AuthRepositoryImpl(
     }
 
     override fun getId(): Flow<String?> = context.dataStore.data.map { it[PreferencesKeys.ID] }
-    override fun getEmail(): Flow<String?> = context.dataStore.data.map { it[PreferencesKeys.EMAIL] }
-    override fun getPassword(): Flow<String?> = context.dataStore.data.map { it[PreferencesKeys.PW] }
+    override fun getEmail(): Flow<String?> =
+        context.dataStore.data.map { it[PreferencesKeys.EMAIL] }
+
+    override fun getPassword(): Flow<String?> =
+        context.dataStore.data.map { it[PreferencesKeys.PW] }
+
     override fun getName(): Flow<String?> = context.dataStore.data.map { it[PreferencesKeys.NAME] }
     override fun getAge(): Flow<Int?> = context.dataStore.data.map {
         val age = it[PreferencesKeys.AGE] ?: -1
