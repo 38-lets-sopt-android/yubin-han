@@ -3,7 +3,6 @@ package com.example.letssopt.presentation.onboarding.signup
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.letssopt.core.data.repository.api.AuthRepository
-import com.example.letssopt.core.util.AuthValidator
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -26,35 +25,32 @@ class SignUpViewModel(
 
     fun signUp() {
         val currentState = _uiState.value
-        val errorType = AuthValidator.validateSignUp(
-            email = currentState.emailText,
-            pw = currentState.pwText,
-            pwConfirm = currentState.pwConfirmText,
-            age = currentState.ageText,
-            part = currentState.partText
-        )
+        if (currentState.pwText != currentState.pwConfirmText) {
+            viewModelScope.launch {
+                _effect.send(SignUpContract.Effect.ShowToast("비밀번호가 일치하지 않습니다."))
+            }
+            return
+        }
 
         viewModelScope.launch {
-            if (errorType != null) {
-                _effect.send(SignUpContract.Effect.ShowToast(errorType.errorMessage))
-            } else {
-                authRepository.signUp(
-                    id = currentState.idText,
-                    pw = currentState.pwText,
-                    name = currentState.nameText,
-                    email = currentState.emailText,
-                    age = currentState.ageText.toIntOrNull() ?: 0,
-                    part = currentState.partText
-                )
-                    .onSuccess {
-                        _uiState.update { SignUpContract.UiState() }
-                        _effect.send(SignUpContract.Effect.ShowToast("회원가입이 완료되었습니다."))
-                        _effect.send(SignUpContract.Effect.NavigateToNext)
-                    }
-                    .onFailure { error ->
-                        _effect.send(SignUpContract.Effect.ShowToast(error.message ?: "회원가입 실패"))
-                    }
-            }
+            _uiState.update { it.copy(isLoading = true) }
+            authRepository.signUp(
+                id = currentState.idText,
+                pw = currentState.pwText,
+                name = currentState.nameText,
+                email = currentState.emailText,
+                age = currentState.ageText.toIntOrNull() ?: 0,
+                part = currentState.partText
+            )
+                .onSuccess {
+                    _uiState.update { SignUpContract.UiState() }
+                    _effect.send(SignUpContract.Effect.ShowToast("회원가입이 완료되었습니다."))
+                    _effect.send(SignUpContract.Effect.NavigateToNext)
+                }
+                .onFailure { error ->
+                    _uiState.update { it.copy(isLoading = false) }
+                    _effect.send(SignUpContract.Effect.ShowToast(error.message ?: "회원가입 실패"))
+                }
         }
     }
 
