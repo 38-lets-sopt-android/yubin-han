@@ -121,7 +121,7 @@ fun SignUpScreen(
             WatchaAuthTextField(
                 label = "비밀번호",
                 value = uiState.pwText,
-                placeholder = "비밀번호를 입력하세요 (8~12자)",
+                placeholder = "비밀번호를 입력하세요",
                 onValueChange = onPwChange,
                 visualTransformation = PasswordVisualTransformation(),
                 keyboardOptions = KeyboardOptions(
