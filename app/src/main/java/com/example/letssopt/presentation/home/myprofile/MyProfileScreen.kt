@@ -40,10 +40,9 @@ fun MyProfileRoute(
             is MyProfileContract.Effect.NavigateToUserList -> navigateToUserList()
         }
     }
-
     MyProfileScreen(
         uiState = uiState,
-        onNavigateToUserList = viewModel::navigateToUserList,
+        navigateToUserList =navigateToUserList,
         modifier = modifier.padding(paddingValues),
     )
 }
@@ -51,7 +50,7 @@ fun MyProfileRoute(
 @Composable
 fun MyProfileScreen(
     uiState: MyProfileContract.UiState,
-    onNavigateToUserList: () -> Unit,
+    navigateToUserList: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
     Column(
@@ -105,7 +104,7 @@ fun MyProfileScreen(
 
         WatchaBasicButton(
             buttonText = "다른 유저들 보러가기",
-            onClick = onNavigateToUserList,
+            onClick = navigateToUserList,
             modifier = Modifier.fillMaxWidth(),
             buttonColor = ButtonStyle.PRIMARY.getButtonColor(),
             textStyle = typography.headline.head3B16,
@@ -130,7 +129,7 @@ private fun MyProfileScreenPreview() {
                     part = "안드로이드"
                 )
             ),
-            onNavigateToUserList = {}
+            navigateToUserList = {}
         )
     }
 }

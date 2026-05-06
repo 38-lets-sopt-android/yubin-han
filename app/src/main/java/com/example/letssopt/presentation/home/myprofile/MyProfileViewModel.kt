@@ -24,12 +24,6 @@ class MyProfileViewModel(
         fetchUserProfile()
     }
 
-    fun navigateToUserList() {
-        viewModelScope.launch {
-            _effect.send(MyProfileContract.Effect.NavigateToUserList)
-        }
-    }
-
     private fun fetchUserProfile() {
         viewModelScope.launch {
             _uiState.update { it.copy(isLoading = true) }
