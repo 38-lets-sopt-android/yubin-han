@@ -126,7 +126,6 @@ fun SignUpScreen(
                 visualTransformation = PasswordVisualTransformation(),
                 keyboardOptions = KeyboardOptions(
                     keyboardType = KeyboardType.Password,
-                    imeAction = ImeAction.Next,
                 )
             )
 
@@ -140,7 +139,6 @@ fun SignUpScreen(
                 visualTransformation = PasswordVisualTransformation(),
                 keyboardOptions = KeyboardOptions(
                     keyboardType = KeyboardType.Password,
-                    imeAction = ImeAction.Next,
                 )
             )
             Spacer(modifier = Modifier.height(18.dp))
