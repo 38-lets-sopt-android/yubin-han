@@ -3,6 +3,7 @@ package com.example.letssopt.core.data.repository.api
 import android.content.Context
 import com.example.letssopt.core.data.network.datasource.api.AuthDataSource
 import com.example.letssopt.core.data.repository.impl.AuthRepositoryImpl
+import kotlinx.coroutines.flow.Flow
 
 interface AuthRepository {
     suspend fun signUp(
@@ -13,21 +14,26 @@ interface AuthRepository {
         age: Int,
         part: String
     ): Result<Unit>
-    suspend fun login(id: String, pw: String): Result<Unit>
-    fun getLoggedIn(): Boolean
-    fun setLoggedIn(isLoggedIn: Boolean)
-    fun getId(): String?
-    fun getEmail(): String?
-    fun getPassword(): String?
-    fun getName(): String?
-    fun getAge(): Int?
-    fun getPart(): String?
-    fun setId(id: String)
-    fun setEmail(email: String)
-    fun setPassword(password: String)
-    fun setName(name: String)
-    fun setAge(age: Int)
-    fun setPart(part: String)
+
+    suspend fun signIn(id: String, pw: String): Result<Unit>
+
+    fun getLoggedIn(): Flow<Boolean>
+    suspend fun setLoggedIn(isLoggedIn: Boolean)
+
+    fun getId(): Flow<String?>
+    fun getEmail(): Flow<String?>
+    fun getPassword(): Flow<String?>
+    fun getName(): Flow<String?>
+    fun getAge(): Flow<Int?>
+    fun getPart(): Flow<String?>
+
+    suspend fun setId(id: String)
+    suspend fun setEmail(email: String)
+    suspend fun setPassword(password: String)
+    suspend fun setName(name: String)
+    suspend fun setAge(age: Int)
+    suspend fun setPart(part: String)
+
     companion object {
         private lateinit var _instance: AuthRepository
 
@@ -37,7 +43,4 @@ interface AuthRepository {
 
         fun getInstance(): AuthRepository = _instance
     }
-}
-sealed class AuthException : Exception() {
-    class InvalidCredentials : AuthException()
 }
