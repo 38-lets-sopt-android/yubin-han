@@ -11,12 +11,15 @@ import androidx.compose.ui.Modifier
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.compose.NavHost
 import com.example.letssopt.core.designsystem.theme.WatchaTheme
+import com.example.letssopt.navigation.Route
 import com.example.letssopt.presentation.home.myprofile.myProfileGraph
 import com.example.letssopt.presentation.home.myprofile.userlist.userListGraph
+import com.example.letssopt.presentation.home.navigation.Home
 import com.example.letssopt.presentation.home.navigation.homeGraph
 import com.example.letssopt.presentation.main.component.MainBottomBar
 import com.example.letssopt.presentation.main.component.MainTab
 import com.example.letssopt.presentation.main.state.MainAppState
+import com.example.letssopt.presentation.onboarding.login.navigation.Login
 import com.example.letssopt.presentation.onboarding.login.navigation.loginGraph
 import com.example.letssopt.presentation.onboarding.signup.signUpGraph
 import com.example.letssopt.presentation.purchase.navigation.purchaseGraph
@@ -32,6 +35,9 @@ fun MainScreen(
 ) {
     val isBottomBarVisible by appState.isBottomBarVisible.collectAsStateWithLifecycle()
     val currentTab by appState.currentTab.collectAsStateWithLifecycle()
+    val isLoggedIn by appState.isLoggedIn.collectAsStateWithLifecycle()
+
+    if (isLoggedIn == null) return
 
     Scaffold(
         modifier = modifier
@@ -50,6 +56,7 @@ fun MainScreen(
         MainNavHost(
             appState = appState,
             innerPadding = innerPadding,
+            startDestination = if (isLoggedIn == true) Home else Login
         )
     }
 }
@@ -59,6 +66,7 @@ fun MainScreen(
 private fun MainNavHost(
     appState: MainAppState,
     innerPadding: PaddingValues,
+    startDestination: Route
 ) {
     NavHost(
         enterTransition = { EnterTransition.None },
@@ -66,7 +74,7 @@ private fun MainNavHost(
         popEnterTransition = { EnterTransition.None },
         popExitTransition = { ExitTransition.None },
         navController = appState.navController,
-        startDestination = appState.startDestination,
+        startDestination = startDestination,
     ) {
         loginGraph(
             navController = appState.navController,

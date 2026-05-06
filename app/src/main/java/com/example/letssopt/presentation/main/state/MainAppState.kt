@@ -10,11 +10,8 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navOptions
 import com.example.letssopt.core.data.repository.api.AuthRepository
-import com.example.letssopt.navigation.Route
-import com.example.letssopt.presentation.home.navigation.Home
 import com.example.letssopt.presentation.home.navigation.navigateToHome
 import com.example.letssopt.presentation.main.component.MainTab
-import com.example.letssopt.presentation.onboarding.login.navigation.Login
 import com.example.letssopt.presentation.purchase.navigation.navigateToPurchase
 import com.example.letssopt.presentation.search.navigation.navigateToSearch
 import com.example.letssopt.presentation.storage.navigation.navigateToStorage
@@ -30,7 +27,12 @@ class MainAppState(
     val navController: NavHostController,
     coroutineScope: CoroutineScope,
 ) {
-    val startDestination: Route = if (AuthRepository.getInstance().getLoggedIn()) Home else Login
+    val isLoggedIn: StateFlow<Boolean?> = AuthRepository.getInstance().getLoggedIn()
+        .stateIn(
+            scope = coroutineScope,
+            started = SharingStarted.WhileSubscribed(5_000),
+            initialValue = null
+        )
 
     private val currentDestination = navController.currentBackStackEntryFlow
         .map { it.destination }
