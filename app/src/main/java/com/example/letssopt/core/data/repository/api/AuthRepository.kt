@@ -1,7 +1,7 @@
 package com.example.letssopt.core.data.repository.api
 
 import android.content.Context
-import com.example.letssopt.core.data.network.datasource.AuthDataSource
+import com.example.letssopt.core.data.network.datasource.api.AuthDataSource
 import com.example.letssopt.core.data.repository.impl.AuthRepositoryImpl
 
 interface AuthRepository {
