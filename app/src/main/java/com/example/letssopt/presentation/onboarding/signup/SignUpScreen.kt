@@ -19,7 +19,8 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.text.input.ImeAction.Companion.Done
+import androidx.compose.ui.text.input.ImeAction.Companion.Next
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
@@ -126,6 +127,7 @@ fun SignUpScreen(
                 visualTransformation = PasswordVisualTransformation(),
                 keyboardOptions = KeyboardOptions(
                     keyboardType = KeyboardType.Password,
+                    imeAction = Next,
                 )
             )
 
@@ -139,6 +141,7 @@ fun SignUpScreen(
                 visualTransformation = PasswordVisualTransformation(),
                 keyboardOptions = KeyboardOptions(
                     keyboardType = KeyboardType.Password,
+                    imeAction = Next,
                 )
             )
             Spacer(modifier = Modifier.height(18.dp))
@@ -159,6 +162,7 @@ fun SignUpScreen(
                 onValueChange = onEmailChange,
                 keyboardOptions = KeyboardOptions(
                     keyboardType = KeyboardType.Email,
+                    imeAction = Next,
                 )
             )
             Spacer(modifier = Modifier.height(18.dp))
@@ -170,6 +174,7 @@ fun SignUpScreen(
                 onValueChange = onAgeChange,
                 keyboardOptions = KeyboardOptions(
                     keyboardType = KeyboardType.Number,
+                    imeAction = Next,
                 )
             )
             Spacer(modifier = Modifier.height(18.dp))
@@ -180,7 +185,7 @@ fun SignUpScreen(
                 placeholder = "파트를 입력하세요 (안드로이드/iOS/웹)",
                 onValueChange = onPartChange,
                 keyboardOptions = KeyboardOptions(
-                    imeAction = ImeAction.Done,
+                    imeAction = Done,
                 )
             )
             Spacer(modifier = Modifier.height(30.dp))
