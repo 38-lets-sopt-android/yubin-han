@@ -42,7 +42,7 @@ fun MyProfileRoute(
     }
     MyProfileScreen(
         uiState = uiState,
-        navigateToUserList =navigateToUserList,
+        navigateToUserList = navigateToUserList,
         modifier = modifier.padding(paddingValues),
     )
 }

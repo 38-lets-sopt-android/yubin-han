@@ -32,7 +32,7 @@ class MyProfileViewModel(
                     _uiState.update {
                         it.copy(
                             isLoading = false,
-                            myProfile = profile
+                            myProfile = profile,
                         )
                     }
                 }
