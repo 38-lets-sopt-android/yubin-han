@@ -11,7 +11,10 @@ import retrofit2.converter.kotlinx.serialization.asConverterFactory
 object RetrofitClient {
     private const val BASE_URL = BuildConfig.BASE_URL
 
-    private val json = Json { ignoreUnknownKeys = true }
+    val json = Json {
+        ignoreUnknownKeys = true
+        coerceInputValues = true
+    }
 
     private val loggingInterceptor = HttpLoggingInterceptor().apply {
         level = HttpLoggingInterceptor.Level.BODY
