@@ -60,7 +60,7 @@ fun WatchaAuthTextField(
                 onValueChange = onValueChange,
                 textStyle = WatchaTheme.typography.cap.captionR14,
                 textFieldColor = textFieldStyle.getTextFieldColor(),
-                disabled = !enabled,
+                enabled = enabled,
                 modifier = Modifier.padding(horizontal = 16.dp, vertical = 17.dp),
                 keyboardOptions = keyboardOptions,
                 visualTransformation = visualTransformation,

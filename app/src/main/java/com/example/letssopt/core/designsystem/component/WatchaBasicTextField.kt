@@ -33,7 +33,7 @@ fun WatchaBasicTextField(
     value: String,
     onValueChange: (String) -> Unit,
     modifier: Modifier = Modifier,
-    disabled: Boolean = true,
+    enabled: Boolean = true,
     singleLine: Boolean = true,
     trailingContent: @Composable () -> Unit = {},
     keyboardOptions: KeyboardOptions = KeyboardOptions.Default,
@@ -43,7 +43,7 @@ fun WatchaBasicTextField(
     val interactionSource: MutableInteractionSource = remember { MutableInteractionSource() }
 
     val (backgroundColor, contentColor) =
-        if (!disabled) textFieldColor.backgroundColor to textFieldColor.textColor
+        if (enabled) textFieldColor.backgroundColor to textFieldColor.textColor
         else textFieldColor.disabledBackgroundColor to textFieldColor.disabledTextColor
 
     BasicTextField(
@@ -53,7 +53,7 @@ fun WatchaBasicTextField(
         onValueChange = onValueChange,
         keyboardOptions = keyboardOptions,
         keyboardActions = keyboardActions,
-        enabled = !disabled,
+        enabled = enabled,
         visualTransformation = visualTransformation,
         interactionSource = interactionSource,
         singleLine = singleLine,
