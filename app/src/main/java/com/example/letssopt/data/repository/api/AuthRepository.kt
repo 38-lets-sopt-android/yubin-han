@@ -16,9 +16,8 @@ interface AuthRepository {
     ): Result<Unit>
 
     suspend fun signIn(id: String, pw: String): Result<Unit>
-    
+
     fun getLoggedIn(): Flow<Boolean>
-    suspend fun setLoggedIn(isLoggedIn: Boolean)
 
     fun getId(): Flow<String?>
 
