@@ -20,7 +20,7 @@ class SignUpViewModel(
     private val _uiState = MutableStateFlow(SignUpContract.UiState())
     val uiState: StateFlow<SignUpContract.UiState> = _uiState.asStateFlow()
 
-    private val _effect = Channel<SignUpContract.Effect>()
+    private val _effect = Channel<SignUpContract.Effect>(Channel.UNLIMITED)
     val effect = _effect.receiveAsFlow()
 
     fun signUp() {
