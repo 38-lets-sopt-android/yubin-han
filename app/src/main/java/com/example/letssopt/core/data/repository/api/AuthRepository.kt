@@ -21,18 +21,6 @@ interface AuthRepository {
     suspend fun setLoggedIn(isLoggedIn: Boolean)
 
     fun getId(): Flow<String?>
-    fun getEmail(): Flow<String?>
-    fun getPassword(): Flow<String?>
-    fun getName(): Flow<String?>
-    fun getAge(): Flow<Int?>
-    fun getPart(): Flow<String?>
-
-    suspend fun setId(id: String)
-    suspend fun setEmail(email: String)
-    suspend fun setPassword(password: String)
-    suspend fun setName(name: String)
-    suspend fun setAge(age: Int)
-    suspend fun setPart(part: String)
 
     companion object {
         private lateinit var _instance: AuthRepository

@@ -1,12 +1,10 @@
 package com.example.letssopt.core.data.repository.impl
 
-import com.example.letssopt.core.data.dto.GetRecentUsersResponse
-import com.example.letssopt.core.data.dto.GetUserProfileResponse
 import com.example.letssopt.core.data.model.profile.UserProfile
-import com.example.letssopt.core.data.network.RetrofitClient
 import com.example.letssopt.core.data.network.datasource.api.UserRemoteDataSource
 import com.example.letssopt.core.data.repository.api.AuthRepository
 import com.example.letssopt.core.data.repository.api.UserRepository
+import com.example.letssopt.core.util.parseError
 import kotlinx.coroutines.flow.firstOrNull
 
 class UserRepositoryImpl(
@@ -33,17 +31,7 @@ class UserRepositoryImpl(
                 )
                 Result.success(user)
             } else {
-                val errorBody = response.errorBody()?.string()
-                val errorMessage = if (errorBody != null) {
-                    try {
-                        RetrofitClient.json.decodeFromString<GetUserProfileResponse>(errorBody).message
-                    } catch (e: Exception) {
-                        response.message()
-                    }
-                } else {
-                    response.message()
-                }
-                Result.failure(Exception(errorMessage))
+                Result.failure(Exception(response.parseError()))
             }
         } catch (e: Exception) {
             Result.failure(e)
@@ -63,17 +51,7 @@ class UserRepositoryImpl(
                 } ?: emptyList()
                 Result.success(users)
             } else {
-                val errorBody = response.errorBody()?.string()
-                val errorMessage = if (errorBody != null) {
-                    try {
-                        RetrofitClient.json.decodeFromString<GetRecentUsersResponse>(errorBody).message
-                    } catch (e: Exception) {
-                        response.message()
-                    }
-                } else {
-                    response.message()
-                }
-                Result.failure(Exception(errorMessage))
+                Result.failure(Exception(response.parseError()))
             }
         } catch (e: Exception) {
             Result.failure(e)
