@@ -1,7 +1,8 @@
 package com.example.letssopt.data.network
+
 import com.example.letssopt.BuildConfig
-import com.example.letssopt.core.data.network.service.AuthService
-import com.example.letssopt.core.data.network.service.UserService
+import com.example.letssopt.data.network.service.AuthService
+import com.example.letssopt.data.network.service.UserService
 import kotlinx.serialization.json.Json
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.OkHttpClient
@@ -18,7 +19,8 @@ object RetrofitClient {
     }
 
     private val loggingInterceptor = HttpLoggingInterceptor().apply {
-        level = HttpLoggingInterceptor.Level.BODY
+        level =
+            if (BuildConfig.DEBUG) HttpLoggingInterceptor.Level.BODY else HttpLoggingInterceptor.Level.NONE
     }
 
     private val okHttpClient = OkHttpClient.Builder()
