@@ -1,5 +1,6 @@
 package com.example.letssopt.core.data.repository.impl
 
+import com.example.letssopt.core.data.dto.GetRecentUsersResponse
 import com.example.letssopt.core.data.dto.GetUserProfileResponse
 import com.example.letssopt.core.data.model.profile.UserProfile
 import com.example.letssopt.core.data.network.RetrofitClient
@@ -14,11 +15,15 @@ class UserRepositoryImpl(
 
     override suspend fun getMyProfile(): Result<UserProfile> {
         return try {
-            val userId = AuthRepository.getInstance().getId().firstOrNull() ?: return Result.failure(Exception("User ID not found"))
+            val userId =
+                AuthRepository.getInstance().getId().firstOrNull() ?: return Result.failure(
+                    Exception("유저를 찾을 수 없습니다")
+                )
             val response = userRemoteDataSource.getUserProfile(userId)
-            
+
             if (response.isSuccessful) {
-                val profileData = response.body()?.data ?: return Result.failure(Exception("Response body is null"))
+                val profileData = response.body()?.data
+                    ?: return Result.failure(Exception("데이터를 불러올 수 없습니다"))
                 val user = UserProfile(
                     id = profileData.logInId,
                     name = profileData.name,
@@ -47,24 +52,29 @@ class UserRepositoryImpl(
 
     override suspend fun getUserList(page: Int): Result<List<UserProfile>> {
         return try {
-            // TODO: API 연동
-            val mockList = listOf(
-                UserProfile(
-                    id = "id_$page",
-                    name = "User $page-1",
-                    email = "user$page@example.com",
-                    age = 20 + page,
-                    part = "Android"
-                ),
-                UserProfile(
-                    id = "id_${page}_2",
-                    name = "User $page-2",
-                    email = "user${page}_2@example.com",
-                    age = 21 + page,
-                    part = "iOS"
-                )
-            )
-            Result.success(mockList)
+            val response = userRemoteDataSource.getRecentUsers()
+            if (response.isSuccessful) {
+                val users = response.body()?.data?.users?.map { data ->
+                    UserProfile(
+                        id = data.id.toString(),
+                        name = data.name,
+                        part = data.part,
+                    )
+                } ?: emptyList()
+                Result.success(users)
+            } else {
+                val errorBody = response.errorBody()?.string()
+                val errorMessage = if (errorBody != null) {
+                    try {
+                        RetrofitClient.json.decodeFromString<GetRecentUsersResponse>(errorBody).message
+                    } catch (e: Exception) {
+                        response.message()
+                    }
+                } else {
+                    response.message()
+                }
+                Result.failure(Exception(errorMessage))
+            }
         } catch (e: Exception) {
             Result.failure(e)
         }
