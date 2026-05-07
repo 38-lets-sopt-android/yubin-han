@@ -11,6 +11,12 @@ interface StorageRepository {
     suspend fun deleteItem(item: StoredItemEntity)
 
     companion object {
-        fun getInstance(dao: StoredItemDao): StorageRepository = StorageRepositoryImpl(dao)
+        private lateinit var _instance: StorageRepository
+
+        fun init(dao: StoredItemDao) {
+            _instance = StorageRepositoryImpl(dao)
+        }
+
+        fun getInstance(): StorageRepository = _instance
     }
 }

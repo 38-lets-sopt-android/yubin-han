@@ -22,7 +22,6 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.letssopt.R
-import com.example.letssopt.core.data.local.AppDatabase
 import com.example.letssopt.core.data.model.purchase.PurchaseContent
 import com.example.letssopt.core.designsystem.theme.LETSSOPTTheme
 import com.example.letssopt.core.designsystem.theme.WatchaTheme
@@ -33,14 +32,9 @@ import com.example.letssopt.presentation.purchase.component.PurchaseItemCard
 fun PurchaseRoute(
     paddingValues: PaddingValues,
     modifier: Modifier = Modifier,
+    viewModel: PurchaseViewModel = viewModel(),
 ) {
     val context = LocalContext.current
-    val database = AppDatabase.getDatabase(context)
-    val dao = database.storedItemDao()
-
-    val viewModel: PurchaseViewModel = viewModel(
-        factory = PurchaseViewModelFactory(dao)
-    )
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
     HandleUiEffects(viewModel.effect) { effect ->

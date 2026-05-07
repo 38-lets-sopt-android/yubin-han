@@ -17,8 +17,8 @@ import kotlinx.coroutines.launch
 
 
 class PurchaseViewModel(
-    private val purchaseRepository: PurchaseRepository,
-    private val storageRepository: StorageRepository
+    private val purchaseRepository: PurchaseRepository = PurchaseRepository.getInstance(),
+    private val storageRepository: StorageRepository = StorageRepository.getInstance()
 ) : ViewModel() {
     private val _uiState = MutableStateFlow(PurchaseContract.UiState())
     val uiState: StateFlow<PurchaseContract.UiState> = _uiState.asStateFlow()

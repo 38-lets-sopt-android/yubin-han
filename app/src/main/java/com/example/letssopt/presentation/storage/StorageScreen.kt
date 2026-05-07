@@ -23,7 +23,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.example.letssopt.core.data.local.AppDatabase
 import com.example.letssopt.core.data.local.entity.StoredItemEntity
 import com.example.letssopt.core.designsystem.theme.LETSSOPTTheme
 import com.example.letssopt.core.designsystem.theme.WatchaTheme
@@ -35,10 +34,9 @@ import com.example.letssopt.presentation.storage.component.StorageItemCard
 fun StorageRoute(
     paddingValues: PaddingValues,
     modifier: Modifier = Modifier,
+    viewModel: StorageViewModel = viewModel(),
 ) {
     val context = LocalContext.current
-    val dao = AppDatabase.getDatabase(context).storedItemDao()
-    val viewModel: StorageViewModel = viewModel(factory = StorageViewModelFactory(dao))
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
     HandleUiEffects(viewModel.effect) { effect ->

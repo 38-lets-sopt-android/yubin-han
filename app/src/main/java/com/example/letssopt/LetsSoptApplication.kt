@@ -1,9 +1,11 @@
 package com.example.letssopt
 import android.app.Application
+import com.example.letssopt.core.data.local.AppDatabase
 import com.example.letssopt.core.data.network.RetrofitClient
 import com.example.letssopt.core.data.network.datasource.impl.AuthRemoteDataSourceImpl
 import com.example.letssopt.core.data.network.datasource.impl.UserRemoteDataSourceImpl
 import com.example.letssopt.core.data.repository.api.AuthRepository
+import com.example.letssopt.core.data.repository.api.StorageRepository
 import com.example.letssopt.core.data.repository.api.UserRepository
 
 class LetsSoptApplication : Application() {
@@ -15,6 +17,9 @@ class LetsSoptApplication : Application() {
         )
         UserRepository.init(
             UserRemoteDataSourceImpl(RetrofitClient.userService)
+        )
+        StorageRepository.init(
+            AppDatabase.getDatabase(this).storedItemDao()
         )
     }
 }

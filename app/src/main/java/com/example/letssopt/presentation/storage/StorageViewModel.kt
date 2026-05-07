@@ -14,7 +14,9 @@ import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
-class StorageViewModel(private val storageRepository: StorageRepository) : ViewModel() {
+class StorageViewModel(
+    private val storageRepository: StorageRepository = StorageRepository.getInstance()
+) : ViewModel() {
     private val _uiState = MutableStateFlow(StorageContract.UiState())
     val uiState: StateFlow<StorageContract.UiState> = _uiState.asStateFlow()
 
