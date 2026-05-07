@@ -1,7 +1,7 @@
 package com.example.letssopt.presentation.purchase
 
 import androidx.compose.runtime.Immutable
-import com.example.letssopt.core.data.model.purchase.PurchaseContent
+import com.example.letssopt.data.model.purchase.PurchaseContent
 
 interface PurchaseContract {
     @Immutable

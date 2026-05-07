@@ -23,10 +23,10 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.example.letssopt.core.data.local.entity.StoredItemEntity
 import com.example.letssopt.core.designsystem.theme.LETSSOPTTheme
 import com.example.letssopt.core.designsystem.theme.WatchaTheme
 import com.example.letssopt.core.util.HandleUiEffects
+import com.example.letssopt.data.local.entity.StoredItemEntity
 import com.example.letssopt.presentation.storage.component.StorageItemCard
 
 

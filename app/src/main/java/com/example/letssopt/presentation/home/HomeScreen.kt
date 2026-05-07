@@ -18,9 +18,9 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.letssopt.R
-import com.example.letssopt.core.data.model.home.MainHomeItem
 import com.example.letssopt.core.designsystem.theme.LETSSOPTTheme
 import com.example.letssopt.core.designsystem.theme.WatchaTheme
+import com.example.letssopt.data.model.home.MainHomeItem
 import com.example.letssopt.presentation.home.component.HomeAlgorithmSection
 import com.example.letssopt.presentation.home.component.HomePartySection
 import com.example.letssopt.presentation.home.component.HomeTopActionBar

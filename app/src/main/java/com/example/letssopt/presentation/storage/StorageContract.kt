@@ -1,7 +1,7 @@
 package com.example.letssopt.presentation.storage
 
 import androidx.compose.runtime.Immutable
-import com.example.letssopt.core.data.local.entity.StoredItemEntity
+import com.example.letssopt.data.local.entity.StoredItemEntity
 
 interface StorageContract {
     @Immutable

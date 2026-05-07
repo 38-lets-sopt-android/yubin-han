@@ -1,7 +1,7 @@
 package com.example.letssopt.presentation.home
 
 import androidx.compose.runtime.Immutable
-import com.example.letssopt.core.data.model.home.MainHomeItem
+import com.example.letssopt.data.model.home.MainHomeItem
 
 interface HomeContract {
     @Immutable

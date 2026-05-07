@@ -22,10 +22,10 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.letssopt.R
-import com.example.letssopt.core.data.model.purchase.PurchaseContent
 import com.example.letssopt.core.designsystem.theme.LETSSOPTTheme
 import com.example.letssopt.core.designsystem.theme.WatchaTheme
 import com.example.letssopt.core.util.HandleUiEffects
+import com.example.letssopt.data.model.purchase.PurchaseContent
 import com.example.letssopt.presentation.purchase.component.PurchaseItemCard
 
 @Composable

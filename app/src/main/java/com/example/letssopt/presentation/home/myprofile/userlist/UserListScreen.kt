@@ -19,10 +19,10 @@ import androidx.paging.PagingData
 import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
 import androidx.paging.compose.itemKey
-import com.example.letssopt.core.data.model.profile.UserProfile
 import com.example.letssopt.core.designsystem.theme.LETSSOPTTheme
 import com.example.letssopt.core.designsystem.theme.WatchaTheme.colors
 import com.example.letssopt.core.designsystem.theme.WatchaTheme.typography
+import com.example.letssopt.data.model.profile.UserProfile
 import com.example.letssopt.presentation.home.myprofile.userlist.component.UserProfileCard
 import kotlinx.coroutines.flow.flowOf
 
@@ -32,7 +32,7 @@ fun UserListRoute(
     modifier: Modifier = Modifier,
     viewModel: UserListViewModel = viewModel(),
 ) {
-    val userItems = viewModel.userPagingData.collectAsLazyPagingItems()
+    val userItems: LazyPagingItems<UserProfile> = viewModel.userPagingData.collectAsLazyPagingItems()
 
     UserListScreen(
         userItems = userItems,

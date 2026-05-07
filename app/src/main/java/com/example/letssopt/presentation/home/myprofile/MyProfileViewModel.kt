@@ -2,7 +2,7 @@ package com.example.letssopt.presentation.home.myprofile
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.letssopt.core.data.repository.api.UserRepository
+import com.example.letssopt.data.repository.api.UserRepository
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow

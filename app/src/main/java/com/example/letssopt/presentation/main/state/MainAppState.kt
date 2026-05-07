@@ -9,7 +9,7 @@ import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navOptions
-import com.example.letssopt.core.data.repository.api.AuthRepository
+import com.example.letssopt.data.repository.api.AuthRepository
 import com.example.letssopt.presentation.home.navigation.navigateToHome
 import com.example.letssopt.presentation.main.component.MainTab
 import com.example.letssopt.presentation.purchase.navigation.navigateToPurchase

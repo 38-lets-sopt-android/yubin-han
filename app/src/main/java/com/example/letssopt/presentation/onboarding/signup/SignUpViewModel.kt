@@ -2,7 +2,7 @@ package com.example.letssopt.presentation.onboarding.signup
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.letssopt.core.data.repository.api.AuthRepository
+import com.example.letssopt.data.repository.api.AuthRepository
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
