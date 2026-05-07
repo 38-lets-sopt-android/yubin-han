@@ -2,17 +2,18 @@ package com.example.letssopt.data.repository.impl
 
 import android.content.Context
 import androidx.datastore.core.DataStore
+import androidx.datastore.preferences.core.MutablePreferences
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.booleanPreferencesKey
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.emptyPreferences
 import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
-import com.example.letssopt.core.data.dto.PostSignInRequest
-import com.example.letssopt.core.data.dto.PostSignUpRequest
-import com.example.letssopt.core.data.network.datasource.api.AuthRemoteDataSource
-import com.example.letssopt.core.data.repository.api.AuthRepository
 import com.example.letssopt.core.util.parseError
+import com.example.letssopt.data.dto.PostSignInRequest
+import com.example.letssopt.data.dto.PostSignUpRequest
+import com.example.letssopt.data.network.datasource.api.AuthRemoteDataSource
+import com.example.letssopt.data.repository.api.AuthRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.map
@@ -50,7 +51,7 @@ class AuthRepositoryImpl(
                 )
             )
             if (response.isSuccessful) {
-                context.dataStore.edit { prefs ->
+                context.dataStore.edit { prefs: MutablePreferences ->
                     prefs[PreferencesKeys.ID] = id
                 }
                 Result.success(Unit)
@@ -74,7 +75,7 @@ class AuthRepositoryImpl(
                 setLoggedIn(true)
                 val userData = response.body()?.data
 
-                context.dataStore.edit { prefs ->
+                context.dataStore.edit { prefs: MutablePreferences ->
                     prefs[PreferencesKeys.ID] = userData?.userId?.toString() ?: id
                 }
                 Result.success(Unit)
@@ -92,8 +93,10 @@ class AuthRepositoryImpl(
             else throw exception
         }.map { it[PreferencesKeys.IS_LOGGED_IN] ?: false }
 
-    override suspend fun setLoggedIn(isLoggedIn: Boolean) {
-        context.dataStore.edit { it[PreferencesKeys.IS_LOGGED_IN] = isLoggedIn }
+    private suspend fun setLoggedIn(isLoggedIn: Boolean) {
+        context.dataStore.edit { prefs: MutablePreferences ->
+            prefs[PreferencesKeys.IS_LOGGED_IN] = isLoggedIn
+        }
     }
 
     override fun getId(): Flow<String?> = context.dataStore.data.map { it[PreferencesKeys.ID] }

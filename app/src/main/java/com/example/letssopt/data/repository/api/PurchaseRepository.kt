@@ -1,7 +1,8 @@
 package com.example.letssopt.data.repository.api
 
-import com.example.letssopt.core.data.model.purchase.PurchaseContent
-import com.example.letssopt.core.data.repository.impl.PurchaseRepositoryImpl
+import com.example.letssopt.data.model.purchase.PurchaseContent
+import com.example.letssopt.data.repository.impl.PurchaseRepositoryImpl
+
 
 interface PurchaseRepository {
     fun getPurchaseItems(): List<PurchaseContent>

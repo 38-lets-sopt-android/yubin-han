@@ -2,8 +2,8 @@ package com.example.letssopt.data.repository.paging
 
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
-import com.example.letssopt.core.data.model.profile.UserProfile
-import com.example.letssopt.core.data.repository.api.UserRepository
+import com.example.letssopt.data.model.profile.UserProfile
+import com.example.letssopt.data.repository.api.UserRepository
 
 class UserPagingSource(
     private val userRepository: UserRepository

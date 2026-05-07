@@ -1,8 +1,8 @@
 package com.example.letssopt.data.repository.api
 
-import com.example.letssopt.core.data.model.profile.UserProfile
-import com.example.letssopt.core.data.network.datasource.api.UserRemoteDataSource
-import com.example.letssopt.core.data.repository.impl.UserRepositoryImpl
+import com.example.letssopt.data.model.profile.UserProfile
+import com.example.letssopt.data.network.datasource.api.UserRemoteDataSource
+import com.example.letssopt.data.repository.impl.UserRepositoryImpl
 
 interface UserRepository {
     suspend fun getMyProfile(): Result<UserProfile>

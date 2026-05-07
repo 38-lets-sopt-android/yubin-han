@@ -1,8 +1,8 @@
 package com.example.letssopt.data.repository.api
 
-import com.example.letssopt.core.data.local.dao.StoredItemDao
-import com.example.letssopt.core.data.local.entity.StoredItemEntity
-import com.example.letssopt.core.data.repository.impl.StorageRepositoryImpl
+import com.example.letssopt.data.local.dao.StoredItemDao
+import com.example.letssopt.data.local.entity.StoredItemEntity
+import com.example.letssopt.data.repository.impl.StorageRepositoryImpl
 import kotlinx.coroutines.flow.Flow
 
 interface StorageRepository {

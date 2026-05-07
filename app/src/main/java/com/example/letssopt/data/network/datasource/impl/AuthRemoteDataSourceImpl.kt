@@ -1,11 +1,11 @@
 package com.example.letssopt.data.network.datasource.impl
 
-import com.example.letssopt.core.data.dto.PostSignInRequest
-import com.example.letssopt.core.data.dto.PostSignInResponse
-import com.example.letssopt.core.data.dto.PostSignUpRequest
-import com.example.letssopt.core.data.dto.PostSignUpResponse
-import com.example.letssopt.core.data.network.datasource.api.AuthRemoteDataSource
-import com.example.letssopt.core.data.network.service.AuthService
+import com.example.letssopt.data.dto.PostSignInRequest
+import com.example.letssopt.data.dto.PostSignInResponse
+import com.example.letssopt.data.dto.PostSignUpRequest
+import com.example.letssopt.data.dto.PostSignUpResponse
+import com.example.letssopt.data.network.datasource.api.AuthRemoteDataSource
+import com.example.letssopt.data.network.service.AuthService
 import retrofit2.Response
 
 class AuthRemoteDataSourceImpl(

@@ -4,8 +4,8 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
-import com.example.letssopt.core.data.local.dao.StoredItemDao
-import com.example.letssopt.core.data.local.entity.StoredItemEntity
+import com.example.letssopt.data.local.dao.StoredItemDao
+import com.example.letssopt.data.local.entity.StoredItemEntity
 
 @Database(entities = [StoredItemEntity::class], version = 1)
 abstract class AppDatabase : RoomDatabase() {

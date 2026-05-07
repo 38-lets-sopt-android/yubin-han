@@ -1,8 +1,8 @@
 package com.example.letssopt.data.repository.api
 
 import android.content.Context
-import com.example.letssopt.core.data.network.datasource.api.AuthRemoteDataSource
-import com.example.letssopt.core.data.repository.impl.AuthRepositoryImpl
+import com.example.letssopt.data.network.datasource.api.AuthRemoteDataSource
+import com.example.letssopt.data.repository.impl.AuthRepositoryImpl
 import kotlinx.coroutines.flow.Flow
 
 interface AuthRepository {
@@ -16,7 +16,7 @@ interface AuthRepository {
     ): Result<Unit>
 
     suspend fun signIn(id: String, pw: String): Result<Unit>
-
+    
     fun getLoggedIn(): Flow<Boolean>
     suspend fun setLoggedIn(isLoggedIn: Boolean)
 

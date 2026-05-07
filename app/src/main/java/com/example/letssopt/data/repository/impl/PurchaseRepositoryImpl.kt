@@ -1,9 +1,8 @@
 package com.example.letssopt.data.repository.impl
 
 import com.example.letssopt.R
-import com.example.letssopt.core.data.model.purchase.PurchaseContent
-import com.example.letssopt.core.data.repository.api.PurchaseRepository
-
+import com.example.letssopt.data.model.purchase.PurchaseContent
+import com.example.letssopt.data.repository.api.PurchaseRepository
 
 class PurchaseRepositoryImpl : PurchaseRepository {
     override fun getPurchaseItems(): List<PurchaseContent> {

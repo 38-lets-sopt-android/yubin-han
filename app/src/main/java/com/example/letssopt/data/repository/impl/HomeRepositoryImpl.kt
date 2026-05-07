@@ -1,8 +1,8 @@
 package com.example.letssopt.data.repository.impl
 
 import com.example.letssopt.R
-import com.example.letssopt.core.data.model.home.MainHomeItem
-import com.example.letssopt.core.data.repository.api.HomeRepository
+import com.example.letssopt.data.model.home.MainHomeItem
+import com.example.letssopt.data.repository.api.HomeRepository
 
 class HomeRepositoryImpl : HomeRepository {
     override fun getHomeItems(): List<MainHomeItem> {
