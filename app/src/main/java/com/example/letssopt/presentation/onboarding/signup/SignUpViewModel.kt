@@ -25,9 +25,11 @@ class SignUpViewModel(
 
     fun signUp() {
         val currentState = _uiState.value
-        if (currentState.pwText != currentState.pwConfirmText) {
+        val validationError = SignUpValidator.validateSignUp(currentState)
+
+        if (validationError != null) {
             viewModelScope.launch {
-                _effect.send(SignUpContract.Effect.ShowToast("비밀번호가 일치하지 않습니다."))
+                _effect.send(SignUpContract.Effect.ShowToast(validationError))
             }
             return
         }
