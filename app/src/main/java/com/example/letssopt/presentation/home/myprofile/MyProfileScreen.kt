@@ -23,7 +23,6 @@ import com.example.letssopt.core.designsystem.style.ButtonStyle
 import com.example.letssopt.core.designsystem.theme.LETSSOPTTheme
 import com.example.letssopt.core.designsystem.theme.WatchaTheme.colors
 import com.example.letssopt.core.designsystem.theme.WatchaTheme.typography
-import com.example.letssopt.core.util.HandleUiEffects
 import com.example.letssopt.presentation.home.myprofile.component.MyProfileItemSection
 
 @Composable
@@ -35,11 +34,6 @@ fun MyProfileRoute(
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
-    HandleUiEffects(viewModel.effect) { effect ->
-        when (effect) {
-            is MyProfileContract.Effect.NavigateToUserList -> navigateToUserList()
-        }
-    }
     MyProfileScreen(
         uiState = uiState,
         navigateToUserList = navigateToUserList,

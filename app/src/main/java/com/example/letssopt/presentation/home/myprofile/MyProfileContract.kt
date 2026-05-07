@@ -10,7 +10,4 @@ interface MyProfileContract {
         val myProfile: UserProfile? = null,
     )
 
-    sealed interface Effect {
-        data object NavigateToUserList : Effect
-    }
 }
