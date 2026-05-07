@@ -10,13 +10,12 @@ class UserPagingSource(
 ) : PagingSource<Int, UserProfile>() {
 
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, UserProfile> {
-        val page = params.key ?: 1
         return try {
-            val response = userRepository.getUserList(page).getOrThrow()
+            val response = userRepository.getUserList(1).getOrThrow()
             LoadResult.Page(
                 data = response,
-                prevKey = if (page == 1) null else page - 1,
-                nextKey = if (response.isEmpty()) null else page + 1
+                prevKey = null,
+                nextKey = null
             )
         } catch (e: Exception) {
             LoadResult.Error(e)

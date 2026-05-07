@@ -1,6 +1,5 @@
 package com.example.letssopt.presentation.home.myprofile.userlist
 
-import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -13,7 +12,6 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -21,11 +19,10 @@ import androidx.paging.PagingData
 import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
 import androidx.paging.compose.itemKey
-import com.example.letssopt.core.data.model.home.myprofile.UserProfile
+import com.example.letssopt.core.data.model.profile.UserProfile
 import com.example.letssopt.core.designsystem.theme.LETSSOPTTheme
 import com.example.letssopt.core.designsystem.theme.WatchaTheme.colors
 import com.example.letssopt.core.designsystem.theme.WatchaTheme.typography
-import com.example.letssopt.core.util.HandleUiEffects
 import com.example.letssopt.presentation.home.myprofile.userlist.component.UserProfileCard
 import kotlinx.coroutines.flow.flowOf
 
@@ -36,15 +33,6 @@ fun UserListRoute(
     viewModel: UserListViewModel = viewModel(),
 ) {
     val userItems = viewModel.userPagingData.collectAsLazyPagingItems()
-    val context = LocalContext.current
-
-    HandleUiEffects(viewModel.effect) { effect ->
-        when (effect) {
-            is UserListContract.Effect.ShowToast -> {
-                Toast.makeText(context, effect.message, Toast.LENGTH_SHORT).show()
-            }
-        }
-    }
 
     UserListScreen(
         userItems = userItems,
@@ -77,6 +65,7 @@ fun UserListScreen(
         LazyColumn(
             modifier = Modifier
                 .fillMaxWidth()
+                .weight(1f)
         ) {
             items(
                 count = userItems.itemCount,
