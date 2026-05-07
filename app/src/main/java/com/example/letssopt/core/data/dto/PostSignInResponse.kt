@@ -15,7 +15,7 @@ data class PostSignInResponse(
     @SerialName("code")
     val code: String,
     @SerialName("data")
-    val data: UserData,
+    val data: UserData? = null,
 )
 
 @Serializable

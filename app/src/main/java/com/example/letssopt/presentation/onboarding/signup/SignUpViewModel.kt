@@ -28,9 +28,7 @@ class SignUpViewModel(
         val validationError = SignUpValidator.validateSignUp(currentState)
 
         if (validationError != null) {
-            viewModelScope.launch {
-                _effect.send(SignUpContract.Effect.ShowToast(validationError))
-            }
+            _effect.trySend(SignUpContract.Effect.ShowToast(validationError))
             return
         }
 
@@ -46,12 +44,12 @@ class SignUpViewModel(
             )
                 .onSuccess {
                     _uiState.update { SignUpContract.UiState() }
-                    _effect.send(SignUpContract.Effect.ShowToast("회원가입이 완료되었습니다."))
-                    _effect.send(SignUpContract.Effect.NavigateToNext)
+                    _effect.trySend(SignUpContract.Effect.ShowToast("회원가입이 완료되었습니다."))
+                    _effect.trySend(SignUpContract.Effect.NavigateToNext)
                 }
                 .onFailure { error ->
                     _uiState.update { it.copy(isLoading = false) }
-                    _effect.send(SignUpContract.Effect.ShowToast(error.message ?: "회원가입 실패"))
+                    _effect.trySend(SignUpContract.Effect.ShowToast(error.message ?: "회원가입 실패"))
                 }
         }
     }

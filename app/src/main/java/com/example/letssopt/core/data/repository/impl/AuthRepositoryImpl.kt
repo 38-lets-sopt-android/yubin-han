@@ -10,15 +10,15 @@ import androidx.datastore.preferences.core.intPreferencesKey
 import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
 import com.example.letssopt.core.data.dto.PostSignInRequest
-import com.example.letssopt.core.data.dto.PostSignInResponse
 import com.example.letssopt.core.data.dto.PostSignUpRequest
-import com.example.letssopt.core.data.dto.PostSignUpResponse
 import com.example.letssopt.core.data.network.RetrofitClient
 import com.example.letssopt.core.data.network.datasource.api.AuthRemoteDataSource
 import com.example.letssopt.core.data.repository.api.AuthRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.map
+import kotlinx.serialization.json.jsonObject
+import kotlinx.serialization.json.jsonPrimitive
 import java.io.IOException
 
 private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "user_prefs")
@@ -69,14 +69,16 @@ class AuthRepositoryImpl(
                 Result.success(Unit)
             } else {
                 val errorBody = response.errorBody()?.string()
-                val errorMessage = if (errorBody != null) {
+                val errorMessage = if (!errorBody.isNullOrBlank()) {
                     try {
-                        RetrofitClient.json.decodeFromString<PostSignUpResponse>(errorBody).message
+                        val jsonElement = RetrofitClient.json.parseToJsonElement(errorBody)
+                        jsonElement.jsonObject["message"]?.jsonPrimitive?.content 
+                            ?: "회원가입 실패 (${response.code()})"
                     } catch (e: Exception) {
-                        response.message()
+                        "오류 발생: ${response.message()}"
                     }
                 } else {
-                    response.message()
+                    "서버 응답 없음 (${response.code()})"
                 }
                 Result.failure(Exception(errorMessage))
             }
@@ -95,23 +97,25 @@ class AuthRepositoryImpl(
             )
             if (response.isSuccessful) {
                 setLoggedIn(true)
-                val userId = response.body()?.data?.userId?.toString() ?: id
+                val userData = response.body()?.data
 
                 context.dataStore.edit { prefs ->
-                    prefs[PreferencesKeys.ID] = userId
+                    prefs[PreferencesKeys.ID] = userData?.userId?.toString() ?: id
                     prefs[PreferencesKeys.PW] = pw
                 }
                 Result.success(Unit)
             } else {
                 val errorBody = response.errorBody()?.string()
-                val errorMessage = if (errorBody != null) {
+                val errorMessage = if (!errorBody.isNullOrBlank()) {
                     try {
-                        RetrofitClient.json.decodeFromString<PostSignInResponse>(errorBody).message
+                        val jsonElement = RetrofitClient.json.parseToJsonElement(errorBody)
+                        jsonElement.jsonObject["message"]?.jsonPrimitive?.content 
+                            ?: "로그인 실패 (${response.code()})"
                     } catch (e: Exception) {
-                        response.message()
+                        "오류 발생: ${response.message()}"
                     }
                 } else {
-                    response.message()
+                    "서버 응답 없음 (${response.code()})"
                 }
                 Result.failure(Exception(errorMessage))
             }
