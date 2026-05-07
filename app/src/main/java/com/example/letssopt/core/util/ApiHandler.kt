@@ -1,6 +1,6 @@
 package com.example.letssopt.core.util
 
-import com.example.letssopt.core.data.network.RetrofitClient
+import com.example.letssopt.data.network.RetrofitClient
 import kotlinx.serialization.json.jsonObject
 import kotlinx.serialization.json.jsonPrimitive
 import retrofit2.Response
