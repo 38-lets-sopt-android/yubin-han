@@ -12,8 +12,8 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.compose.NavHost
 import com.example.letssopt.core.designsystem.theme.WatchaTheme
 import com.example.letssopt.navigation.Route
-import com.example.letssopt.presentation.home.myprofile.myProfileGraph
-import com.example.letssopt.presentation.home.myprofile.userlist.userListGraph
+import com.example.letssopt.presentation.home.myprofile.navigation.myProfileGraph
+import com.example.letssopt.presentation.home.myprofile.userlist.navigation.userListGraph
 import com.example.letssopt.presentation.home.navigation.Home
 import com.example.letssopt.presentation.home.navigation.homeGraph
 import com.example.letssopt.presentation.main.component.MainBottomBar
@@ -21,7 +21,7 @@ import com.example.letssopt.presentation.main.component.MainTab
 import com.example.letssopt.presentation.main.state.MainAppState
 import com.example.letssopt.presentation.onboarding.login.navigation.Login
 import com.example.letssopt.presentation.onboarding.login.navigation.loginGraph
-import com.example.letssopt.presentation.onboarding.signup.signUpGraph
+import com.example.letssopt.presentation.onboarding.signup.navigation.signUpGraph
 import com.example.letssopt.presentation.purchase.navigation.purchaseGraph
 import com.example.letssopt.presentation.search.navigation.searchGraph
 import com.example.letssopt.presentation.storage.navigation.storageGraph

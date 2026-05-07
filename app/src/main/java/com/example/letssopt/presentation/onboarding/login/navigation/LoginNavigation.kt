@@ -13,7 +13,7 @@ import com.example.letssopt.navigation.Route
 import com.example.letssopt.presentation.home.navigation.navigateToHome
 import com.example.letssopt.presentation.onboarding.login.LoginRoute
 import com.example.letssopt.presentation.onboarding.login.LoginViewModel
-import com.example.letssopt.presentation.onboarding.signup.navigateToSignUp
+import com.example.letssopt.presentation.onboarding.signup.navigation.navigateToSignUp
 import kotlinx.serialization.Serializable
 
 fun NavController.navigateToLogin(

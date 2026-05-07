@@ -7,7 +7,7 @@ import androidx.navigation.NavOptions
 import androidx.navigation.compose.composable
 import com.example.letssopt.navigation.MainTabRoute
 import com.example.letssopt.presentation.home.HomeRoute
-import com.example.letssopt.presentation.home.myprofile.navigateToMyProfile
+import com.example.letssopt.presentation.home.myprofile.navigation.navigateToMyProfile
 import kotlinx.serialization.Serializable
 
 fun NavController.navigateToHome(

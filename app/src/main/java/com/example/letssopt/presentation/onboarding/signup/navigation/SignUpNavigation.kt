@@ -1,4 +1,4 @@
-package com.example.letssopt.presentation.onboarding.signup
+package com.example.letssopt.presentation.onboarding.signup.navigation
 
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.padding
@@ -11,6 +11,8 @@ import androidx.navigation.compose.composable
 import com.example.letssopt.core.extension.clearBackStackNavOptions
 import com.example.letssopt.navigation.Route
 import com.example.letssopt.presentation.onboarding.login.navigation.navigateToLogin
+import com.example.letssopt.presentation.onboarding.signup.SignUpRoute
+import com.example.letssopt.presentation.onboarding.signup.SignUpViewModel
 import kotlinx.serialization.Serializable
 
 fun NavController.navigateToSignUp(
