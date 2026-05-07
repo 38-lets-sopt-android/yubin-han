@@ -33,11 +33,11 @@ class LoginViewModel(
             val currentState = _uiState.value
             userRepository.signIn(currentState.idText, currentState.pwText)
                 .onSuccess {
-                    _effect.send(LoginContract.Effect.ShowToast("로그인에 성공했습니다"))
-                    _effect.send(LoginContract.Effect.NavigateToMain)
+                    _effect.trySend(LoginContract.Effect.ShowToast("로그인에 성공했습니다"))
+                    _effect.trySend(LoginContract.Effect.NavigateToMain)
                 }
                 .onFailure { error ->
-                    _effect.send(LoginContract.Effect.ShowToast(error.message ?: "로그인 중 오류가 발생했습니다."))
+                    _effect.trySend(LoginContract.Effect.ShowToast(error.message ?: "로그인 중 오류가 발생했습니다."))
                 }
         }
     }
