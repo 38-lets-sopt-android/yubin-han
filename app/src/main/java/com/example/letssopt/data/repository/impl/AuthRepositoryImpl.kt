@@ -10,6 +10,7 @@ import androidx.datastore.preferences.core.emptyPreferences
 import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
 import com.example.letssopt.core.util.parseError
+import com.example.letssopt.core.util.safeRunCatching
 import com.example.letssopt.data.dto.PostSignInRequest
 import com.example.letssopt.data.dto.PostSignUpRequest
 import com.example.letssopt.data.network.datasource.api.AuthRemoteDataSource
@@ -38,52 +39,42 @@ class AuthRepositoryImpl(
         email: String,
         age: Int,
         part: String
-    ): Result<Unit> {
-        return try {
-            val response = authDataSource.signUp(
-                PostSignUpRequest(
-                    loginId = id,
-                    password = pw,
-                    name = name,
-                    email = email,
-                    age = age,
-                    part = part
-                )
+    ): Result<Unit> = safeRunCatching {
+        val response = authDataSource.signUp(
+            PostSignUpRequest(
+                loginId = id,
+                password = pw,
+                name = name,
+                email = email,
+                age = age,
+                part = part
             )
-            if (response.isSuccessful) {
-                context.dataStore.edit { prefs: MutablePreferences ->
-                    prefs[PreferencesKeys.ID] = id
-                }
-                Result.success(Unit)
-            } else {
-                Result.failure(Exception(response.parseError()))
+        )
+        if (response.isSuccessful) {
+            context.dataStore.edit { prefs: MutablePreferences ->
+                prefs[PreferencesKeys.ID] = id
             }
-        } catch (e: Exception) {
-            Result.failure(e)
+        } else {
+            throw Exception(response.parseError())
         }
     }
 
-    override suspend fun signIn(id: String, pw: String): Result<Unit> {
-        return try {
-            val response = authDataSource.signIn(
-                PostSignInRequest(
-                    loginId = id,
-                    password = pw
-                )
+    override suspend fun signIn(id: String, pw: String): Result<Unit> = safeRunCatching {
+        val response = authDataSource.signIn(
+            PostSignInRequest(
+                loginId = id,
+                password = pw
             )
-            if (response.isSuccessful) {
-                setLoggedIn(true)
-                val userData = response.body()?.data
+        )
+        if (response.isSuccessful) {
+            setLoggedIn(true)
+            val userData = response.body()?.data
 
-                context.dataStore.edit { prefs: MutablePreferences ->
-                    prefs[PreferencesKeys.ID] = userData?.userId?.toString() ?: id
-                }
-                Result.success(Unit)
-            } else {
-                Result.failure(Exception(response.parseError()))
+            context.dataStore.edit { prefs: MutablePreferences ->
+                prefs[PreferencesKeys.ID] = userData?.userId?.toString() ?: id
             }
-        } catch (e: Exception) {
-            Result.failure(e)
+        } else {
+            throw Exception(response.parseError())
         }
     }
 
