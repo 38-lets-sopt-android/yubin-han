@@ -1,5 +1,6 @@
 package com.example.letssopt.core.data.network.service
 
+import com.example.letssopt.core.data.dto.GetRecentUsersResponse
 import com.example.letssopt.core.data.dto.GetUserProfileResponse
 import retrofit2.Response
 import retrofit2.http.GET
@@ -11,4 +12,9 @@ interface UserService {
         @Path("userId")
         userId: String,
     ): Response<GetUserProfileResponse>
+
+    @GET("api/v1/users")
+    suspend fun getRecentUsers(
+    ): Response<GetRecentUsersResponse>
+
 }
