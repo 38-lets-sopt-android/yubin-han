@@ -3,7 +3,7 @@ package com.example.letssopt.data.repository.impl
 import com.example.letssopt.core.util.parseError
 import com.example.letssopt.core.util.safeRunCatching
 import com.example.letssopt.data.model.profile.UserProfile
-import com.example.letssopt.data.network.datasource.api.UserRemoteDataSource
+import com.example.letssopt.data.remote.datasource.api.UserRemoteDataSource
 import com.example.letssopt.data.repository.api.AuthRepository
 import com.example.letssopt.data.repository.api.UserRepository
 import kotlinx.coroutines.flow.firstOrNull

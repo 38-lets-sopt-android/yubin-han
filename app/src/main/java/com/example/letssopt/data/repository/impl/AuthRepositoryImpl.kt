@@ -11,9 +11,9 @@ import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
 import com.example.letssopt.core.util.parseError
 import com.example.letssopt.core.util.safeRunCatching
-import com.example.letssopt.data.dto.PostSignInRequest
-import com.example.letssopt.data.dto.PostSignUpRequest
-import com.example.letssopt.data.network.datasource.api.AuthRemoteDataSource
+import com.example.letssopt.data.remote.dto.PostSignInRequest
+import com.example.letssopt.data.remote.dto.PostSignUpRequest
+import com.example.letssopt.data.remote.datasource.api.AuthRemoteDataSource
 import com.example.letssopt.data.repository.api.AuthRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch

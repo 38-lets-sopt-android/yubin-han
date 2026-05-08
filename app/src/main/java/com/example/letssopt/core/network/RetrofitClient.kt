@@ -1,8 +1,8 @@
-package com.example.letssopt.data.network
+package com.example.letssopt.core.network
 
 import com.example.letssopt.BuildConfig
-import com.example.letssopt.data.network.service.AuthService
-import com.example.letssopt.data.network.service.UserService
+import com.example.letssopt.data.remote.service.AuthService
+import com.example.letssopt.data.remote.service.UserService
 import kotlinx.serialization.json.Json
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.OkHttpClient

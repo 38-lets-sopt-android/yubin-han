@@ -1,9 +1,9 @@
-package com.example.letssopt.data.network.service
+package com.example.letssopt.data.remote.service
 
-import com.example.letssopt.data.dto.PostSignInRequest
-import com.example.letssopt.data.dto.PostSignInResponse
-import com.example.letssopt.data.dto.PostSignUpRequest
-import com.example.letssopt.data.dto.PostSignUpResponse
+import com.example.letssopt.data.remote.dto.PostSignInRequest
+import com.example.letssopt.data.remote.dto.PostSignInResponse
+import com.example.letssopt.data.remote.dto.PostSignUpRequest
+import com.example.letssopt.data.remote.dto.PostSignUpResponse
 import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.POST

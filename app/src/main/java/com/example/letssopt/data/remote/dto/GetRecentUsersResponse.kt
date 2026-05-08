@@ -1,10 +1,10 @@
-package com.example.letssopt.data.dto
+package com.example.letssopt.data.remote.dto
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class GetUserProfileResponse(
+data class GetRecentUsersResponse(
     @SerialName("success")
     val success: Boolean,
     @SerialName("status")
@@ -14,21 +14,21 @@ data class GetUserProfileResponse(
     @SerialName("code")
     val code: String,
     @SerialName("data")
-    val data: UserProfileData? = null,
+    val data: RecentUsersDataList? = null,
 )
 
 @Serializable
-data class UserProfileData(
+data class RecentUsersDataList(
+    @SerialName("users")
+    val users: List<RecentUsersData>
+)
+
+@Serializable
+data class RecentUsersData(
     @SerialName("id")
     val id: Long,
-    @SerialName("loginId")
-    val logInId: String,
     @SerialName("name")
     val name: String,
-    @SerialName("email")
-    val email: String,
-    @SerialName("age")
-    val age: Int,
     @SerialName("part")
     val part: String,
 )

@@ -1,6 +1,6 @@
 package com.example.letssopt.core.util
 
-import com.example.letssopt.data.network.RetrofitClient
+import com.example.letssopt.core.network.RetrofitClient
 import kotlinx.coroutines.CancellationException
 import kotlinx.serialization.json.jsonObject
 import kotlinx.serialization.json.jsonPrimitive

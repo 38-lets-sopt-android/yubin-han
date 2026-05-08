@@ -1,7 +1,7 @@
-package com.example.letssopt.data.network.service
+package com.example.letssopt.data.remote.service
 
-import com.example.letssopt.data.dto.GetRecentUsersResponse
-import com.example.letssopt.data.dto.GetUserProfileResponse
+import com.example.letssopt.data.remote.dto.GetRecentUsersResponse
+import com.example.letssopt.data.remote.dto.GetUserProfileResponse
 import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Path

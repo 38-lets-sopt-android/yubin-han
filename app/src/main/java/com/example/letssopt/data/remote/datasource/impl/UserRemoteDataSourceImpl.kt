@@ -1,10 +1,10 @@
-package com.example.letssopt.data.network.datasource.impl
+package com.example.letssopt.data.remote.datasource.impl
 
 
-import com.example.letssopt.data.dto.GetRecentUsersResponse
-import com.example.letssopt.data.dto.GetUserProfileResponse
-import com.example.letssopt.data.network.datasource.api.UserRemoteDataSource
-import com.example.letssopt.data.network.service.UserService
+import com.example.letssopt.data.remote.dto.GetRecentUsersResponse
+import com.example.letssopt.data.remote.dto.GetUserProfileResponse
+import com.example.letssopt.data.remote.datasource.api.UserRemoteDataSource
+import com.example.letssopt.data.remote.service.UserService
 import retrofit2.Response
 
 

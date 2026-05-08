@@ -1,7 +1,7 @@
 package com.example.letssopt.data.repository.api
 
 import com.example.letssopt.data.model.profile.UserProfile
-import com.example.letssopt.data.network.datasource.api.UserRemoteDataSource
+import com.example.letssopt.data.remote.datasource.api.UserRemoteDataSource
 import com.example.letssopt.data.repository.impl.UserRepositoryImpl
 
 interface UserRepository {

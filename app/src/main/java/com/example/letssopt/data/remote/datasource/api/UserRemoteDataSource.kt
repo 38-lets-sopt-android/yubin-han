@@ -1,7 +1,7 @@
-package com.example.letssopt.data.network.datasource.api
+package com.example.letssopt.data.remote.datasource.api
 
-import com.example.letssopt.data.dto.GetRecentUsersResponse
-import com.example.letssopt.data.dto.GetUserProfileResponse
+import com.example.letssopt.data.remote.dto.GetRecentUsersResponse
+import com.example.letssopt.data.remote.dto.GetUserProfileResponse
 import retrofit2.Response
 
 interface UserRemoteDataSource {

@@ -1,7 +1,7 @@
 package com.example.letssopt.data.repository.api
 
 import android.content.Context
-import com.example.letssopt.data.network.datasource.api.AuthRemoteDataSource
+import com.example.letssopt.data.remote.datasource.api.AuthRemoteDataSource
 import com.example.letssopt.data.repository.impl.AuthRepositoryImpl
 import kotlinx.coroutines.flow.Flow
 
