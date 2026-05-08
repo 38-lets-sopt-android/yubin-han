@@ -2,7 +2,7 @@ package com.example.letssopt.presentation.home
 
 
 import androidx.lifecycle.ViewModel
-import com.example.letssopt.core.data.repository.api.HomeRepository
+import com.example.letssopt.data.repository.api.HomeRepository
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow

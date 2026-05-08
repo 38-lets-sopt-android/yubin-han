@@ -18,9 +18,9 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.letssopt.R
-import com.example.letssopt.core.data.model.home.MainHomeItem
 import com.example.letssopt.core.designsystem.theme.LETSSOPTTheme
 import com.example.letssopt.core.designsystem.theme.WatchaTheme
+import com.example.letssopt.data.model.home.MainHomeItem
 import com.example.letssopt.presentation.home.component.HomeAlgorithmSection
 import com.example.letssopt.presentation.home.component.HomePartySection
 import com.example.letssopt.presentation.home.component.HomeTopActionBar
@@ -30,32 +30,35 @@ import com.example.letssopt.presentation.home.component.HomeUpComingSection
 @Composable
 fun HomeRoute(
     paddingValues: PaddingValues,
+    navigateToMyProfile: () -> Unit,
     modifier: Modifier = Modifier,
     viewModel: HomeViewModel = viewModel(),
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
     HomeScreen(
-        state = uiState,
+        uiState = uiState,
+        navigateToMyProfile = navigateToMyProfile,
         modifier = modifier.padding(paddingValues)
     )
 }
 
 @Composable
 fun HomeScreen(
-    state: HomeContract.UiState,
-    modifier: Modifier = Modifier,
-) {
+    uiState: HomeContract.UiState,
+    navigateToMyProfile: () -> Unit,
+    modifier: Modifier = Modifier
+    ) {
     Column(
         modifier = modifier
             .background(color = WatchaTheme.colors.backGround)
             .fillMaxSize()
     ) {
-        HomeTopActionBar()
+        HomeTopActionBar(onMyPageClick = navigateToMyProfile)
         LazyColumn(
             modifier = Modifier.fillMaxSize()
         ) {
-            items(state.homeItems) { item ->
+            items(uiState.homeItems) { item ->
                 when (item) {
                     is MainHomeItem.TopBanner -> {
                         HomeTopBannerSection(item.banners)
@@ -87,7 +90,7 @@ fun HomeScreen(
 private fun HomeScreenPreview() {
     LETSSOPTTheme {
         HomeScreen(
-            state = HomeContract.UiState(
+            uiState = HomeContract.UiState(
                 homeItems = listOf(
                     MainHomeItem.TopBanner(
                         banners = listOf(
@@ -118,7 +121,8 @@ private fun HomeScreenPreview() {
                         )
                     )
                 )
-            )
+            ),
+            navigateToMyProfile = {},
         )
     }
 }

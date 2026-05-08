@@ -7,9 +7,12 @@ import androidx.navigation.NavOptions
 import androidx.navigation.compose.composable
 import com.example.letssopt.navigation.MainTabRoute
 import com.example.letssopt.presentation.home.HomeRoute
+import com.example.letssopt.presentation.home.myprofile.navigation.navigateToMyProfile
 import kotlinx.serialization.Serializable
 
-fun NavController.navigateToHome(navOptions: NavOptions) = navigate(Home, navOptions)
+fun NavController.navigateToHome(
+    navOptions: NavOptions
+) = navigate(Home, navOptions)
 
 fun NavGraphBuilder.homeGraph(
     navController: NavController,
@@ -18,6 +21,7 @@ fun NavGraphBuilder.homeGraph(
     composable<Home> {
         HomeRoute(
             paddingValues = innerPadding,
+            navigateToMyProfile = navController::navigateToMyProfile,
         )
     }
 }

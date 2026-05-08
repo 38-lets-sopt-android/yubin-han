@@ -1,8 +1,10 @@
 package com.example.letssopt.presentation.storage
 
-import com.example.letssopt.core.data.local.entity.StoredItemEntity
+import androidx.compose.runtime.Immutable
+import com.example.letssopt.data.local.entity.StoredItemEntity
 
 interface StorageContract {
+    @Immutable
     data class UiState(
         val storedItems: List<StoredItemEntity> = emptyList()
     )

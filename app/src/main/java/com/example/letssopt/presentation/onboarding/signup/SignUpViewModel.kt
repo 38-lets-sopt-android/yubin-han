@@ -1,60 +1,85 @@
 package com.example.letssopt.presentation.onboarding.signup
 
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.letssopt.core.data.repository.api.AuthRepository
-import com.example.letssopt.core.util.AuthValidator
+import com.example.letssopt.data.repository.api.AuthRepository
 import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.receiveAsFlow
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 
 class SignUpViewModel(
-    private val userRepository: AuthRepository = AuthRepository.getInstance()
+    private val authRepository: AuthRepository = AuthRepository.getInstance()
 ) : ViewModel() {
 
-    var uiState by mutableStateOf(SignUpContract.SignUpUiState())
-        private set
-    private val _effect = Channel<SignUpContract.Effect>()
+
+    private val _uiState = MutableStateFlow(SignUpContract.UiState())
+    val uiState: StateFlow<SignUpContract.UiState> = _uiState.asStateFlow()
+
+    private val _effect = Channel<SignUpContract.Effect>(Channel.UNLIMITED)
     val effect = _effect.receiveAsFlow()
 
     fun signUp() {
-        val errorType = AuthValidator.validateSignUp(
-            uiState.emailText,
-            uiState.pwText,
-            uiState.pwConfirmText
-        )
+        val currentState = _uiState.value
+        val validationError = SignUpValidator.validateSignUp(currentState)
+
+        if (validationError != null) {
+            _effect.trySend(SignUpContract.Effect.ShowToast(validationError))
+            return
+        }
 
         viewModelScope.launch {
-            if (errorType != null) {
-                _effect.send(SignUpContract.Effect.ShowToast(errorType.errorMessage))
-            } else {
-                userRepository.signUp(uiState.emailText, uiState.pwText)
-                    .onSuccess {
-                        uiState = SignUpContract.SignUpUiState()
-                        _effect.send(SignUpContract.Effect.ShowToast("회원가입이 완료되었습니다."))
-                        _effect.send(SignUpContract.Effect.NavigateToNext)
-                    }
-                    .onFailure { error ->
-                        _effect.send(SignUpContract.Effect.ShowToast(error.message ?: "회원가입 실패"))
-                    }
-            }
+            _uiState.update { it.copy(isLoading = true) }
+            authRepository.signUp(
+                id = currentState.idText,
+                pw = currentState.pwText,
+                name = currentState.nameText,
+                email = currentState.emailText,
+                age = currentState.ageText.toIntOrNull() ?: 0,
+                part = currentState.partText
+            )
+                .onSuccess {
+                    _uiState.update { SignUpContract.UiState() }
+                    _effect.trySend(SignUpContract.Effect.ShowToast("회원가입이 완료되었습니다."))
+                    _effect.trySend(SignUpContract.Effect.NavigateToNext)
+                }
+                .onFailure { error ->
+                    _uiState.update { it.copy(isLoading = false) }
+                    _effect.trySend(SignUpContract.Effect.ShowToast(error.message ?: "회원가입 실패"))
+                }
         }
     }
 
 
-    fun updateEmail(text: String) {
-        uiState = uiState.copy(emailText = text)
+    fun updateId(text: String) {
+        _uiState.update { it.copy(idText = text) }
     }
 
     fun updatePw(text: String) {
-        uiState = uiState.copy(pwText = text)
+        _uiState.update { it.copy(pwText = text) }
     }
 
     fun updatePwConfirm(text: String) {
-        uiState = uiState.copy(pwConfirmText = text)
+        _uiState.update { it.copy(pwConfirmText = text) }
+    }
+
+    fun updateName(text: String) {
+        _uiState.update { it.copy(nameText = text) }
+    }
+
+    fun updateEmail(text: String) {
+        _uiState.update { it.copy(emailText = text) }
+    }
+
+    fun updateAge(text: String) {
+        _uiState.update { it.copy(ageText = text) }
+    }
+
+    fun updatePart(text: String) {
+        _uiState.update { it.copy(partText = text) }
     }
 }

@@ -2,10 +2,10 @@ package com.example.letssopt.presentation.purchase
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.letssopt.core.data.local.entity.StoredItemEntity
-import com.example.letssopt.core.data.model.purchase.PurchaseContent
-import com.example.letssopt.core.data.repository.api.PurchaseRepository
-import com.example.letssopt.core.data.repository.api.StorageRepository
+import com.example.letssopt.data.local.entity.StoredItemEntity
+import com.example.letssopt.data.model.purchase.PurchaseContent
+import com.example.letssopt.data.repository.api.PurchaseRepository
+import com.example.letssopt.data.repository.api.StorageRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -17,8 +17,8 @@ import kotlinx.coroutines.launch
 
 
 class PurchaseViewModel(
-    private val purchaseRepository: PurchaseRepository,
-    private val storageRepository: StorageRepository
+    private val purchaseRepository: PurchaseRepository = PurchaseRepository.getInstance(),
+    private val storageRepository: StorageRepository = StorageRepository.getInstance()
 ) : ViewModel() {
     private val _uiState = MutableStateFlow(PurchaseContract.UiState())
     val uiState: StateFlow<PurchaseContract.UiState> = _uiState.asStateFlow()

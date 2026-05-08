@@ -1,15 +1,17 @@
 package com.example.letssopt.presentation.onboarding.login
 
+import androidx.compose.runtime.Immutable
 
-class LoginContract {
+
+interface LoginContract {
+    @Immutable
     data class UiState(
-        val emailText: String = "",
+        val idText: String = "",
         val pwText: String = ""
     ) {
         val isLogInEnabled: Boolean
-            get() = emailText.isNotBlank() && pwText.isNotBlank()
+            get() = idText.isNotBlank() && pwText.isNotBlank()
     }
-
     sealed interface Effect {
         data class ShowToast(val message: String) : Effect
         object NavigateToMain : Effect

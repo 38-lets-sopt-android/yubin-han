@@ -23,11 +23,10 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.example.letssopt.core.data.local.AppDatabase
-import com.example.letssopt.core.data.local.entity.StoredItemEntity
 import com.example.letssopt.core.designsystem.theme.LETSSOPTTheme
 import com.example.letssopt.core.designsystem.theme.WatchaTheme
 import com.example.letssopt.core.util.HandleUiEffects
+import com.example.letssopt.data.local.entity.StoredItemEntity
 import com.example.letssopt.presentation.storage.component.StorageItemCard
 
 
@@ -35,10 +34,9 @@ import com.example.letssopt.presentation.storage.component.StorageItemCard
 fun StorageRoute(
     paddingValues: PaddingValues,
     modifier: Modifier = Modifier,
+    viewModel: StorageViewModel = viewModel(),
 ) {
     val context = LocalContext.current
-    val dao = AppDatabase.getDatabase(context).storedItemDao()
-    val viewModel: StorageViewModel = viewModel(factory = StorageViewModelFactory(dao))
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
     HandleUiEffects(viewModel.effect) { effect ->
@@ -50,7 +48,7 @@ fun StorageRoute(
     }
 
     StorageScreen(
-        storedItems = uiState.storedItems,
+        uiState = uiState,
         onDeleteClick = { item -> viewModel.deleteItem(item) },
         modifier = modifier.padding(paddingValues),
     )
@@ -59,7 +57,7 @@ fun StorageRoute(
 
 @Composable
 fun StorageScreen(
-    storedItems: List<StoredItemEntity>,
+    uiState: StorageContract.UiState,
     onDeleteClick: (StoredItemEntity) -> Unit,
     modifier: Modifier = Modifier,
 ) {
@@ -77,7 +75,7 @@ fun StorageScreen(
         )
 
         Spacer(modifier = Modifier.height(45.dp))
-        if (storedItems.isEmpty()) {
+        if (uiState.storedItems.isEmpty()) {
             Box(
                 modifier = Modifier.fillMaxSize(),
                 contentAlignment = Alignment.Center,
@@ -94,7 +92,7 @@ fun StorageScreen(
                 horizontalArrangement = Arrangement.spacedBy(11.dp),
                 verticalArrangement = Arrangement.spacedBy(24.dp),
             ) {
-                items(storedItems, key = { it.id }) { item ->
+                items(uiState.storedItems, key = { it.id }) { item ->
                     StorageItemCard(
                         imageRes = item.imageRes,
                         contentTitle = item.title,
@@ -106,12 +104,12 @@ fun StorageScreen(
     }
 }
 
-@Preview
+@Preview(showBackground = true)
 @Composable
 private fun StorageScreenPreview() {
     LETSSOPTTheme {
         StorageScreen(
-            storedItems = emptyList(),
+            uiState = StorageContract.UiState(storedItems = emptyList()),
             onDeleteClick = {},
         )
     }

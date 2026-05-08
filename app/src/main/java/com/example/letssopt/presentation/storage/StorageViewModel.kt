@@ -3,8 +3,8 @@ package com.example.letssopt.presentation.storage
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.letssopt.core.data.local.entity.StoredItemEntity
-import com.example.letssopt.core.data.repository.api.StorageRepository
+import com.example.letssopt.data.local.entity.StoredItemEntity
+import com.example.letssopt.data.repository.api.StorageRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -14,7 +14,9 @@ import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
-class StorageViewModel(private val storageRepository: StorageRepository) : ViewModel() {
+class StorageViewModel(
+    private val storageRepository: StorageRepository = StorageRepository.getInstance()
+) : ViewModel() {
     private val _uiState = MutableStateFlow(StorageContract.UiState())
     val uiState: StateFlow<StorageContract.UiState> = _uiState.asStateFlow()
 

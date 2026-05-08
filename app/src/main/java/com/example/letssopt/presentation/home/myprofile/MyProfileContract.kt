@@ -1,0 +1,13 @@
+package com.example.letssopt.presentation.home.myprofile
+
+import androidx.compose.runtime.Immutable
+import com.example.letssopt.data.model.profile.UserProfile
+
+interface MyProfileContract {
+    @Immutable
+    data class UiState(
+        val isLoading: Boolean = false,
+        val myProfile: UserProfile? = null,
+    )
+
+}

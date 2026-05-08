@@ -20,7 +20,7 @@ import com.example.letssopt.core.designsystem.theme.WatchaTheme
 @Composable
 fun HomeTopActionBar(
     modifier: Modifier = Modifier,
-    onClick: () -> Unit = {},
+    onMyPageClick: () -> Unit,
 ) {
     Row(
         modifier = modifier
@@ -37,20 +37,20 @@ fun HomeTopActionBar(
             ImageVector.vectorResource(R.drawable.ic_watch),
             null,
             tint = WatchaTheme.colors.textPrimary,
-            modifier = Modifier.clickable(onClick = onClick),
+            modifier = Modifier.clickable(onClick = {}),
         )
         Icon(
             ImageVector.vectorResource(R.drawable.ic_noti),
             null,
             tint = WatchaTheme.colors.textPrimary,
-            modifier = Modifier.clickable(onClick = onClick),
+            modifier = Modifier.clickable(onClick = { }),
 
-        )
+            )
         Icon(
             ImageVector.vectorResource(R.drawable.ic_profile),
             null,
             tint = WatchaTheme.colors.textPrimary,
-            modifier = Modifier.clickable(onClick = onClick),
+            modifier = Modifier.clickable(onClick = onMyPageClick),
         )
     }
 }
@@ -58,5 +58,7 @@ fun HomeTopActionBar(
 @Preview
 @Composable
 private fun HomeTopActionBarPreview() {
-    HomeTopActionBar()
+    HomeTopActionBar(
+        onMyPageClick = {},
+    )
 }

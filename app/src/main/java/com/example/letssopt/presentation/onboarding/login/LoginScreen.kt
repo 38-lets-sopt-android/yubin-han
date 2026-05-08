@@ -15,18 +15,18 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.example.letssopt.core.designsystem.component.WatchaAuthButton
 import com.example.letssopt.core.designsystem.component.WatchaAuthTextField
 import com.example.letssopt.core.designsystem.style.ButtonStyle
-import com.example.letssopt.core.designsystem.style.TextFieldStyle
 import com.example.letssopt.core.designsystem.theme.LETSSOPTTheme
 import com.example.letssopt.core.designsystem.theme.WatchaTheme
 import com.example.letssopt.core.extension.noRippleClickable
@@ -41,7 +41,7 @@ fun LoginRoute(
     modifier: Modifier = Modifier
 ) {
     val context = LocalContext.current
-    val uiState = viewModel.uiState
+    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
     HandleUiEffects(viewModel.effect) { effect ->
         when (effect) {
@@ -56,24 +56,20 @@ fun LoginRoute(
     }
 
     LoginScreen(
-        modifier = modifier,
-        emailText = uiState.emailText,
-        pwText = uiState.pwText,
-        isLogInEnabled = uiState.isLogInEnabled,
-        onEmailChange = viewModel::updateEmail,
+        uiState = uiState,
+        onIdChange = viewModel::updateId,
         onPwChange = viewModel::updatePw,
-        onLoginClick = { viewModel.login() },
-        onSignUpClick = navigateToSignUp
+        onLoginClick = viewModel::login,
+        onSignUpClick = navigateToSignUp,
+        modifier = modifier,
     )
 
 }
 
 @Composable
 fun LoginScreen(
-    emailText: String,
-    pwText: String,
-    isLogInEnabled: Boolean,
-    onEmailChange: (String) -> Unit,
+    uiState: LoginContract.UiState,
+    onIdChange: (String) -> Unit,
     onPwChange: (String) -> Unit,
     onLoginClick: () -> Unit,
     onSignUpClick: () -> Unit,
@@ -102,53 +98,32 @@ fun LoginScreen(
                 .verticalScroll(rememberScrollState())
         ) {
             Text(
-                text = "이메일로 로그인",
+                text = "아이디로 로그인",
                 style = WatchaTheme.typography.headline.head2B20,
                 color = WatchaTheme.colors.textPrimary,
             )
 
             Spacer(modifier = Modifier.height(36.dp))
 
-            Text(
-                text = "이메일",
-                style = WatchaTheme.typography.cap.captionR14,
-                color = WatchaTheme.colors.textSecondary,
-            )
-
-            Spacer(modifier = Modifier.height(3.dp))
-
             WatchaAuthTextField(
-                textFieldStyle = if (emailText.isNotBlank()) TextFieldStyle.INPUT else TextFieldStyle.DISABLED,
-                placeholder = "이메일을 입력하세요",
-                value = emailText,
-                onValueChange = onEmailChange,
-                keyboardOptions = KeyboardOptions(
-                    imeAction = ImeAction.Next,
-                    keyboardType = KeyboardType.Email
-                ),
+                label = "아이디",
+                placeholder = "아이디를 입력하세요",
+                value = uiState.idText,
+                onValueChange = onIdChange,
             )
 
             Spacer(modifier = Modifier.height(18.dp))
 
-            Text(
-                text = "비밀번호",
-                style = WatchaTheme.typography.cap.captionR14,
-                color = WatchaTheme.colors.textSecondary,
-            )
-
-            Spacer(modifier = Modifier.height(3.dp))
-
             WatchaAuthTextField(
-                textFieldStyle = if (pwText.isNotBlank()) TextFieldStyle.INPUT else TextFieldStyle.DISABLED,
+                label = "비밀번호",
                 placeholder = "비밀번호를 입력하세요",
-                value = pwText,
+                value = uiState.pwText,
                 onValueChange = onPwChange,
                 visualTransformation = PasswordVisualTransformation(),
-                keyboardOptions = KeyboardOptions(
-                    keyboardType = KeyboardType.Password,
-                )
+                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password)
             )
         }
+
         Text(
             text = "아직 계정이 없으신가요?  회원가입",
             style = WatchaTheme.typography.cap.captionR14,
@@ -157,13 +132,14 @@ fun LoginScreen(
                 .align(Alignment.CenterHorizontally)
                 .noRippleClickable(onClick = onSignUpClick)
         )
+
         Spacer(modifier = Modifier.height(20.dp))
 
         WatchaAuthButton(
-            buttonStyle = if (isLogInEnabled) ButtonStyle.PRIMARY else ButtonStyle.DISABLED,
+            buttonStyle = if (uiState.isLogInEnabled) ButtonStyle.PRIMARY else ButtonStyle.DISABLED,
             buttonText = "로그인",
             onClick = onLoginClick,
-            disabled = !isLogInEnabled,
+            disabled = !uiState.isLogInEnabled,
             modifier = Modifier
                 .align(Alignment.CenterHorizontally)
                 .fillMaxWidth()
@@ -177,10 +153,8 @@ fun LoginScreen(
 private fun LoginPreview() {
     LETSSOPTTheme {
         LoginScreen(
-            emailText = "",
-            pwText = "",
-            isLogInEnabled = false,
-            onEmailChange = {},
+            uiState = LoginContract.UiState(),
+            onIdChange = {},
             onPwChange = {},
             onLoginClick = {},
             onSignUpClick = {}
